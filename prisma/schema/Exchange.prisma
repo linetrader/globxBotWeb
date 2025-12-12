@@ -1,0 +1,76 @@
+// prisma/schema/Exchange.prisma
+
+model Exchange {
+  id     String  @id @default(cuid())
+  code   String  @unique @db.VarChar(20)  // 예: "GATEIO", "WEBSEA"
+  name   String  @db.VarChar(50)
+  active Boolean @default(true)
+
+  supportsFutures Boolean @default(true)
+
+  markets     ExchangeMarket[]
+  credentials ExchangeCredential[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([active, updatedAt])
+}
+
+model ExchangeMarket {
+  id String @id @default(cuid())
+
+  exchangeId String
+  exchange   Exchange @relation(fields: [exchangeId], references: [id], onDelete: Cascade)
+
+  code        String   @db.VarChar(16) // "SPOT" | "FUTURES" ...
+  name        String?  @db.VarChar(50)
+  restBaseUrl String   @db.Text
+  wsBaseUrl   String?  @db.Text
+  active      Boolean  @default(true)
+
+  bots           TradingBot[]
+  groupExchanges BotGroupExchange[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([exchangeId, code], map: "uniq_exchange_market_code")
+  @@index([exchangeId])
+  @@index([active, updatedAt])
+}
+
+model ExchangeCredential {
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  exchangeId String
+  exchange   Exchange @relation(fields: [exchangeId], references: [id], onDelete: Cascade)
+
+  apiKeyCipher String @db.Text
+  apiKeyIv     String
+  apiKeyTag    String
+  secretCipher String @db.Text
+  secretIv     String
+  secretTag    String
+  keyAlg       String @default("aes-256-gcm")
+  keyVersion   Int    @default(1)
+
+  // ✅ 신규 필드: KuCoin 등 passphrase 용 (AES-256-GCM 암호화)
+  passphraseCipher String? @db.Text
+  passphraseIv     String?
+  passphraseTag    String?
+
+  // ✅ 거래소 계정 UID (초기엔 NULL 허용)
+  exchangeUid String? @db.VarChar(128)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, exchangeId], map: "uniq_user_exchange_credential")
+  @@index([exchangeId])
+  @@index([userId])
+  @@index([userId, createdAt])   // 유저 설정 화면(최신순) 조회에 도움
+}

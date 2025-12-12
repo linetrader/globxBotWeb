@@ -1,0 +1,29 @@
+// prisma/schema/Notification.prisma
+model Notification {
+  id        String       @id @default(cuid())
+  userId    String
+  channel   String       // 'email' | 'webhook' | 'slack' 등
+  target    String?      // 주소/URL/토픽
+  payload   Json
+  status    NotifyStatus @default(PENDING)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  @@index([status, createdAt])
+  @@index([userId, createdAt])
+}
+
+model ApiAuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  path      String
+  method    String
+  status    Int
+  ip        String?
+  ua        String?
+  payload   Json?
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([path, createdAt])
+}

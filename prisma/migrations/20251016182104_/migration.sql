@@ -1,0 +1,2 @@
+-- AddForeignKey
+ALTER TABLE "WorkItem" ADD CONSTRAINT "WorkItem_botId_fkey" FOREIGN KEY ("botId") REFERENCES "TradingBot"("id") ON DELETE CASCADE ON UPDATE CASCADE;

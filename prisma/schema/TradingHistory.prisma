@@ -1,0 +1,115 @@
+// prisma/schema/TradingHistory.prisma
+
+enum Side {
+  LONG
+  SHORT
+}
+
+enum MarginMode {
+  ISOLATED
+  CROSS
+}
+
+enum TradeStatus {
+  OPEN
+  CLOSED
+}
+
+enum TradeEventType {
+  ENTRY
+  PARTIAL_EXIT
+  EXIT
+  LIQUIDATION
+}
+
+model Trade {
+  id String @id
+
+  // 원래 FK였던 값들, 이제 단순 스칼라
+  botId                String
+  exchangeMarketId     String?
+  exchangeCredentialId String?
+
+  // 거래소 (예: "gateio", "websea")
+  exchange             String
+
+  // 포지션 메타
+  symbol     String
+  side       Side
+  leverage   Int
+  marginMode MarginMode
+  status     TradeStatus @default(OPEN)
+
+  // 진입 정보
+  entryQty          Int
+  entryCostUsdt     Decimal? @db.Decimal(38,18)
+  entryPrice        Decimal? @db.Decimal(38,18)
+  entryNotionalUsdt Decimal? @db.Decimal(38,18)
+  openedAt          DateTime  @default(now())
+
+  // 청산 누적 정보
+  closeQty          Int?
+  closePrice        Decimal? @db.Decimal(38,18)
+  closeNotionalUsdt Decimal? @db.Decimal(38,18)
+
+  realizedPnlUsdt   Decimal? @db.Decimal(38,18)
+  realizedRoiPct    Decimal? @db.Decimal(38,18)
+
+  closedAt          DateTime?
+
+  // 거래소 원본 히스토리의 order_id
+  // Gate.io: response.order_id
+  // WebSea:  result[].order_id
+  orderId String?
+
+  // 타임스탬프
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([botId, status, openedAt])
+  @@index([exchangeCredentialId, openedAt])
+  @@index([exchangeMarketId, status, closedAt])
+  @@index([exchange, openedAt])
+}
+
+model TradeEvent {
+  id String @id
+
+  // 예전에는 Trade FK였던 부분
+  tradeId String
+
+  type      TradeEventType
+  timestamp DateTime @default(now())
+
+  // snapshot of context at that moment
+  botId                String
+  exchangeMarketId     String
+  exchangeCredentialId String?
+
+  symbol     String
+  side       Side
+  leverage   Int
+  marginMode MarginMode
+
+  // 이 이벤트의 fill 데이터
+  qty Int
+
+  price           Decimal? @db.Decimal(38,18)
+  notionalUsdt    Decimal? @db.Decimal(38,18)
+  costUsdt        Decimal? @db.Decimal(38,18)
+
+  realizedPnlUsdt Decimal? @db.Decimal(38,18)
+  realizedRoiPct  Decimal? @db.Decimal(38,18)
+
+  // 거래소 원본 히스토리의 order_id
+  // Gate.io: response.order_id
+  // WebSea:  result[].order_id
+  orderId String?
+
+  createdAt DateTime @default(now())
+
+  @@index([tradeId, timestamp])
+  @@index([botId, exchangeMarketId, timestamp])
+  @@index([type, timestamp])
+  @@index([orderId, timestamp])
+}

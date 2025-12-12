@@ -1,0 +1,89 @@
+// prisma/schema/BotRuntime.prisma
+model BotRuntime {
+  id String @id @default(cuid())
+
+  botId String
+  bot   TradingBot @relation(fields: [botId], references: [id], onDelete: Cascade)
+
+  status        BotStatus @default(STOPPED)
+  pid           Int?
+  queueJobId    String?
+  startedAt     DateTime?
+  stoppedAt     DateTime?
+  lastHeartbeat DateTime?
+
+  // ---- 추가 계측 필드 ----
+  lastTickAt    DateTime?
+  userTickSec   Int?
+  tickDriftSec  Float?
+  lastError     String?   @db.Text
+
+  workerTaskArn  String?
+  workerRevision String?
+  desiredState   BotStatus?
+
+  // ✅ WorkerProcess FK
+  workerId String?
+  worker   WorkerProcess? @relation(name: "WorkerProcess_BotRuntimes", fields: [workerId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([botId], map: "uniq_runtime_per_bot")
+  @@index([status, updatedAt])
+  @@index([lastHeartbeat])
+  @@index([queueJobId])
+  @@index([tickDriftSec], map: "idx_runtime_drift")
+  @@index([workerId])
+}
+
+model WorkerProcess {
+  id            String   @id        // WorkerManager runtime uuid
+  taskArn       String?
+  revision      String?
+  createdAt     DateTime @default(now())
+  lastHeartbeat DateTime?
+  updatedAt     DateTime @updatedAt
+
+  botRuntimes BotRuntime[] @relation(name: "WorkerProcess_BotRuntimes")
+
+  @@index([taskArn])
+  @@index([updatedAt])
+}
+
+model WorkerGlobalSettings {
+  id                   String   @id @default(cuid())
+  max_bots_per_worker  Int
+  is_active            Boolean  @default(true)
+  version              Int      @default(1)
+
+  is_local_mode            Boolean  @default(false)
+  scale_enabled            Boolean  @default(false)
+
+  scale_region             String?
+  scale_cluster            String?
+  scale_service_name       String?  // <-- 새로 추가: ECS 서비스 이름 (예: "superbot-ECS")
+  scale_task_definition    String?  // <-- 남겨두지만 이제 안 쓸 수 있음
+  scale_launch_type        String?  @default("FARGATE")
+  scale_subnets            String?
+  scale_security_groups    String?
+  scale_assign_public_ip   String?  @default("ENABLED")
+
+  updated_at           DateTime @default(now()) @db.Timestamptz(6)
+  created_at           DateTime @default(now()) @db.Timestamptz(6)
+
+  histories WorkerGlobalSettingsHistory[] @relation("WorkerGlobalSettingsHistory")
+
+  @@index([is_active], map: "ix_worker_global_is_active")
+}
+
+model WorkerGlobalSettingsHistory {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  settings_id String
+
+  max_bots_per_worker Int
+  version             Int
+  changed_at          DateTime @default(now()) @db.Timestamptz(6)
+
+  settings WorkerGlobalSettings @relation("WorkerGlobalSettingsHistory", fields: [settings_id], references: [id], onDelete: Cascade)
+}

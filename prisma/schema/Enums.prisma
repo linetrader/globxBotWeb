@@ -1,0 +1,73 @@
+// prisma/schema/Enums.prisma
+enum EdgeType {
+  REFERRER
+  SPONSOR
+}
+
+enum StrategyKind {
+  TREND
+  BOX
+  BOTH
+}
+
+enum Timeframe {
+  T1m  @map("1m")
+  T3m  @map("3m")
+  T5m  @map("5m")
+  T15m @map("15m")
+  T30m @map("30m")
+  T1h  @map("1h")
+  T4h  @map("4h")
+  T1d  @map("1d")
+}
+
+enum BotStatus {
+  STOPPED
+  STARTING
+  RUNNING
+  STOPPING
+  ERROR
+}
+
+enum LogLevel {
+  DEBUG
+  INFO
+  WARN
+  ERROR
+}
+
+enum WorkType {
+  START_BOT
+  STOP_BOT
+  TICK        // 주기 실행(옵션)
+  REBALANCE   // 재균형(옵션)
+}
+
+enum WorkStatus {
+  QUEUED
+  IN_PROGRESS
+  SUCCEEDED
+  FAILED
+  CANCELED
+}
+
+enum NotifyStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+enum BotMode {
+  SINGLE   // 단일 거래소 봇
+  MULTI    // 복수(다중) 진입 거래소 봇
+}
+
+enum MarketKind {
+  SPOT
+  FUTURES
+}
+
+enum GroupKey {
+  A
+  B
+}

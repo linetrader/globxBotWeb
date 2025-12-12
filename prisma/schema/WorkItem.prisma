@@ -1,0 +1,54 @@
+// prisma/schema/WorkItem.prisma
+model WorkItem {
+  id             String       @id @default(cuid())
+  userId         String
+  botId          String?      // ← FK 컬럼(선택)
+
+  // TradingBot과의 실제 릴레이션
+  bot            TradingBot? @relation(fields: [botId], references: [id], onDelete: Cascade)
+
+  type           WorkType
+  status         WorkStatus   @default(QUEUED)
+
+  // 멱등성 키(동일 요청 중복 방지). Ex `${type}:${userId}:${botId}`
+  dedupeKey      String?      @unique
+
+  // SQS와 매핑 확인용(표준 큐면 null 가능)
+  sqsMessageId   String?      @unique
+  // FIFO를 쓴다면 메시지 그룹(일반적으로 botId)
+  sqsGroupId     String?
+
+  payload        Json?
+  attempts       Int          @default(0)
+  nextVisibleAt  DateTime?    // 재시도 스케줄용(옵션)
+
+  // 역방향 관계(시도 기록)
+  runs           WorkAttempt[] @relation("WorkItem_Attempts")
+
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  // 조회 최적화
+  @@index([userId, createdAt])
+  @@index([status, updatedAt])
+  @@index([botId, createdAt])
+}
+
+model WorkAttempt {
+  id            String    @id @default(cuid())
+
+  workItemId    String
+  workItem      WorkItem  @relation("WorkItem_Attempts", fields: [workItemId], references: [id], onDelete: Cascade)
+
+  startedAt     DateTime  @default(now())
+  finishedAt    DateTime?
+  workerTaskArn String?
+  exitCode      Int?
+  error         String?   @db.Text
+  logsRef       String?
+
+  // 추가: 이 Attempt가 시작될 때까지 WorkItem이 얼마나 기다렸는지(초 단위)
+  queueDelaySec Float?
+
+  @@index([workItemId, startedAt])
+}

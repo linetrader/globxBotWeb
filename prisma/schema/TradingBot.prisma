@@ -1,0 +1,89 @@
+// prisma/schema/TradingBot.prisma
+model TradingBot {
+  id    String @id @default(cuid())
+  name  String @db.VarChar(60)
+
+  mode  BotMode @default(SINGLE)
+
+  // SINGLE 전용
+  exchangeMarketId String?
+  exchangeMarket   ExchangeMarket? @relation(fields: [exchangeMarketId], references: [id], onDelete: Restrict)
+  singleMarketKind MarketKind?
+
+  symbol           String @db.VarChar(40)
+
+  strategyConfigId String
+  strategyConfig   StrategyConfig @relation(fields: [strategyConfigId], references: [id], onDelete: Restrict)
+
+  enabled Boolean @default(true)
+
+  // 관계
+  BotLog     BotLog[]
+  BotRuntime BotRuntime?
+  workItems  WorkItem[]
+
+  // 백업 항목 역참조 (BotBackupItem -> TradingBot)
+  backupItems BotBackupItem[]
+
+  // MULTI 전용 (A/B 그룹)
+  groups     BotGroup[]
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // ❌ (기존) 같은 마켓·심볼 중복 금지 제약 제거
+  // @@unique([userId, exchangeMarketId, symbol], map: "uniq_user_market_symbol")
+
+  // ✅ (선택) 유저별 봇 이름 고유 보장 — 운영 편의용
+  @@unique([userId, name], map: "uniq_user_name")
+
+  // 인덱스 (조회 성능 유지)
+  @@index([userId])
+  @@index([exchangeMarketId])
+  @@index([strategyConfigId])
+  @@index([userId, enabled, updatedAt])
+
+  // 사용자
+  userId String
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model BotGroup {
+  id        String     @id @default(cuid())
+  botId     String
+  bot       TradingBot @relation(fields: [botId], references: [id], onDelete: Cascade)
+
+  // 그룹 식별자만 유지 (A/B). "방향" 필드는 없음 — 봇 내부 로직 결정
+  key       GroupKey
+
+  // 그룹-거래소(마켓) 연결 다대다(명시적)
+  exchanges BotGroupExchange[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // 한 봇 안에서 A, B는 각각 1개만 허용
+  @@unique([botId, key], map: "uniq_group_per_bot")
+  @@index([botId, key])
+}
+
+model BotGroupExchange {
+  id               String @id @default(cuid())
+  groupId          String
+  group            BotGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  // 연결 대상 거래소-마켓
+  exchangeMarketId String
+  exchangeMarket   ExchangeMarket @relation(fields: [exchangeMarketId], references: [id], onDelete: Restrict)
+
+  // 연결 활성화 여부 및 (선택) 비중
+  enabled          Boolean @default(true)
+  allocationBps    Int     @db.SmallInt // 0~10000 (10000=100%)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // 같은 그룹에 동일 거래소-마켓 중복 연결 금지
+  @@unique([groupId, exchangeMarketId], map: "uniq_market_per_group")
+  @@index([exchangeMarketId])
+}

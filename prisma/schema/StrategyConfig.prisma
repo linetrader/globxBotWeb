@@ -1,0 +1,83 @@
+// prisma/schema/StrategyConfig.prisma
+model StrategyConfig {
+  id               String          @id @default(cuid())
+  userId           String
+  user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name      String
+  kind      StrategyKind
+
+  // 공통(유형과 무관)
+  useMartin        Boolean   @default(false)
+  martinMultiplier Float     @default(1.0)
+  defaultSize      Int       @default(0)
+  maxSize          Int       @default(0)
+  targetProfit     Float     @default(0)
+  targetLoss       Float     @default(0)
+  leverage         Int       @default(1)
+  timeframe        Timeframe @default(T5m)
+  enabled          Boolean   @default(true)
+  rsiLength        Int       @default(14)
+
+  /// 🔽 추가
+  reverseEntryEnabled Boolean @default(false)
+
+  // ──────────────────────────────
+  // ✅ 시그널 확증/보조 파라미터 (공통)
+  // ──────────────────────────────
+  adxConfirmThreshold     Float  @default(25)
+  atrConfirmPeriod        Int    @default(14)
+  minAtrPct               Float  @default(1)
+
+  donchianLookback        Int    @default(20)
+  supertrendPeriod        Int    @default(10)
+  supertrendMult          Float  @default(3)
+
+  rangeFollowTrendOnly    Boolean @default(true)
+  rangeMinAtrMult         Float   @default(0)
+
+  trendSlopeWindow        Int     @default(30)
+  trendSlopeThresholdAbs  Float   @default(0.0007)
+  donchianNearBreakPct    Float   @default(1.5)
+
+  // --- 전략별 서브모델 ---
+  trend TrendStrategy?
+  box   BoxStrategy?
+
+  tradingBots TradingBot[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@unique([userId, name], map: "uniq_user_strategy_name")
+}
+
+// prisma/schema/TrendStrategy.prisma
+model TrendStrategy {
+  id                    String   @id @default(cuid())
+  strategyConfigId      String   @unique
+  strategyConfig        StrategyConfig @relation(fields: [strategyConfigId], references: [id], onDelete: Cascade)
+
+  // ✅ Trend 전용만 유지
+  trendRsiUpperPullback Float?
+  trendRsiLowerPullback Float?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// prisma/schema/BoxStrategy.prisma
+model BoxStrategy {
+  id               String   @id @default(cuid())
+  strategyConfigId String   @unique
+  strategyConfig   StrategyConfig @relation(fields: [strategyConfigId], references: [id], onDelete: Cascade)
+
+  // ✅ Box 전용
+  lowerTh     Float   @default(30)
+  upperTh     Float   @default(70)
+  boxTouchPct Float?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

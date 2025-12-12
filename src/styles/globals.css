@@ -1,0 +1,11 @@
+/* src/styles/globals.css */
+@import "tailwindcss";
+
+/* daisyUI v5 + Tailwind v4 */
+@plugin "daisyui" {
+  /* 내장 테마 전체 사용 */
+  themes: all;
+  /* 필요시 기본/다크 우선순위도 지정 가능
+     themes: light --default, dark --prefersdark, all;
+  */
+}

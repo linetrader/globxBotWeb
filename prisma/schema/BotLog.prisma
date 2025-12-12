@@ -1,0 +1,13 @@
+// prisma/schema/BotLog.prisma
+model BotLog {
+  id    String     @id @default(cuid())
+  botId String
+  bot   TradingBot @relation(fields: [botId], references: [id], onDelete: Cascade)
+
+  level     LogLevel
+  message   String   @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([botId, createdAt])     // 시간순 로그 조회
+  @@index([level, createdAt])     // 레벨별 필터(옵션)
+}

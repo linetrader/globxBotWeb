@@ -1,0 +1,34 @@
+// prisma/schema/BotBackup.prisma
+
+model BotBackupSet {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // 이 백업에 포함된 봇들
+  items     BotBackupItem[]
+
+  createdAt DateTime @default(now())
+
+  @@index([userId], map: "ix_botbackup_user")
+}
+
+model BotBackupItem {
+  id        String        @id @default(cuid())
+
+  // 어떤 백업 묶음에 속하는지
+  backupId  String
+  backup    BotBackupSet  @relation(fields: [backupId], references: [id], onDelete: Cascade)
+
+  // 백업 시점의 트레이딩 봇
+  botId     String
+  bot       TradingBot    @relation(fields: [botId], references: [id], onDelete: Restrict)
+
+  createdAt DateTime      @default(now())
+
+  // 한 백업 묶음 내에서 동일 봇 중복 금지
+  @@unique([backupId, botId], map: "uniq_bot_per_backup")
+
+  @@index([backupId], map: "ix_botbackupitem_backup")
+  @@index([botId], map: "ix_botbackupitem_bot")
+}
