@@ -1,13 +1,14 @@
 {
-  "name": "superbot",
+  "name": "globx-web",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "dev": "npm run generate && next dev --turbopack",
+    "build": "npm run generate && next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate": "prisma generate"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
