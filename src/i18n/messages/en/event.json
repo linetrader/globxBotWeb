@@ -1,28 +1,34 @@
 {
   "header": {
-    "title": "Events"
+    "title": "Events",
+    "subtitle": "Don't miss out on GlobX's special offers and events."
   },
   "actions": {
     "refresh": "Refresh",
     "home": "Home"
   },
-  "messages": {
-    "errorPrefix": "Error:",
-    "loadingList": "Loading events…",
-    "emptyList": "No events to display."
-  },
   "table": {
-    "colTitle": "Title",
+    "colTitle": "Event",
     "colPeriod": "Period",
     "colPublishedAt": "Published"
   },
+  "status": {
+    "ongoing": "On Going",
+    "upcoming": "Upcoming",
+    "ended": "Ended"
+  },
+  "messages": {
+    "loadingList": "Loading list...",
+    "errorPrefix": "Error:",
+    "emptyList": "No events found."
+  },
   "detail": {
-    "title": "Event Details",
-    "close": "Close",
-    "loading": "Loading details…",
+    "title": "Details",
     "periodLabel": "Period",
     "publishedLabel": "Published",
-    "placeholder": "Select an event to view details.",
-    "ctaButton": "Learn more"
+    "close": "Close",
+    "loading": "Loading details...",
+    "placeholder": "Content not found.",
+    "ctaButton": "Go to Event"
   }
 }

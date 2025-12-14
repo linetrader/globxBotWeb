@@ -1,4 +1,3 @@
-// src/middleware.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify, type JWTPayload, type JWTVerifyOptions } from "jose";
@@ -37,18 +36,21 @@ const VERIFY_OPTS: JWTVerifyOptions = {
 };
 
 // 로케일 prefix를 제거한 경로를 기준으로 공개 여부 판단
+// 여기에 포함된 경로는 로그아웃 상태에서도 접근 가능 (리다이렉트 안 함)
 const PUBLIC_PATHS: RegExp[] = [
   /^\/$/, // 루트
   /^\/home(?:\/.*)?$/,
   /^\/account(?:\/.*)?$/,
   /^\/announcements(?:\/.*)?$/,
-  /^\/event(?:\/.*)?$/,
+  /^\/events(?:\/.*)?$/, // [수정] /event -> /events (이벤트 페이지 경로 일치)
   /^\/help(?:\/.*)?$/,
   /^\/cases(?:\/.*)?$/,
+  /^\/bot-config(?:\/.*)?$/,
+  /^\/bot-list(?:\/.*)?$/,
 
   /^\/auth\/login(?:\/.*)?$/,
   /^\/auth\/signup(?:\/.*)?$/,
-  /^\/bot-config(?:\/.*)?$/,
+  // /^\/bot-config(?:\/.*)?$/, // (중복 제거)
   /^\/history(?:\/.*)?$/,
   /^\/my-config(?:\/.*)?$/,
   /^\/strategy-config(?:\/.*)?$/,
@@ -56,21 +58,22 @@ const PUBLIC_PATHS: RegExp[] = [
   // 공개: 테마
   /^\/api\/theme(?:\/.*)?$/,
 
-  // 보호 API는 제외
-  // /^\/api\/home(?:\/.*)?$/, // 보호
+  // 공개 API (또는 소프트 인증 API)
   /^\/api\/account(?:\/.*)?$/,
   /^\/api\/announcements(?:\/.*)?$/,
-  /^\/api\/event(?:\/.*)?$/,
+  /^\/api\/events(?:\/.*)?$/, // [수정] API도 events로 맞춤 (필요시)
   /^\/api\/help(?:\/.*)?$/,
   /^\/api\/cases(?:\/.*)?$/,
+  /^\/api\/bot-config(?:\/.*)?$/,
+  /^\/api\/bot-list(?:\/.*)?$/,
 
-  // 공개 API
+  // Auth 관련 API
   /^\/api\/auth\/login(?:\/.*)?$/,
   /^\/api\/auth\/logout(?:\/.*)?$/,
   /^\/api\/auth\/signup(?:\/.*)?$/,
   /^\/api\/auth\/me(?:\/.*)?$/,
   /^\/api\/auth\/resolve-user(?:\/.*)?$/,
-  /^\/api\/bot-config(?:\/.*)?$/,
+
   /^\/api\/history(?:\/.*)?$/,
   /^\/api\/my-config(?:\/.*)?$/,
   /^\/api\/strategy-config(?:\/.*)?$/,
@@ -289,12 +292,12 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
     }
   }
 
-  // (E) 공개 페이지 → 소프트 인증
+  // (E) 공개 페이지 → 소프트 인증 (비로그인 접근 가능)
   if (isPublic(pathname)) {
     return attachUserIfValid(req);
   }
 
-  // (F) 보호 페이지 → 강제 인증
+  // (F) 보호 페이지 → 강제 인증 (토큰 없으면 로그인 이동)
   const token = req.cookies.get(COOKIE)?.value;
   if (!token) return redirectOr401(req);
   try {

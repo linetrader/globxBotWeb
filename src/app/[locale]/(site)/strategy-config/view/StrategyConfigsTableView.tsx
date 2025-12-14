@@ -1,8 +1,9 @@
-// src/app/(site)/strategy-config/view/StrategyConfigsTableView.tsx
 "use client";
 
-import { ChangeEvent } from "react";
+// [수정] 사용하지 않는 ChangeEvent 제거
 import type { StrategyRow } from "../types/table";
+import { useTranslations } from "next-intl";
+import { TrashIcon } from "@heroicons/react/24/outline";
 
 type Props = {
   rows: StrategyRow[];
@@ -25,94 +26,111 @@ export default function StrategyConfigsTableView({
   onToggleRow,
   onDeleteSelected,
 }: Props) {
-  const headLabels = ["수정시각", "시장", "이름", "종류", "세부설정"] as const;
+  const t = useTranslations("strategy-config");
 
   return (
-    <div className="card bg-base-100 shadow mb-4">
-      <div className="card-body p-4">
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-base font-semibold">전략 목록</h2>
-          <div className="flex gap-2">
-            <button
-              type="button"
-              className={`btn btn-primary btn-sm ${
-                selectedCount === 0 ? "btn-disabled" : ""
-              }`}
-              onClick={() => {
-                if (selectedCount === 0) return;
-                onDeleteSelected();
-              }}
-              disabled={selectedCount === 0}
-            >
-              {`선택 삭제 (${selectedCount})`}
-            </button>
-          </div>
-        </div>
+    // [수정] 테이블 컨테이너 스타일
+    <div className="rounded-2xl shadow-xl overflow-hidden border transition-colors bg-white border-gray-200 [:root[data-theme=dark]_&]:bg-[#131B2D] [:root[data-theme=dark]_&]:border-gray-800">
+      {/* 헤더 */}
+      <div className="border-b p-4 flex items-center justify-between transition-colors bg-gray-50 border-gray-200 [:root[data-theme=dark]_&]:bg-[#0B1222]/50 [:root[data-theme=dark]_&]:border-gray-800">
+        <h2 className="text-base font-bold text-gray-900 [:root[data-theme=dark]_&]:text-gray-200">
+          {t("list.title")}{" "}
+          <span className="text-xs font-normal text-gray-500 ml-2">
+            Total {rows.length}
+          </span>
+        </h2>
+        {selectedCount > 0 && (
+          <button
+            type="button"
+            className="btn btn-xs btn-error btn-outline gap-1"
+            onClick={onDeleteSelected}
+          >
+            <TrashIcon className="h-3 w-3" />
+            {t("action.deleteSelected", { count: selectedCount })}
+          </button>
+        )}
+      </div>
 
-        <div className="overflow-x-auto rounded-box border border-base-300">
-          <table className="table table-zebra table-sm">
-            <thead className="bg-base-200 sticky top-0">
+      <div className="overflow-x-auto">
+        <table className="table w-full">
+          <thead>
+            <tr className="border-b text-xs uppercase tracking-wider transition-colors bg-gray-50 border-gray-200 text-gray-500 [:root[data-theme=dark]_&]:bg-[#0B1222]/30 [:root[data-theme=dark]_&]:border-gray-800 [:root[data-theme=dark]_&]:text-gray-400">
+              <th className="w-12 text-center">
+                <input
+                  type="checkbox"
+                  className="checkbox checkbox-xs border-gray-300 [--chkbg:#06b6d4] [--chkfg:white] checked:border-[#06b6d4] [:root[data-theme=dark]_&]:border-gray-600"
+                  checked={allSelected}
+                  onChange={(e) => onToggleAll(e.target.checked)}
+                />
+              </th>
+              <th>{t("table.updatedAt")}</th>
+              <th>{t("table.name")}</th>
+              <th>{t("table.kind")}</th>
+              <th>{t("table.detail")}</th>
+            </tr>
+          </thead>
+          <tbody className="text-sm">
+            {loading ? (
               <tr>
-                <th className="w-10">
-                  <input
-                    type="checkbox"
-                    className="checkbox checkbox-sm"
-                    checked={allSelected}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                      onToggleAll(e.target.checked)
-                    }
-                  />
-                </th>
-                {headLabels.map((label) => (
-                  <th key={label} className="text-left">
-                    {label}
-                  </th>
-                ))}
+                <td colSpan={5} className="text-center py-12">
+                  <span className="loading loading-spinner loading-md text-[#06b6d4]"></span>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {rows.map((r) => (
+            ) : rows.length === 0 ? (
+              <tr>
+                <td colSpan={5} className="text-center py-12 text-gray-500">
+                  {t("list.empty")}
+                </td>
+              </tr>
+            ) : (
+              rows.map((r) => (
                 <tr
                   key={r.idx}
-                  className="cursor-pointer hover"
                   onClick={() => onRowClick(r.idx)}
+                  className={`
+                    border-b cursor-pointer transition-colors
+                    border-gray-100 hover:bg-gray-50
+                    [:root[data-theme=dark]_&]:border-gray-800/50 [:root[data-theme=dark]_&]:hover:bg-[#0B1222]/50
+                    ${
+                      r.checked
+                        ? "bg-[#06b6d4]/5 [:root[data-theme=dark]_&]:bg-[#06b6d4]/10"
+                        : ""
+                    }
+                  `}
                 >
-                  <td onClick={(e) => e.stopPropagation()}>
+                  <td
+                    className="text-center"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <input
                       type="checkbox"
-                      className="checkbox checkbox-sm"
+                      className="checkbox checkbox-xs border-gray-300 [--chkbg:#06b6d4] [--chkfg:white] checked:border-[#06b6d4] [:root[data-theme=dark]_&]:border-gray-600"
                       checked={r.checked}
-                      onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                        onToggleRow(r.idx, e.target.checked)
-                      }
+                      onChange={(e) => onToggleRow(r.idx, e.target.checked)}
                     />
                   </td>
-                  <td>{r.updatedAt}</td>
-                  <td>{r.name}</td>
-                  <td>{r.kind}</td>
-                  <td>{r.detail}</td>
-                </tr>
-              ))}
-
-              {rows.length === 0 && !loading && (
-                <tr>
-                  <td colSpan={headLabels.length + 1}>
-                    <div className="p-4 text-sm text-base-content/60">
-                      데이터가 없습니다.
-                    </div>
+                  <td className="text-gray-500 whitespace-nowrap [:root[data-theme=dark]_&]:text-gray-400">
+                    {r.updatedAt}
+                  </td>
+                  <td className="font-bold text-gray-900 [:root[data-theme=dark]_&]:text-white">
+                    {r.name}
+                  </td>
+                  <td>
+                    <span className="badge badge-sm border-gray-200 bg-gray-100 text-gray-600 [:root[data-theme=dark]_&]:border-gray-700 [:root[data-theme=dark]_&]:bg-gray-800 [:root[data-theme=dark]_&]:text-gray-300">
+                      {r.kind}
+                    </span>
+                  </td>
+                  <td
+                    className="text-gray-500 max-w-xs truncate [:root[data-theme=dark]_&]:text-gray-400"
+                    title={r.detail}
+                  >
+                    {r.detail}
                   </td>
                 </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-
-        {loading && (
-          <div className="mt-2 text-xs text-base-content/60 inline-flex items-center gap-2">
-            <span className="loading loading-spinner loading-xs" />
-            로딩 중…
-          </div>
-        )}
+              ))
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
   );

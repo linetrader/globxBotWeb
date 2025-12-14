@@ -1,25 +1,28 @@
 {
   "header": {
-    "title": "お知らせ"
+    "title": "お知らせ",
+    "subtitle": "GlobXの最新ニュースとアップデートをご確認ください。"
   },
   "actions": {
-    "refresh": "再読み込み",
-    "home": "ホーム"
+    "refresh": "更新",
+    "home": "ホーム",
+    "searchPlaceholder": "お知らせを検索..."
   },
-  "table": {
-    "colTitle": "タイトル",
-    "colPublishedAt": "公開日"
+  "list": {
+    "title": "お知らせ一覧",
+    "totalPosts": "全 {count} 件"
   },
   "messages": {
-    "loadingList": "読み込み中…",
-    "emptyList": "公開されたお知らせはありません。",
-    "errorPrefix": "エラー:"
+    "loadingList": "読み込み中...",
+    "errorPrefix": "エラー:",
+    "emptyList": "お知らせはありません。",
+    "contentNotAvailable": "内容を表示できません。"
   },
   "detail": {
-    "title": "お知らせを見る",
+    "title": "詳細",
+    "publishedLabel": "公開日",
     "close": "閉じる",
-    "loading": "読み込み中…",
-    "publishedLabel": "公開",
-    "placeholder": "一覧からお知らせを選ぶとここに表示されます。"
+    "loading": "内容を読み込んでいます...",
+    "placeholder": "リストから項目を選択して詳細を確認してください。"
   }
 }

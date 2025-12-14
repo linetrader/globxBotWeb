@@ -1,57 +1,93 @@
-// src/app/(site)/account/components/WalletForm.tsx
 "use client";
 
-import React, {
-  useEffect,
-  useMemo,
-  useState,
-  type FormEvent,
-  type ChangeEvent,
-} from "react";
-import {
-  Section,
-  Card,
-  Button,
-  Badge,
-  InputField,
-  Form,
-  Caption,
-  Modal, // ✅ 제어형 모달 사용
-} from "@/components/ui";
+import React, { useEffect, useMemo, useState, type FormEvent } from "react";
 import { useToast } from "@/components/ui";
 import { isValidEvmAddress, toChecksumAddress } from "@/utils/wallet";
-import { ClipboardDocumentIcon } from "@heroicons/react/24/outline";
 import {
-  UpdateWalletResponse,
-  WalletFormProps,
-} from "@/types/account/wallet/types";
+  WalletIcon,
+  // [수정] CheckIcon 제거 (사용하지 않음)
+  ClipboardDocumentIcon,
+} from "@heroicons/react/24/outline";
+import { WalletFormProps } from "@/types/account/wallet/types";
+import { useTranslations } from "next-intl";
 
-// 타입 가드
-function isUpdateWalletResponse(x: unknown): x is UpdateWalletResponse {
-  if (typeof x !== "object" || x === null) return false;
-  const o = x as Record<string, unknown>;
-  return typeof o.ok === "boolean";
+// [추가] OtpModal Props 타입 정의
+interface OtpModalProps {
+  open: boolean;
+  onClose: () => void;
+  onConfirm: (code: string) => void | Promise<void>;
+  loading: boolean;
+  error: string | null;
 }
 
-type ToastKind = "info" | "success" | "warning" | "error";
+// [수정] any 대신 인터페이스 적용
+function OtpModal({ open, onClose, onConfirm, loading, error }: OtpModalProps) {
+  const [code, setCode] = useState("");
+  const t = useTranslations("account");
+
+  if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <div className="w-full max-w-sm overflow-hidden shadow-2xl rounded-2xl border bg-white border-gray-200 [:root[data-theme=dark]_&]:bg-[#131B2D] [:root[data-theme=dark]_&]:border-gray-700">
+        <div className="p-5 border-b bg-gray-50 border-gray-200 [:root[data-theme=dark]_&]:bg-[#0B1222]/50 [:root[data-theme=dark]_&]:border-gray-800">
+          <h3 className="text-lg font-bold text-gray-900 [:root[data-theme=dark]_&]:text-white">
+            {t("wallet.otpVerify")}
+          </h3>
+          <p className="text-xs mt-1 text-gray-500 [:root[data-theme=dark]_&]:text-gray-400">
+            {t("wallet.otpVerifyDesc")}
+          </p>
+        </div>
+        <div className="p-5 space-y-4">
+          <input
+            type="text"
+            inputMode="numeric"
+            maxLength={6}
+            placeholder="000000"
+            className="input input-bordered w-full text-center text-lg tracking-widest font-mono focus:border-[#06b6d4] focus:outline-none bg-white border-gray-300 text-gray-900 [:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:border-gray-700 [:root[data-theme=dark]_&]:text-gray-100"
+            value={code}
+            onChange={(e) =>
+              setCode(e.target.value.replace(/\D/g, "").slice(0, 6))
+            }
+          />
+          {error && <p className="text-xs text-center text-red-500">{error}</p>}
+
+          <div className="flex gap-2 pt-2">
+            <button
+              className="btn btn-ghost flex-1 text-gray-500 hover:bg-gray-100 [:root[data-theme=dark]_&]:text-gray-400 [:root[data-theme=dark]_&]:hover:text-white"
+              onClick={onClose}
+              disabled={loading}
+            >
+              {t("action.cancel")}
+            </button>
+            <button
+              className="btn btn-primary flex-1 bg-[#06b6d4] border-none text-white hover:bg-[#0891b2]"
+              onClick={() => onConfirm(code)}
+              disabled={code.length !== 6 || loading}
+            >
+              {loading ? (
+                <span className="loading loading-spinner loading-xs"></span>
+              ) : (
+                t("action.confirm")
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function WalletForm(props: WalletFormProps) {
+  const t = useTranslations("account");
   const { otpEnabled, wallet, onChangeWallet } = props;
+  const { toast } = useToast();
 
   const [addr, setAddr] = useState<string>(wallet ?? "");
   const [valid, setValid] = useState<boolean>(false);
-
-  // OTP 모달
   const [showOtp, setShowOtp] = useState<boolean>(false);
-  const [otpCode, setOtpCode] = useState<string>("");
   const [saving, setSaving] = useState<boolean>(false);
   const [serverErr, setServerErr] = useState<string | null>(null);
-
-  // ✅ Toast 훅
-  const { toast } = useToast();
-  const showToast = (msg: string, variant: ToastKind = "info"): void => {
-    toast({ variant, description: msg });
-  };
 
   useEffect(() => {
     setValid(isValidEvmAddress(addr.trim()));
@@ -66,256 +102,129 @@ export default function WalletForm(props: WalletFormProps) {
     [wallet]
   );
 
-  async function copyCurrent(): Promise<void> {
+  const handleCopy = async () => {
+    if (!wallet) return;
     try {
-      if (!wallet) throw new Error("no wallet");
       await navigator.clipboard.writeText(wallet);
-      showToast("출금 지갑 주소를 복사했습니다.", "success");
+      toast({ description: t("toast.walletCopied"), variant: "success" });
     } catch {
-      showToast("복사 실패. 주소를 직접 선택하여 복사하세요.", "error");
+      toast({ description: t("toast.copyFail"), variant: "error" });
     }
-  }
+  };
 
-  function onSubmit(e: FormEvent<HTMLFormElement>): void {
+  const onRegisterClick = (e: FormEvent) => {
     e.preventDefault();
     if (!valid) return;
     if (!otpEnabled) {
-      showToast("먼저 계정에서 구글 OTP를 등록하세요.", "warning");
+      toast({ description: t("wallet.requireOtp"), variant: "warning" });
       return;
     }
     setServerErr(null);
-    setOtpCode("");
     setShowOtp(true);
-  }
+  };
 
-  async function confirmOtp(e: FormEvent<HTMLFormElement>): Promise<void> {
-    e.preventDefault();
-    if (!valid || otpCode.length !== 6) return;
+  const handleConfirmOtp = async (code: string) => {
     setSaving(true);
     setServerErr(null);
     try {
       const checksum = toChecksumAddress(addr.trim());
-      if (!checksum) {
-        const msg = "지갑 주소가 유효하지 않습니다.";
-        setServerErr(msg);
-        showToast(msg, "error");
-        return;
-      }
+      if (!checksum) throw new Error(t("wallet.invalidAddress"));
+
       const res = await fetch("/api/account/wallet/withdraw", {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        credentials: "same-origin",
-        cache: "no-store",
-        body: JSON.stringify({ address: checksum, otpCode }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ address: checksum, otpCode: code }),
       });
 
-      const json: unknown = await res.json().catch(() => null);
-
-      if (!res.ok || !isUpdateWalletResponse(json) || json.ok !== true) {
-        const code =
-          json && typeof json === "object" && "code" in json
-            ? (json as { code?: unknown }).code
-            : undefined;
-        const message =
-          json && typeof json === "object" && "message" in json
-            ? (json as { message?: unknown }).message
-            : undefined;
-
-        const msg =
-          (typeof message === "string" && message) ||
-          (code === "OTP_REQUIRED"
-            ? "OTP 미등록 상태입니다. 먼저 OTP를 등록하세요."
-            : code === "OTP_VERIFY_FAILED"
-            ? "OTP 코드가 올바르지 않습니다."
-            : `저장 실패(HTTP ${res.status})`);
-        setServerErr(msg);
-        showToast(msg, "error");
-        return;
+      const json = await res.json();
+      if (!res.ok || !json.ok) {
+        throw new Error(json.message || t("wallet.saveFail"));
       }
 
-      const withdrawAddress =
-        json.wallet && typeof json.wallet === "object"
-          ? (json.wallet as { withdrawAddress?: unknown }).withdrawAddress
-          : undefined;
-
-      onChangeWallet(
-        typeof withdrawAddress === "string" && withdrawAddress
-          ? withdrawAddress
-          : checksum
-      );
+      onChangeWallet(json.wallet?.withdrawAddress || checksum);
       setShowOtp(false);
-      showToast("출금 지갑 주소가 등록되었습니다.", "success");
+      toast({ description: t("wallet.saveSuccess"), variant: "success" });
     } catch (err: unknown) {
-      const msg =
-        err instanceof Error
-          ? err.message
-          : typeof err === "string"
-          ? err
-          : "요청 처리 중 오류";
+      // [수정] any 제거 및 타입 가드 사용
+      const msg = err instanceof Error ? err.message : String(err);
       setServerErr(msg);
-      showToast(msg, "error");
     } finally {
       setSaving(false);
     }
-  }
-
-  const handleAddrChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setAddr(e.target.value);
-  };
-
-  const handleOtpChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    const v = e.target.value.replace(/\D/g, "").slice(0, 6);
-    setOtpCode(v);
   };
 
   return (
-    <Card
-      title="출금 지갑 주소"
-      actions={
-        <Badge variant={alreadyRegistered ? "success" : "warning"}>
-          {alreadyRegistered ? "등록됨" : "미등록"}
-        </Badge>
-      }
-    >
-      {/* 등록됨: 읽기 전용 + 복사 버튼 */}
-      {alreadyRegistered ? (
-        <Section
-          layout="two-col"
-          columnsTemplate="1fr auto"
-          contentClassName="items-end gap-2 max-w-3xl"
-          left={
-            <InputField
-              type="text"
-              value={wallet ?? "-"}
-              readOnly
-              className="font-mono select-all"
-              onChange={() => {
-                /* read-only */
-              }}
-              onKeyDown={(e) => {
-                if (
-                  e.key.length === 1 ||
-                  e.key === "Backspace" ||
-                  e.key === "Delete"
-                ) {
-                  e.preventDefault();
-                }
-              }}
-              onBeforeInput={(e) => e.preventDefault()}
-              onPaste={(e) => e.preventDefault()}
-              onCut={(e) => e.preventDefault()}
-              onDrop={(e) => e.preventDefault()}
-              autoComplete="off"
-              inputMode="text"
-              aria-readonly="true"
-            />
-          }
-          right={
-            <Button
-              type="button"
-              variant="outline"
-              className="h-10 min-h-10 px-3"
-              onClick={copyCurrent}
-              aria-label="출금 지갑 주소 복사"
-              title="복사"
-              disabled={!wallet}
+    // [수정] 카드 컨테이너
+    <div className="flex flex-col h-full rounded-2xl shadow-xl overflow-hidden border transition-colors bg-white border-gray-200 [:root[data-theme=dark]_&]:bg-[#131B2D] [:root[data-theme=dark]_&]:border-gray-800">
+      <div className="p-5 border-b flex items-center justify-between transition-colors bg-gray-50 border-gray-200 [:root[data-theme=dark]_&]:bg-[#0B1222]/30 [:root[data-theme=dark]_&]:border-gray-800">
+        <div className="flex items-center gap-2">
+          <WalletIcon className="h-5 w-5 text-[#06b6d4]" />
+          <h2 className="text-base font-bold text-gray-900 [:root[data-theme=dark]_&]:text-gray-200">
+            {t("wallet.title")}
+          </h2>
+        </div>
+        <span
+          className={`px-2 py-0.5 rounded text-[10px] font-bold border ${alreadyRegistered ? "bg-green-100 text-green-600 border-green-200 [:root[data-theme=dark]_&]:bg-green-500/10 [:root[data-theme=dark]_&]:text-green-500 [:root[data-theme=dark]_&]:border-green-500/20" : "bg-gray-100 text-gray-500 border-gray-200 [:root[data-theme=dark]_&]:bg-gray-700/50 [:root[data-theme=dark]_&]:text-gray-400 [:root[data-theme=dark]_&]:border-gray-600"}`}
+        >
+          {alreadyRegistered
+            ? t("status.registered")
+            : t("status.unregistered")}
+        </span>
+      </div>
+
+      <div className="p-5 flex-1 flex flex-col justify-center">
+        {alreadyRegistered ? (
+          <div className="space-y-4">
+            <div className="p-4 rounded-xl border break-all text-center transition-colors bg-gray-50 border-gray-200 [:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:border-gray-800">
+              <span className="text-xs block mb-2 text-gray-500 [:root[data-theme=dark]_&]:text-gray-500">
+                {t("wallet.currentAddress")}
+              </span>
+              <span className="text-sm font-mono text-[#06b6d4]">{wallet}</span>
+            </div>
+            <button
+              onClick={handleCopy}
+              className="btn btn-outline btn-sm w-full border-gray-300 text-gray-500 hover:text-gray-900 hover:border-gray-400 [:root[data-theme=dark]_&]:border-gray-700 [:root[data-theme=dark]_&]:text-gray-300 [:root[data-theme=dark]_&]:hover:text-white [:root[data-theme=dark]_&]:hover:border-gray-500"
             >
-              <ClipboardDocumentIcon className="h-5 w-5" aria-hidden />
-            </Button>
-          }
-        />
-      ) : (
-        // 미등록: 입력 + 등록
-        <Form onSubmit={onSubmit}>
-          <InputField
-            id="wallet"
-            label="지갑 주소"
-            value={addr}
-            onChange={handleAddrChange}
-            placeholder="0x로 시작하는 주소"
-          />
-          {!valid && addr.trim().length > 0 && (
-            <Caption className="text-xs text-[salmon]">
-              주소 형식이 올바르지 않거나(EVM 0x + 40 hex), 체크섬이 일치하지
-              않습니다.
-            </Caption>
-          )}
-          <Button
-            type="submit"
-            className="w-full h-11 rounded-xl"
-            disabled={!valid}
-            title={!valid ? "유효한 EVM 주소를 입력하세요." : "등록"}
-          >
-            등록
-          </Button>
-        </Form>
-      )}
+              <ClipboardDocumentIcon className="h-4 w-4 mr-2" />
+              {t("action.copy")}
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={onRegisterClick} className="space-y-4">
+            <div>
+              <label className="text-xs mb-1.5 block text-gray-600 [:root[data-theme=dark]_&]:text-gray-500">
+                {t("wallet.inputLabel")}
+              </label>
+              <input
+                className="input input-bordered w-full h-11 text-sm focus:border-[#06b6d4] bg-white border-gray-300 text-gray-900 [:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:border-gray-700 [:root[data-theme=dark]_&]:text-gray-200"
+                placeholder="0x..."
+                value={addr}
+                onChange={(e) => setAddr(e.target.value)}
+              />
+              {!valid && addr.length > 0 && (
+                <p className="text-[10px] text-red-500 mt-1">
+                  {t("wallet.invalidFormat")}
+                </p>
+              )}
+            </div>
+            <button
+              type="submit"
+              disabled={!valid}
+              className="btn btn-primary w-full bg-[#06b6d4] hover:bg-[#0891b2] border-none text-white h-11 shadow-md shadow-cyan-500/20 [:root[data-theme=dark]_&]:shadow-cyan-900/20"
+            >
+              {t("wallet.registerBtn")}
+            </button>
+          </form>
+        )}
+      </div>
 
-      {/* ✅ OTP 모달 (UI 컴포넌트로 교체) */}
-      <Modal
-        title="OTP 인증"
+      <OtpModal
         open={showOtp}
-        onOpenChange={setShowOtp}
-        preventClose={saving}
-        className="w-[92vw] max-w-sm rounded-2xl"
-        backdropClassName="bg-black/60"
-      >
-        <Card className="mb-3">
-          <Caption size="sm">
-            인증 앱(예: Google Authenticator)에 표시된 6자리 코드를 입력하세요.
-          </Caption>
-        </Card>
-
-        <Card>
-          <Form onSubmit={confirmOtp} styled={false}>
-            <InputField
-              label="인증 코드"
-              inputMode="numeric"
-              pattern="[0-9]{6}"
-              maxLength={6}
-              placeholder="6자리 코드"
-              value={otpCode}
-              onChange={handleOtpChange}
-            />
-
-            {serverErr ? (
-              <Caption className="mt-2 text-[salmon]">{serverErr}</Caption>
-            ) : null}
-
-            <Section
-              layout="two-col"
-              columnsTemplate="1fr 1fr"
-              contentClassName="gap-2 mt-4"
-              left={
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setShowOtp(false)}
-                  disabled={saving}
-                  className="h-10 rounded-xl w-full"
-                >
-                  취소
-                </Button>
-              }
-              right={
-                <Button
-                  type="submit"
-                  className="h-10 rounded-xl w-full"
-                  disabled={saving || otpCode.length !== 6}
-                  title={
-                    otpCode.length !== 6 ? "6자리 코드를 입력하세요" : "확인"
-                  }
-                >
-                  {saving ? "확인 중…" : "확인"}
-                </Button>
-              }
-            />
-          </Form>
-        </Card>
-      </Modal>
-    </Card>
+        onClose={() => setShowOtp(false)}
+        onConfirm={handleConfirmOtp}
+        loading={saving}
+        error={serverErr}
+      />
+    </div>
   );
 }

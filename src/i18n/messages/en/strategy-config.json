@@ -1,0 +1,59 @@
+{
+  "page": {
+    "title": "Strategy Config",
+    "subtitle": "Configure strategy parameters for your trading bots."
+  },
+  "create": {
+    "title": "Create New Strategy"
+  },
+  "edit": {
+    "title": "Edit Strategy",
+    "id": "Strategy ID"
+  },
+  "section": {
+    "common": "Common Settings",
+    "trend": "Trend Settings",
+    "box": "Box Settings",
+    "signalConfirm": "Signal Confirmation / Aux Params"
+  },
+  "field": {
+    "name": "Name",
+    "kind": "Kind",
+    "timeframe": "Timeframe",
+    "rsiLength": "RSI Length",
+    "leverage": "Leverage (x)",
+    "profit": "Target Profit (%)",
+    "loss": "Stop Loss (%)",
+    "defaultSize": "Default Size (USDT)",
+    "maxSize": "Max Size (USDT)",
+    "useMartin": "Use Martingale",
+    "martinMultiplier": "Martin Multiplier",
+    "rangeFollowTrendOnly": "Range Follow Trend Only",
+    "reverseEntry": "Allow Reverse Entry",
+    "trendUpper": "Upper Pullback",
+    "trendLower": "Lower Pullback",
+    "boxUpper": "Upper Threshold",
+    "boxLower": "Lower Threshold",
+    "boxTouch": "Box Touch %"
+  },
+  "placeholder": {
+    "name": "Enter strategy name",
+    "floatOrNull": "Value"
+  },
+  "action": {
+    "create": "Create Strategy",
+    "update": "Save Changes",
+    "close": "Close",
+    "deleteSelected": "Delete Selected ({count})"
+  },
+  "list": {
+    "title": "Strategy List",
+    "empty": "No strategies found."
+  },
+  "table": {
+    "updatedAt": "Updated",
+    "name": "Name",
+    "kind": "Kind",
+    "detail": "Details"
+  }
+}

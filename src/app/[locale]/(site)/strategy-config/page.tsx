@@ -1,13 +1,7 @@
-// src/app/(site)/strategy-config/page.tsx
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
-import { Section } from "@/components/ui";
-// import type {
-//   StrategyItem,
-//   StrategyCreateBody,
-//   StrategyUpdateBody,
-// } from "@/types/strategy-config";
+import { useCallback, useState } from "react"; // [수정] useMemo 제거
+import { useTranslations } from "next-intl";
 import { useStrategyConfigs } from "./hooks/useStrategyConfigs";
 import { useCreateStrategyForm } from "./hooks/useCreateStrategyForm";
 import { useStrategyConfigsTable } from "./hooks/useStrategyConfigsTable";
@@ -15,8 +9,11 @@ import CreateStrategyFormView from "./view/CreateStrategyFormView";
 import StrategyConfigsTableView from "./view/StrategyConfigsTableView";
 import EditStrategyPanel from "./view/EditStrategyPanel";
 import { StrategyCreateBody, StrategyItem, StrategyUpdateBody } from "./types";
+import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 
 export default function StrategyConfigsPage() {
+  const t = useTranslations("strategy-config");
+
   const {
     items,
     loading,
@@ -93,9 +90,8 @@ export default function StrategyConfigsPage() {
     setSelectedIds(new Set());
   }, [selectedIds, deleteOne, list]);
 
-  const selectedCount = useMemo(() => selectedIds.size, [selectedIds]);
+  // [수정] 불필요한 selectedCount useMemo 제거 (tableHook에서 처리됨)
 
-  // view hooks
   const createHook = useCreateStrategyForm({ onCreate, error, setError });
   const tableHook = useStrategyConfigsTable({
     items,
@@ -109,38 +105,49 @@ export default function StrategyConfigsPage() {
   });
 
   return (
-    <Section className="mx-auto max-w-5xl p-4">
-      <CreateStrategyFormView
-        form={createHook.form}
-        setForm={createHook.setForm}
-        creating={createHook.creating}
-        error={createHook.error}
-        onCreateClick={createHook.onCreateClick}
-      />
+    // [수정] 라이트: bg-gray-50/text-gray-900 ↔ 다크: bg-[#0B1222]/text-gray-100
+    <div className="min-h-screen p-6 md:p-8 transition-colors duration-300 bg-gray-50 text-gray-900 [:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:text-gray-100">
+      <div className="max-w-6xl mx-auto space-y-8">
+        {/* 헤더 */}
+        <div className="flex items-center gap-3 mb-6">
+          <div className="p-2 bg-[#06b6d4]/10 rounded-lg">
+            <AdjustmentsHorizontalIcon className="h-8 w-8 text-[#06b6d4]" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 [:root[data-theme=dark]_&]:text-white">
+              {t("page.title")}
+            </h1>
+            <p className="text-sm text-gray-500 [:root[data-theme=dark]_&]:text-gray-400">
+              {t("page.subtitle")}
+            </p>
+          </div>
+        </div>
 
-      <StrategyConfigsTableView
-        rows={tableHook.rows}
-        allSelected={tableHook.allSelected}
-        selectedCount={tableHook.selectedCount}
-        loading={tableHook.loading}
-        onToggleAll={tableHook.onToggleAll}
-        onRowClick={tableHook.onRowClick}
-        onToggleRow={tableHook.onToggleRow}
-        onDeleteSelected={tableHook.onDeleteSelected}
-      />
+        <CreateStrategyFormView
+          form={createHook.form}
+          setForm={createHook.setForm}
+          creating={createHook.creating}
+          error={createHook.error}
+          onCreateClick={createHook.onCreateClick}
+        />
 
-      {/* ✅ 훅을 별도 컴포넌트로 분리하여 조건부 렌더링 */}
-      <EditStrategyPanel
-        editTarget={editTarget}
-        onUpdate={onUpdate}
-        onClose={() => setEditTarget(null)}
-      />
+        <StrategyConfigsTableView
+          rows={tableHook.rows}
+          allSelected={tableHook.allSelected}
+          selectedCount={tableHook.selectedCount}
+          loading={tableHook.loading}
+          onToggleAll={tableHook.onToggleAll}
+          onRowClick={tableHook.onRowClick}
+          onToggleRow={tableHook.onToggleRow}
+          onDeleteSelected={tableHook.onDeleteSelected}
+        />
 
-      {selectedCount > 0 && (
-        <p className="mt-2 text-xs text-base-content/60">
-          선택: {selectedCount}개
-        </p>
-      )}
-    </Section>
+        <EditStrategyPanel
+          editTarget={editTarget}
+          onUpdate={onUpdate}
+          onClose={() => setEditTarget(null)}
+        />
+      </div>
+    </div>
   );
 }

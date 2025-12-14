@@ -1,28 +1,34 @@
 {
   "header": {
-    "title": "イベント"
+    "title": "イベント",
+    "subtitle": "GlobXの特別な特典とイベントをお見逃しなく。"
   },
   "actions": {
     "refresh": "更新",
     "home": "ホーム"
   },
-  "messages": {
-    "errorPrefix": "エラー:",
-    "loadingList": "一覧を読み込み中…",
-    "emptyList": "表示できるイベントがありません。"
-  },
   "table": {
-    "colTitle": "タイトル",
+    "colTitle": "イベント",
     "colPeriod": "期間",
-    "colPublishedAt": "掲載日"
+    "colPublishedAt": "公開日"
+  },
+  "status": {
+    "ongoing": "開催中",
+    "upcoming": "予定",
+    "ended": "終了"
+  },
+  "messages": {
+    "loadingList": "読み込み中...",
+    "errorPrefix": "エラー:",
+    "emptyList": "現在開催中のイベントはありません。"
   },
   "detail": {
-    "title": "イベント詳細",
+    "title": "詳細",
+    "periodLabel": "イベント期間",
+    "publishedLabel": "公開日",
     "close": "閉じる",
-    "loading": "詳細を読み込み中…",
-    "periodLabel": "期間",
-    "publishedLabel": "掲載日",
-    "placeholder": "イベントを選択すると詳細が表示されます。",
-    "ctaButton": "詳しく見る"
+    "loading": "詳細を読み込んでいます...",
+    "placeholder": "内容が見つかりません。",
+    "ctaButton": "イベントへ移動"
   }
 }

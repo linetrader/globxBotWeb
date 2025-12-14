@@ -1,0 +1,59 @@
+{
+  "page": {
+    "title": "策略配置",
+    "subtitle": "配置自动交易机器人使用的策略参数。"
+  },
+  "create": {
+    "title": "创建新策略"
+  },
+  "edit": {
+    "title": "编辑策略",
+    "id": "策略ID"
+  },
+  "section": {
+    "common": "通用设置",
+    "trend": "趋势(TREND)设置",
+    "box": "箱体(BOX)设置",
+    "signalConfirm": "信号确认 / 辅助参数"
+  },
+  "field": {
+    "name": "策略名称",
+    "kind": "策略类型",
+    "timeframe": "时间周期",
+    "rsiLength": "RSI长度",
+    "leverage": "杠杆 (x)",
+    "profit": "目标止盈 (%)",
+    "loss": "止损 (%)",
+    "defaultSize": "基础仓位 (USDT)",
+    "maxSize": "最大仓位 (USDT)",
+    "useMartin": "使用马丁格尔",
+    "martinMultiplier": "马丁倍数",
+    "rangeFollowTrendOnly": "仅跟随趋势的区间",
+    "reverseEntry": "允许反向开仓",
+    "trendUpper": "上方回调",
+    "trendLower": "下方回调",
+    "boxUpper": "上限阈值",
+    "boxLower": "下限阈值",
+    "boxTouch": "箱体触碰 %"
+  },
+  "placeholder": {
+    "name": "请输入策略名称",
+    "floatOrNull": "输入数值"
+  },
+  "action": {
+    "create": "创建策略",
+    "update": "保存更改",
+    "close": "关闭",
+    "deleteSelected": "删除选中 ({count})"
+  },
+  "list": {
+    "title": "策略列表",
+    "empty": "暂无策略。"
+  },
+  "table": {
+    "updatedAt": "更新时间",
+    "name": "名称",
+    "kind": "类型",
+    "detail": "详细设置"
+  }
+}

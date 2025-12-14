@@ -1,28 +1,34 @@
 {
   "header": {
-    "title": "이벤트"
+    "title": "진행 중인 이벤트",
+    "subtitle": "GlobX의 특별한 혜택과 이벤트를 놓치지 마세요."
   },
   "actions": {
     "refresh": "새로고침",
     "home": "홈으로"
   },
-  "messages": {
-    "errorPrefix": "오류:",
-    "loadingList": "목록을 불러오는 중…",
-    "emptyList": "표시할 이벤트가 없습니다."
-  },
   "table": {
-    "colTitle": "제목",
+    "colTitle": "이벤트",
     "colPeriod": "기간",
     "colPublishedAt": "게시일"
   },
+  "status": {
+    "ongoing": "진행중",
+    "upcoming": "예정",
+    "ended": "종료"
+  },
+  "messages": {
+    "loadingList": "목록을 불러오는 중...",
+    "errorPrefix": "오류 발생:",
+    "emptyList": "현재 진행 중인 이벤트가 없습니다."
+  },
   "detail": {
     "title": "이벤트 상세",
-    "close": "닫기",
-    "loading": "상세 내용을 불러오는 중…",
-    "periodLabel": "기간",
+    "periodLabel": "이벤트 기간",
     "publishedLabel": "게시일",
-    "placeholder": "이벤트를 선택하면 상세 내용이 표시됩니다.",
-    "ctaButton": "자세히 보기"
+    "close": "닫기",
+    "loading": "상세 내용을 불러오는 중...",
+    "placeholder": "내용을 찾을 수 없습니다.",
+    "ctaButton": "이벤트 바로가기"
   }
 }

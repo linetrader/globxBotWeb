@@ -1,4 +1,3 @@
-// src/app/(site)/bot-config/view/BotConfigForm.tsx
 "use client";
 
 import { useToast } from "@/components/ui";
@@ -16,8 +15,17 @@ import {
 } from "../types";
 import BotList from "@/app/[locale]/(site)/shared/view/BotList";
 import { useBotStatusWatcher } from "@/app/[locale]/(site)/shared/hooks/useBotStatusWatcher";
+import { useTranslations } from "next-intl";
+import {
+  CpuChipIcon,
+  Square3Stack3DIcon,
+  TrashIcon,
+  PlusIcon,
+  ServerStackIcon,
+} from "@heroicons/react/24/outline";
 
 export default function BotConfigForm() {
+  const t = useTranslations("bot-config");
   const { toast } = useToast();
 
   // 폼 훅
@@ -46,16 +54,15 @@ export default function BotConfigForm() {
     deleteBot,
     deletingId,
 
-    getBotById, // ★ 단건 조회
+    getBotById,
   } = useBots();
 
-  // 시작/정지 후 상태 전환까지 대기(단건 조회 우선)
   const watcher = useBotStatusWatcher({
     startBot,
     stopBot,
     loadBots,
     getBotsSnapshot: () => bots,
-    getBotById, // ★ 중요
+    getBotById,
   });
 
   const selectedBot: BotRow | undefined = bots.find(
@@ -66,7 +73,11 @@ export default function BotConfigForm() {
   async function onSubmit() {
     const v = form.validate();
     if (!v.ok) {
-      toast({ title: "유효성 오류", description: v.message, variant: "error" });
+      toast({
+        title: t("toast.validationError"),
+        description: v.message,
+        variant: "error",
+      });
       return;
     }
     const payload = form.composePayload();
@@ -77,12 +88,15 @@ export default function BotConfigForm() {
         payload
       );
       if (res.ok) {
-        toast({ title: "저장 완료", description: "봇 구성이 저장되었습니다." });
+        toast({
+          title: t("toast.saveSuccess"),
+          description: t("toast.saveSuccessDesc"),
+        });
         form.setSubmit({ submitting: false, success: true });
         await loadBots();
       } else {
         toast({
-          title: "저장 실패",
+          title: t("toast.saveFail"),
           description: `${res.error}${
             typeof (res as { code?: unknown }).code === "string"
               ? ` (${(res as { code?: string }).code})`
@@ -97,8 +111,8 @@ export default function BotConfigForm() {
       }
     } catch {
       toast({
-        title: "네트워크 오류",
-        description: "저장 중 오류가 발생했습니다.",
+        title: t("toast.networkError"),
+        description: t("toast.networkErrorDesc"),
         variant: "error",
       });
       form.setSubmit({ submitting: false, error: "network" });
@@ -107,60 +121,99 @@ export default function BotConfigForm() {
 
   const onDeleteSelected = async (): Promise<void> => {
     if (!selectedBotId) return;
-    const ok = window.confirm(
-      "선택한 봇을 삭제할까요? 이 동작은 되돌릴 수 없습니다."
-    );
+    const ok = window.confirm(t("confirm.delete"));
     if (!ok) return;
     const res = await deleteBot(selectedBotId);
     if (res.ok) {
       if (selectedBotId) setSelectedBotId(null);
-      toast({ title: "삭제 완료", description: "봇이 삭제되었습니다." });
+      toast({
+        title: t("toast.deleteSuccess"),
+        description: t("toast.deleteSuccessDesc"),
+      });
       await loadBots();
     } else {
       toast({
-        title: "삭제 실패",
-        description: res.error ?? "삭제 중 오류가 발생했습니다.",
+        title: t("toast.deleteFail"),
+        description: res.error ?? t("toast.deleteFailDesc"),
         variant: "error",
       });
     }
   };
 
-  return (
-    <div className="max-w-4xl mx-auto">
-      {/* 설정 카드 */}
-      <div className="card bg-base-100 shadow">
-        <div className="card-body">
-          <h2 className="card-title">트레이딩 봇 설정</h2>
+  // [수정] 공통 스타일: 라이트/다크 분기
+  const inputClass =
+    "input input-bordered w-full transition-colors " +
+    "bg-white border-gray-300 text-gray-900 focus:border-[#06b6d4] focus:outline-none " +
+    "[:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:border-gray-700 [:root[data-theme=dark]_&]:text-gray-100";
 
+  const selectClass =
+    "select select-bordered w-full transition-colors " +
+    "bg-white border-gray-300 text-gray-900 focus:border-[#06b6d4] focus:outline-none " +
+    "[:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:border-gray-700 [:root[data-theme=dark]_&]:text-gray-100";
+
+  const labelClass =
+    "label-text font-medium text-gray-600 [:root[data-theme=dark]_&]:text-gray-400";
+
+  const cardBaseClass =
+    "rounded-2xl shadow-xl overflow-hidden border transition-colors " +
+    "bg-white border-gray-200 " +
+    "[:root[data-theme=dark]_&]:bg-[#131B2D] [:root[data-theme=dark]_&]:border-gray-800";
+
+  const headerBaseClass =
+    "p-6 border-b flex items-center gap-3 " +
+    "bg-gray-50 border-gray-200 " +
+    "[:root[data-theme=dark]_&]:bg-[#0B1222]/50 [:root[data-theme=dark]_&]:border-gray-800";
+
+  return (
+    <div className="max-w-6xl mx-auto pb-20 space-y-8">
+      {/* 1. 설정 폼 영역 */}
+      <div className={cardBaseClass}>
+        {/* 헤더 */}
+        <div className={headerBaseClass}>
+          <div className="p-2 bg-[#06b6d4]/10 rounded-lg">
+            <CpuChipIcon className="h-6 w-6 text-[#06b6d4]" />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-gray-900 [:root[data-theme=dark]_&]:text-white">
+              {t("form.title")}
+            </h2>
+            <p className="text-sm text-gray-500 [:root[data-theme=dark]_&]:text-gray-400">
+              {t("form.subtitle")}
+            </p>
+          </div>
+        </div>
+
+        <div className="p-6 space-y-6">
           {marketsError ? (
-            <div className="alert alert-error">메타 로드 실패</div>
+            <div className="alert alert-error mb-4">
+              <span>{t("error.metaLoadFail")}</span>
+            </div>
           ) : null}
 
-          {/* 공통 필드 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* 기본 설정 (이름, 심볼, 전략) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="form-control">
               <label className="label">
-                <span className="label-text">봇 이름</span>
+                <span className={labelClass}>{t("field.botName")}</span>
               </label>
               <input
-                className="input input-bordered"
+                className={inputClass}
                 value={form.name}
                 onChange={(e) => form.setName(e.target.value)}
-                placeholder="name"
+                placeholder={t("placeholder.botName")}
               />
             </div>
 
-            {/* ▼ 변경: 심볼 입력 → 셀렉트 */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text">심볼</span>
+                <span className={labelClass}>{t("field.symbol")}</span>
               </label>
               <select
-                className="select select-bordered"
+                className={selectClass}
                 value={form.symbol}
                 onChange={(e) => form.setSymbol(e.target.value)}
               >
-                <option value="">심볼 선택</option>
+                <option value="">{t("placeholder.selectSymbol")}</option>
                 <option value="BTCUSDT">BTCUSDT</option>
                 <option value="ETHUSDT">ETHUSDT</option>
                 <option value="XRPUSDT">XRPUSDT</option>
@@ -173,15 +226,15 @@ export default function BotConfigForm() {
 
             <div className="form-control">
               <label className="label">
-                <span className="label-text">전략</span>
+                <span className={labelClass}>{t("field.strategy")}</span>
               </label>
               <select
-                className="select select-bordered"
+                className={selectClass}
                 value={form.strategyConfigId}
                 onChange={(e) => form.setStrategyConfigId(e.target.value)}
                 disabled={loadingStrategies}
               >
-                <option value="">전략 선택</option>
+                <option value="">{t("placeholder.selectStrategy")}</option>
                 {strategies.map((s) => (
                   <option key={s.id} value={s.id}>
                     {s.name}
@@ -191,30 +244,49 @@ export default function BotConfigForm() {
             </div>
           </div>
 
-          {/* 모드 탭 */}
-          <div role="tablist" className="tabs tabs-bordered mt-4">
-            <input
-              type="radio"
-              role="tab"
-              className="tab"
-              name="bot-mode"
-              aria-label="SINGLE"
-              checked={form.mode === BotMode.SINGLE}
-              onChange={form.setModeSingle}
-            />
-            <div role="tabpanel" className="tab-content p-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="divider border-gray-200 [:root[data-theme=dark]_&]:border-gray-800" />
+
+          {/* 모드 선택 탭 */}
+          <div className="flex flex-col gap-4">
+            <div className="flex p-1 rounded-lg w-fit border transition-colors bg-gray-100 border-gray-200 [:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:border-gray-800">
+              <button
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                  form.mode === BotMode.SINGLE
+                    ? "bg-[#06b6d4] text-white shadow-lg"
+                    : "text-gray-500 hover:text-gray-900 [:root[data-theme=dark]_&]:text-gray-400 [:root[data-theme=dark]_&]:hover:text-white"
+                }`}
+                onClick={form.setModeSingle}
+              >
+                {t("mode.single")}
+              </button>
+              <button
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                  form.mode === BotMode.MULTI
+                    ? "bg-[#06b6d4] text-white shadow-lg"
+                    : "text-gray-500 hover:text-gray-900 [:root[data-theme=dark]_&]:text-gray-400 [:root[data-theme=dark]_&]:hover:text-white"
+                }`}
+                onClick={form.setModeMulti}
+              >
+                {t("mode.multi")}
+              </button>
+            </div>
+
+            {/* SINGLE 모드 내용 */}
+            {form.mode === BotMode.SINGLE && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in slide-in-from-top-2 duration-300">
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text">거래소-마켓</span>
+                    <span className={labelClass}>
+                      {t("field.exchangeMarket")}
+                    </span>
                   </label>
                   <select
-                    className="select select-bordered"
+                    className={selectClass}
                     value={form.exchangeMarketId}
                     onChange={(e) => form.setExchangeMarketId(e.target.value)}
                     disabled={loadingMarkets}
                   >
-                    <option value="">선택</option>
+                    <option value="">{t("placeholder.select")}</option>
                     {markets.map((m) => (
                       <option key={m.id} value={m.id}>
                         {m.exchangeName} / {m.marketName} / {m.symbol}
@@ -225,10 +297,10 @@ export default function BotConfigForm() {
 
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text">마켓 종류</span>
+                    <span className={labelClass}>{t("field.marketKind")}</span>
                   </label>
                   <select
-                    className="select select-bordered"
+                    className={selectClass}
                     value={form.singleMarketKind}
                     onChange={(e) =>
                       form.setSingleMarketKind(e.target.value as MarketKind)
@@ -239,295 +311,217 @@ export default function BotConfigForm() {
                   </select>
                 </div>
               </div>
-            </div>
+            )}
 
-            <input
-              type="radio"
-              role="tab"
-              className="tab"
-              name="bot-mode"
-              aria-label="MULTI"
-              checked={form.mode === BotMode.MULTI}
-              onChange={form.setModeMulti}
-            />
-            <div role="tabpanel" className="tab-content p-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* 그룹 A */}
-                <div className="card bg-base-200">
-                  <div className="card-body">
-                    <h3 className="card-title">그룹 A</h3>
-                    <button
-                      className="btn btn-sm btn-primary"
-                      onClick={() => form.addExchangeToGroup(GroupKey.A)}
-                    >
-                      거래소 추가
-                    </button>
-                    <div className="mt-3 space-y-3">
-                      {form.groupA.exchanges.map((row, idx) => {
-                        const selectedExName =
-                          form.groupAExchangeNames[idx] ?? "";
+            {/* MULTI 모드 내용 */}
+            {form.mode === BotMode.MULTI && (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-in fade-in slide-in-from-top-2 duration-300">
+                {[
+                  {
+                    key: GroupKey.A,
+                    title: t("group.a"),
+                    list: form.groupA.exchanges,
+                    names: form.groupAExchangeNames,
+                  },
+                  {
+                    key: GroupKey.B,
+                    title: t("group.b"),
+                    list: form.groupB.exchanges,
+                    names: form.groupBExchangeNames,
+                  },
+                ].map((group) => (
+                  <div
+                    key={group.key}
+                    className="border rounded-xl p-5 transition-colors bg-gray-50 border-gray-200 [:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:border-gray-800"
+                  >
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="font-bold flex items-center gap-2 text-gray-800 [:root[data-theme=dark]_&]:text-gray-200">
+                        <Square3Stack3DIcon className="h-5 w-5 text-[#06b6d4]" />
+                        {group.title}
+                      </h3>
+                      <button
+                        className="btn btn-xs btn-outline border-gray-300 text-gray-500 hover:border-[#06b6d4] hover:text-[#06b6d4] [:root[data-theme=dark]_&]:border-gray-600 [:root[data-theme=dark]_&]:text-gray-400"
+                        onClick={() => form.addExchangeToGroup(group.key)}
+                      >
+                        <PlusIcon className="h-3 w-3 mr-1" />
+                        {t("action.addExchange")}
+                      </button>
+                    </div>
+
+                    <div className="space-y-4">
+                      {group.list.length === 0 && (
+                        <div className="text-center py-8 text-sm border border-dashed rounded-lg text-gray-500 border-gray-300 [:root[data-theme=dark]_&]:text-gray-600 [:root[data-theme=dark]_&]:border-gray-800">
+                          {t("message.noExchanges")}
+                        </div>
+                      )}
+
+                      {group.list.map((row, idx) => {
+                        const selectedExName = group.names[idx] ?? "";
                         const options = marketsByExchangeName(selectedExName);
                         return (
                           <div
-                            key={`A-${idx}`}
-                            className="p-3 rounded bg-base-100 border"
+                            key={`${group.key}-${idx}`}
+                            className="p-4 rounded-lg border relative group bg-white border-gray-200 [:root[data-theme=dark]_&]:bg-[#131B2D] [:root[data-theme=dark]_&]:border-gray-700"
                           >
-                            <div className="form-control">
-                              <label className="label">
-                                <span className="label-text">거래소</span>
-                              </label>
-                              <select
-                                className="select select-bordered"
-                                value={selectedExName}
-                                onChange={(e) =>
-                                  form.setRowExchangeName(
-                                    GroupKey.A,
-                                    idx,
-                                    e.target.value
-                                  )
-                                }
-                                disabled={loadingMarkets}
-                              >
-                                <option value="">선택</option>
-                                {exchangeNames.map((name) => (
-                                  <option key={name} value={name}>
-                                    {name}
-                                  </option>
-                                ))}
-                              </select>
+                            <div className="grid grid-cols-2 gap-3 mb-3">
+                              <div className="form-control">
+                                <label className="label py-1">
+                                  <span className="label-text text-xs text-gray-500">
+                                    {t("field.exchange")}
+                                  </span>
+                                </label>
+                                <select
+                                  className={`select select-sm select-bordered w-full bg-white border-gray-300 text-gray-900 [:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:border-gray-700 [:root[data-theme=dark]_&]:text-gray-200`}
+                                  value={selectedExName}
+                                  onChange={(e) =>
+                                    form.setRowExchangeName(
+                                      group.key,
+                                      idx,
+                                      e.target.value
+                                    )
+                                  }
+                                  disabled={loadingMarkets}
+                                >
+                                  <option value="">-</option>
+                                  {exchangeNames.map((name) => (
+                                    <option key={name} value={name}>
+                                      {name}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                              <div className="form-control">
+                                <label className="label py-1">
+                                  <span className="label-text text-xs text-gray-500">
+                                    {t("field.market")}
+                                  </span>
+                                </label>
+                                <select
+                                  className={`select select-sm select-bordered w-full bg-white border-gray-300 text-gray-900 [:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:border-gray-700 [:root[data-theme=dark]_&]:text-gray-200`}
+                                  value={row.exchangeMarketId}
+                                  onChange={(e) =>
+                                    form.updateExchangeRow(group.key, idx, {
+                                      exchangeMarketId: e.target.value,
+                                    })
+                                  }
+                                  disabled={
+                                    loadingMarkets ||
+                                    selectedExName.length === 0
+                                  }
+                                >
+                                  <option value="">-</option>
+                                  {options.map((m) => (
+                                    <option key={m.id} value={m.id}>
+                                      {m.symbol}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
                             </div>
 
-                            <div className="form-control mt-2">
-                              <label className="label">
-                                <span className="label-text">마켓</span>
-                              </label>
-                              <select
-                                className="select select-bordered"
-                                value={row.exchangeMarketId}
-                                onChange={(e) =>
-                                  form.updateExchangeRow(GroupKey.A, idx, {
-                                    exchangeMarketId: e.target.value,
-                                  })
-                                }
-                                disabled={
-                                  loadingMarkets || selectedExName.length === 0
-                                }
-                              >
-                                <option value="">선택</option>
-                                {options.map((m) => (
-                                  <option key={m.id} value={m.id}>
-                                    {m.symbol} / {m.marketName}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
+                            <div className="flex items-center gap-3">
+                              <div className="form-control flex-1">
+                                <label className="label py-1">
+                                  <span className="label-text text-xs text-gray-500">
+                                    {t("field.allocation")}
+                                  </span>
+                                </label>
+                                <div className="join w-full">
+                                  <input
+                                    type="number"
+                                    className="input input-sm input-bordered join-item w-full bg-white border-gray-300 text-gray-900 [:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:border-gray-700 [:root[data-theme=dark]_&]:text-gray-200"
+                                    value={row.allocationBps}
+                                    min={0}
+                                    max={10000}
+                                    onChange={(e) =>
+                                      form.updateExchangeRow(group.key, idx, {
+                                        allocationBps: Number(e.target.value),
+                                      })
+                                    }
+                                  />
+                                  <span className="btn btn-sm join-item text-xs font-normal pointer-events-none bg-gray-100 border-gray-300 text-gray-500 [:root[data-theme=dark]_&]:bg-gray-800 [:root[data-theme=dark]_&]:border-gray-700 [:root[data-theme=dark]_&]:text-gray-400">
+                                    bps
+                                  </span>
+                                </div>
+                              </div>
 
-                            <div className="form-control mt-2">
-                              <label className="label">
-                                <span className="label-text">
-                                  배분(bps, 10000=100%)
-                                </span>
-                              </label>
-                              <input
-                                type="number"
-                                className="input input-bordered"
-                                value={row.allocationBps}
-                                min={0}
-                                max={10000}
-                                onChange={(e) =>
-                                  form.updateExchangeRow(GroupKey.A, idx, {
-                                    allocationBps: Number(e.target.value),
-                                  })
-                                }
-                              />
-                            </div>
-
-                            <div className="form-control mt-2">
-                              <label className="cursor-pointer label">
-                                <span className="label-text">활성화</span>
+                              <div className="form-control">
+                                <label className="label py-1">
+                                  <span className="label-text text-xs text-gray-500">
+                                    {t("field.enabled")}
+                                  </span>
+                                </label>
                                 <input
                                   type="checkbox"
-                                  className="toggle"
+                                  className="toggle toggle-sm toggle-success"
                                   checked={
                                     typeof row.enabled === "boolean"
                                       ? row.enabled
                                       : true
                                   }
                                   onChange={(e) =>
-                                    form.updateExchangeRow(GroupKey.A, idx, {
+                                    form.updateExchangeRow(group.key, idx, {
                                       enabled: e.target.checked,
                                     })
                                   }
                                 />
-                              </label>
-                            </div>
+                              </div>
 
-                            <div className="mt-2">
-                              <button
-                                className="btn btn-sm btn-error"
-                                onClick={() =>
-                                  form.removeExchangeRow(GroupKey.A, idx)
-                                }
-                              >
-                                삭제
-                              </button>
+                              <div className="form-control pt-7">
+                                <button
+                                  className="btn btn-sm btn-ghost text-error hover:bg-error/10"
+                                  onClick={() =>
+                                    form.removeExchangeRow(group.key, idx)
+                                  }
+                                  aria-label="Remove"
+                                >
+                                  <TrashIcon className="h-4 w-4" />
+                                </button>
+                              </div>
                             </div>
                           </div>
                         );
                       })}
                     </div>
                   </div>
-                </div>
-
-                {/* 그룹 B */}
-                <div className="card bg-base-200">
-                  <div className="card-body">
-                    <h3 className="card-title">그룹 B</h3>
-                    <button
-                      className="btn btn-sm btn-primary"
-                      onClick={() => form.addExchangeToGroup(GroupKey.B)}
-                    >
-                      거래소 추가
-                    </button>
-                    <div className="mt-3 space-y-3">
-                      {form.groupB.exchanges.map((row, idx) => {
-                        const selectedExName =
-                          form.groupBExchangeNames[idx] ?? "";
-                        const options = marketsByExchangeName(selectedExName);
-                        return (
-                          <div
-                            key={`B-${idx}`}
-                            className="p-3 rounded bg-base-100 border"
-                          >
-                            <div className="form-control">
-                              <label className="label">
-                                <span className="label-text">거래소</span>
-                              </label>
-                              <select
-                                className="select select-bordered"
-                                value={selectedExName}
-                                onChange={(e) =>
-                                  form.setRowExchangeName(
-                                    GroupKey.B,
-                                    idx,
-                                    e.target.value
-                                  )
-                                }
-                                disabled={loadingMarkets}
-                              >
-                                <option value="">선택</option>
-                                {exchangeNames.map((name) => (
-                                  <option key={name} value={name}>
-                                    {name}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-
-                            <div className="form-control mt-2">
-                              <label className="label">
-                                <span className="label-text">마켓</span>
-                              </label>
-                              <select
-                                className="select select-bordered"
-                                value={row.exchangeMarketId}
-                                onChange={(e) =>
-                                  form.updateExchangeRow(GroupKey.B, idx, {
-                                    exchangeMarketId: e.target.value,
-                                  })
-                                }
-                                disabled={
-                                  loadingMarkets || selectedExName.length === 0
-                                }
-                              >
-                                <option value="">선택</option>
-                                {options.map((m) => (
-                                  <option key={m.id} value={m.id}>
-                                    {m.symbol} / {m.marketName}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-
-                            <div className="form-control mt-2">
-                              <label className="label">
-                                <span className="label-text">
-                                  배분(bps, 10000=100%)
-                                </span>
-                              </label>
-                              <input
-                                type="number"
-                                className="input input-bordered"
-                                value={row.allocationBps}
-                                min={0}
-                                max={10000}
-                                onChange={(e) =>
-                                  form.updateExchangeRow(GroupKey.B, idx, {
-                                    allocationBps: Number(e.target.value),
-                                  })
-                                }
-                              />
-                            </div>
-
-                            <div className="form-control mt-2">
-                              <label className="cursor-pointer label">
-                                <span className="label-text">활성화</span>
-                                <input
-                                  type="checkbox"
-                                  className="toggle"
-                                  checked={
-                                    typeof row.enabled === "boolean"
-                                      ? row.enabled
-                                      : true
-                                  }
-                                  onChange={(e) =>
-                                    form.updateExchangeRow(GroupKey.B, idx, {
-                                      enabled: e.target.checked,
-                                    })
-                                  }
-                                />
-                              </label>
-                            </div>
-
-                            <div className="mt-2">
-                              <button
-                                className="btn btn-sm btn-error"
-                                onClick={() =>
-                                  form.removeExchangeRow(GroupKey.B, idx)
-                                }
-                              >
-                                삭제
-                              </button>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
+                ))}
               </div>
-            </div>
+            )}
           </div>
+        </div>
 
-          {/* 액션 */}
-          <div className="card-actions justify-end mt-6">
-            <button
-              className="btn btn-primary"
-              onClick={onSubmit}
-              disabled={
-                form.submit.submitting || loadingMarkets || loadingStrategies
-              }
-            >
-              {form.submit.submitting ? "저장중..." : "저장"}
-            </button>
-          </div>
+        {/* 하단 액션 버튼 */}
+        <div className="p-6 border-t flex justify-end bg-gray-50 border-gray-200 [:root[data-theme=dark]_&]:bg-[#0B1222]/50 [:root[data-theme=dark]_&]:border-gray-800">
+          <button
+            className="btn btn-primary bg-[#06b6d4] hover:bg-[#0891b2] border-none text-white font-bold px-8 shadow-lg shadow-cyan-500/20 [:root[data-theme=dark]_&]:shadow-cyan-900/20"
+            onClick={onSubmit}
+            disabled={
+              form.submit.submitting || loadingMarkets || loadingStrategies
+            }
+          >
+            {form.submit.submitting ? (
+              <>
+                <span className="loading loading-spinner loading-sm"></span>
+                {t("action.saving")}
+              </>
+            ) : (
+              t("action.save")
+            )}
+          </button>
         </div>
       </div>
 
-      {/* 봇 리스트: 단건 상태 기반 활성화 */}
-      <div className="mt-8">
+      {/* 2. 봇 리스트 영역 */}
+      <div>
+        <div className="flex items-center gap-2 mb-4 px-1">
+          <ServerStackIcon className="h-6 w-6 text-[#06b6d4]" />
+          <h3 className="text-xl font-bold text-gray-900 [:root[data-theme=dark]_&]:text-white">
+            {t("list.title")}
+          </h3>
+        </div>
+
         <BotList
-          title="봇 리스트"
+          title="" // 상단에 커스텀 타이틀 사용
           bots={bots}
           loading={loadingBots}
           error={botsError}
@@ -539,44 +533,40 @@ export default function BotConfigForm() {
           onStartSelected={async () => {
             if (!selectedBot) return;
             const r = await watcher.startAndWait(selectedBot.id);
-            if (!r.ok) {
+            if (!r.ok)
               toast({
-                title: "시작 실패",
+                title: t("toast.startFail"),
                 description: r.reason,
                 variant: "error",
               });
-            }
           }}
           onStopSelected={async () => {
             if (!selectedBot) return;
             const r = await watcher.stopAndWait(selectedBot.id);
-            if (!r.ok) {
+            if (!r.ok)
               toast({
-                title: "정지 실패",
+                title: t("toast.stopFail"),
                 description: r.reason,
                 variant: "error",
               });
-            }
           }}
           onStartBot={async (id: string) => {
             const r = await watcher.startAndWait(id);
-            if (!r.ok) {
+            if (!r.ok)
               toast({
-                title: "시작 실패",
+                title: t("toast.startFail"),
                 description: r.reason,
                 variant: "error",
               });
-            }
           }}
           onStopBot={async (id: string) => {
             const r = await watcher.stopAndWait(id);
-            if (!r.ok) {
+            if (!r.ok)
               toast({
-                title: "정지 실패",
+                title: t("toast.stopFail"),
                 description: r.reason,
                 variant: "error",
               });
-            }
           }}
           onSelect={(id: string | null) => setSelectedBotId(id)}
           onReload={async () => {
@@ -584,11 +574,13 @@ export default function BotConfigForm() {
           }}
           onDeleteSelected={onDeleteSelected}
         />
-      </div>
 
-      {!loadingBots && !hasBots ? (
-        <div className="text-sm opacity-70 mt-2">등록된 봇이 없습니다.</div>
-      ) : null}
+        {!loadingBots && !hasBots && (
+          <div className="text-center py-12 text-gray-500 border border-dashed rounded-xl mt-4 border-gray-300 [:root[data-theme=dark]_&]:border-gray-800 [:root[data-theme=dark]_&]:text-gray-500">
+            {t("list.empty")}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

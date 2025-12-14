@@ -1,25 +1,28 @@
 {
   "header": {
-    "title": "公告"
+    "title": "公告",
+    "subtitle": "查看 GlobX 的最新新闻和更新。"
   },
   "actions": {
     "refresh": "刷新",
-    "home": "首页"
+    "home": "首页",
+    "searchPlaceholder": "搜索公告..."
   },
-  "table": {
-    "colTitle": "标题",
-    "colPublishedAt": "发布日期"
+  "list": {
+    "title": "公告列表",
+    "totalPosts": "共 {count} 篇帖子"
   },
   "messages": {
-    "loadingList": "加载中…",
-    "emptyList": "尚未发布任何公告。",
-    "errorPrefix": "错误:"
+    "loadingList": "加载中...",
+    "errorPrefix": "错误：",
+    "emptyList": "暂无公告。",
+    "contentNotAvailable": "无法显示内容。"
   },
   "detail": {
-    "title": "查看公告",
+    "title": "详情",
+    "publishedLabel": "发布日期",
     "close": "关闭",
-    "loading": "加载中…",
-    "publishedLabel": "发布",
-    "placeholder": "从列表中选择公告后将显示在此处。"
+    "loading": "正在加载内容...",
+    "placeholder": "请从列表中选择一项以查看详情。"
   }
 }

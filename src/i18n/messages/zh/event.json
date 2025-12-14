@@ -1,28 +1,34 @@
 {
   "header": {
-    "title": "活动"
+    "title": "活动",
+    "subtitle": "不要错过 GlobX 的特别优惠和活动。"
   },
   "actions": {
     "refresh": "刷新",
     "home": "首页"
   },
-  "messages": {
-    "errorPrefix": "错误：",
-    "loadingList": "正在加载活动列表…",
-    "emptyList": "暂无可显示的活动。"
-  },
   "table": {
-    "colTitle": "标题",
-    "colPeriod": "活动时间",
+    "colTitle": "活动",
+    "colPeriod": "期间",
     "colPublishedAt": "发布日期"
   },
+  "status": {
+    "ongoing": "进行中",
+    "upcoming": "即将开始",
+    "ended": "已结束"
+  },
+  "messages": {
+    "loadingList": "加载中...",
+    "errorPrefix": "错误：",
+    "emptyList": "暂无活动。"
+  },
   "detail": {
-    "title": "活动详情",
-    "close": "关闭",
-    "loading": "正在加载详情…",
-    "periodLabel": "活动时间",
+    "title": "详情",
+    "periodLabel": "活动期间",
     "publishedLabel": "发布日期",
-    "placeholder": "选择一个活动以查看详情。",
-    "ctaButton": "了解更多"
+    "close": "关闭",
+    "loading": "正在加载详情...",
+    "placeholder": "未找到内容。",
+    "ctaButton": "前往活动"
   }
 }

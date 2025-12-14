@@ -1,40 +1,45 @@
 {
-  "title": "Case Studies",
-  "subtitle": "Sample scenarios by user type.",
-  "actions": { "home": "Home", "readMore": "Read more (sample)" },
+  "title": "Success Cases",
+  "subtitle": "Check out the actual performance achieved with GlobX strategies.",
+  "actions": {
+    "home": "Home",
+    "readMore": "Read More"
+  },
   "filters": {
-    "title": "Filters",
-    "hint": "In production, you can expand to tags/time ranges/plans and more."
+    "title": "Categories",
+    "hint": "Select a tag to filter results."
   },
   "tags": {
     "all": "All",
-    "pro": "Pro/Busy",
+    "pro": "Pro",
     "beginner": "Beginner",
     "longterm": "Long-term"
   },
-  "badge": { "sample": "SAMPLE" },
-  "statLabel": "Key metric",
+  "badge": {
+    "sample": "Verified"
+  },
+  "statLabel": "Key Performance",
+  "footer": {
+    "notice": "※ Past performance does not guarantee future results. All investment decisions are your own responsibility."
+  },
   "items": {
     "case1": {
-      "tag": "Pro/Busy",
-      "title": "Busy professionals: automated monitoring",
-      "desc": "Reduced operational burden with automated monitoring and execution.",
-      "stat": "Avg monthly performance 12.4% (sample)"
+      "title": "High-Frequency Volatility Breakout",
+      "desc": "A high-frequency trading strategy that secures profits in short periods during high volatility.",
+      "stat": "Monthly Return +15.4%",
+      "tag": "Pro"
     },
     "case2": {
-      "tag": "Beginner",
-      "title": "Beginners: start with minimal setup",
-      "desc": "A scenario that lowers the barrier with presets and minimal configuration.",
-      "stat": "3-month cumulative 18.7% (sample)"
+      "title": "Stable Low-Risk Bot Setup",
+      "desc": "A setup designed to minimize MDD and protect assets while maintaining steady growth.",
+      "stat": "MDD -2.1%",
+      "tag": "Beginner"
     },
     "case3": {
-      "tag": "Long-term",
-      "title": "Long-term: risk management first",
-      "desc": "Focused on volatility and risk control rather than maximizing returns.",
-      "stat": "Max drawdown -6.2% (sample)"
+      "title": "Mid-to-Long Term Trend Following",
+      "desc": "A strategy that maximizes profit by holding positions longer during strong market trends.",
+      "stat": "Cumulative Return +120%",
+      "tag": "Long-term"
     }
-  },
-  "footer": {
-    "notice": "This is a UI sample. The numbers are placeholder text."
   }
 }

@@ -1,46 +1,61 @@
 {
-  "title": "Help Center",
-  "subtitle": "Find FAQs and how to contact support.",
-  "actions": {
-    "home": "Home",
-    "createTicket": "Create ticket (sample)",
-    "viewMyTickets": "My tickets (sample)"
-  },
-  "notice": {
-    "sampleOnly": "This page is a UI sample. Real ticket storage/retrieval requires API integration."
-  },
-  "quick": {
-    "title": "Quick guide",
-    "tabs": { "qna": "Q&A (public)", "oneToOne": "1:1 (private)" },
-    "qna": {
-      "desc": "Public Q&A is visible to everyone and helps users find answers quickly.",
-      "badge": { "public": "Public", "searchable": "Searchable" }
-    },
-    "oneToOne": {
-      "desc": "1:1 inquiries are private and visible only to you and admins.",
-      "badge": { "private": "Private", "secure": "Secure" }
-    }
+  "header": {
+    "title": "How can we help you?",
+    "subtitle": "Find the information you need at the GlobX Customer Center.",
+    "searchPlaceholder": "Search...",
+    "searchButton": "Search"
   },
   "faq": {
-    "title": "FAQ",
-    "subtitle": "Most common questions.",
-    "openHint": "Open",
-    "q1": "Are API keys safe?",
-    "a1": "It’s recommended to grant trading permissions only (no withdrawals). Key handling depends on your operational policy.",
-    "q2": "Can I use it on mobile?",
-    "a2": "With responsive design, the same features work on PC/tablet/mobile.",
-    "q3": "How long does a reply take?",
-    "a3": "It depends on business hours and ticket volume. If you have an SLA, publish it on a policy page.",
-    "q4": "Where can I see announcements?",
-    "a4": "Check the Announcements menu for the latest updates.",
-    "q5": "Where do I ask about billing/refunds?",
-    "a5": "Submit a 1:1 inquiry with your payment details for faster handling."
+    "title": "Frequently Asked Questions",
+    "subtitle": "Here are the most frequently asked questions."
+  },
+  "categories": {
+    "program": "GlobX AI Program Related",
+    "account": "Exchange Account Related",
+    "trading": "Position & Trading Related",
+    "funds": "Funds & Settings Related",
+    "data": "Data Sharing Related"
+  },
+  "qna": {
+    "program_q1": "Where should I start when using it for the first time?",
+    "program_a1": "Please refer to the 'Getting Started' guide in the manual. You need to link your API key first.",
+    "program_q2": "The design looks strange or images are not displayed.",
+    "program_a2": "Please check your internet connection and try restarting the program.",
+    "program_q3": "An error occurred in the log window while running.",
+    "program_a3": "Please capture the error code and contact support.",
+    "program_q4": "My account balance shows 0 after running the program.",
+    "program_a4": "It may take some time to synchronize with the exchange. Please click the refresh button.",
+
+    "account_q1": "I want to create a GlobX-exclusive account, but I already have one.",
+    "account_a1": "You can create a sub-account or use your existing one if API permissions are set correctly.",
+    "account_q2": "KYC verification is not working.",
+    "account_a2": "Please ensure your ID photos are clear and try again in a well-lit environment.",
+
+    "trading_q1": "I entered 1 or 2 positions, but the 3rd order is not executing.",
+    "trading_a1": "This might be due to margin limits or strategy settings. Please check your max position settings.",
+    "trading_q2": "Is it okay to stop and restart the program while holding positions?",
+    "trading_a2": "Yes, the program will recognize existing positions upon restart.",
+    "trading_q3": "The program doesn't start because entry count is below 6-7.",
+    "trading_a3": "The strategy requires a minimum historical data set to calculate indicators.",
+    "trading_q4": "Will new positions be entered if I turn it off and on with existing positions?",
+    "trading_a4": "It depends on your 'Allow New Entry' setting in the config.",
+
+    "funds_q1": "What is the minimum USDT required to run the program?",
+    "funds_a1": "We recommend a minimum of 500 USDT for stable operation.",
+    "funds_q2": "What is the maximum drawdown?",
+    "funds_a2": "It depends on the market volatility and your leverage settings.",
+    "funds_q3": "What is Fibonacci error?",
+    "funds_a3": "This refers to the calculation deviation in retracement levels.",
+
+    "data_q1": "When does the data sharing count reset?",
+    "data_a1": "It resets every day at 00:00 UTC."
   },
   "contact": {
-    "title": "Contact",
-    "subtitle": "Reach us via the channels below (sample).",
-    "email": { "label": "Email", "value": "support@example.com" },
-    "hours": { "label": "Hours", "value": "Weekdays 10:00–18:00 (KST)" },
-    "linkToAnnouncements": "Go to announcements"
+    "title": "Can't find what you're looking for?",
+    "description": "Please contact us directly via the info below.",
+    "emailLabel": "Email:",
+    "phoneLabel": "Phone:",
+    "hoursLabel": "Hours:",
+    "hoursValue": "Weekdays 10:00 - 18:00"
   }
 }

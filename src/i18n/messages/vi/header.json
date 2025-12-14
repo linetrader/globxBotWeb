@@ -1,8 +1,8 @@
 {
   "public": {
-    "about": "Giới thiệu dự án",
+    "about": "Giới thiệu",
     "announcements": "Thông báo",
-    "cases": "Câu chuyện thành công",
+    "cases": "Thành quả",
     "events": "Sự kiện",
     "help": "Trung tâm hỗ trợ"
   },
@@ -11,7 +11,8 @@
     "strategyConfig": "Cấu hình chiến lược",
     "dashboard": "Bảng điều khiển",
     "history": "Lịch sử",
-    "myConfig": "Cấu hình cá nhân",
+    "myConfig": "Cài đặt cá nhân",
+    "apiConfig": "Cấu hình API",
     "botList": "Danh sách Bot"
   },
   "auth": {
@@ -25,7 +26,8 @@
     "home": "Về trang chủ",
     "myAccount": "Tài khoản của tôi",
     "menu": "Menu chính",
-    "settings": "Cài đặt"
+    "settings": "Cài đặt",
+    "footerNav": "Điều hướng chân trang"
   },
   "status": {
     "startFailed": "Khởi động thất bại",

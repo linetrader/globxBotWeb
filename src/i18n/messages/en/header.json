@@ -12,20 +12,22 @@
     "dashboard": "Dashboard",
     "history": "History",
     "myConfig": "My Config",
+    "apiConfig": "API Config",
     "botList": "Bot List"
   },
   "auth": {
     "signup": "Sign Up",
-    "login": "Log In",
-    "logout": "Log Out",
+    "login": "Login",
+    "logout": "Logout",
     "admin": "Admin",
-    "pleaseLogin": "Please log in."
+    "pleaseLogin": "Please login first."
   },
   "aria": {
     "home": "Go to Home",
     "myAccount": "My Account",
     "menu": "Main Menu",
-    "settings": "Settings"
+    "settings": "Settings",
+    "footerNav": "Footer Navigation"
   },
   "status": {
     "startFailed": "Start Failed",

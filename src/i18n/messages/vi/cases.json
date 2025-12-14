@@ -1,38 +1,45 @@
 {
-  "title": "Case thành công",
-  "subtitle": "Các kịch bản mẫu theo nhóm người dùng.",
-  "actions": { "home": "Trang chủ", "readMore": "Xem thêm (mẫu)" },
+  "title": "Các trường hợp thành công",
+  "subtitle": "Kiểm tra hiệu suất thực tế đạt được với các chiến lược GlobX.",
+  "actions": {
+    "home": "Trang chủ",
+    "readMore": "Xem thêm"
+  },
   "filters": {
-    "title": "Bộ lọc",
-    "hint": "Bản thật có thể mở rộng theo tag/khoảng thời gian/gói dịch vụ."
+    "title": "Danh mục",
+    "hint": "Chọn thẻ để lọc kết quả."
   },
   "tags": {
     "all": "Tất cả",
-    "pro": "Bận rộn/Pro",
-    "beginner": "Mới bắt đầu",
+    "pro": "Chuyên nghiệp",
+    "beginner": "Người mới",
     "longterm": "Dài hạn"
   },
-  "badge": { "sample": "SAMPLE" },
-  "statLabel": "Chỉ số chính",
+  "badge": {
+    "sample": "Đã xác minh"
+  },
+  "statLabel": "Hiệu suất chính",
+  "footer": {
+    "notice": "※ Hiệu suất trong quá khứ không đảm bảo lợi nhuận trong tương lai. Mọi quyết định đầu tư là trách nhiệm của riêng bạn."
+  },
   "items": {
     "case1": {
-      "tag": "Bận rộn/Pro",
-      "title": "Người bận rộn: tự động giám sát",
-      "desc": "Giảm gánh nặng vận hành bằng giám sát và thực thi tự động.",
-      "stat": "TB tháng 12.4% (mẫu)"
+      "title": "Chiến lược Đột phá Biến động Cao tần",
+      "desc": "Chiến lược giao dịch tần suất cao chốt lời trong thời gian ngắn khi thị trường biến động mạnh.",
+      "stat": "Lợi nhuận tháng +15.4%",
+      "tag": "Chuyên nghiệp"
     },
     "case2": {
-      "tag": "Mới bắt đầu",
-      "title": "Người mới: bắt đầu với cấu hình tối thiểu",
-      "desc": "Kịch bản dùng preset để giảm rào cản khởi đầu.",
-      "stat": "Cộng dồn 3 tháng 18.7% (mẫu)"
+      "title": "Cài đặt Bot Ổn định Rủi ro Thấp",
+      "desc": "Cài đặt giúp giảm thiểu MDD, bảo vệ tài sản trong thị trường giảm và tăng trưởng đều đặn.",
+      "stat": "MDD -2.1%",
+      "tag": "Người mới"
     },
     "case3": {
-      "tag": "Dài hạn",
-      "title": "Dài hạn: ưu tiên quản trị rủi ro",
-      "desc": "Tập trung vào kiểm soát biến động và rủi ro hơn là tối đa lợi nhuận.",
-      "stat": "Max drawdown -6.2% (mẫu)"
+      "title": "Giao dịch Theo xu hướng Trung & Dài hạn",
+      "desc": "Chiến lược tối đa hóa lợi nhuận bằng cách giữ vị thế lâu hơn khi có xu hướng lớn.",
+      "stat": "Lợi nhuận tích lũy +120%",
+      "tag": "Dài hạn"
     }
-  },
-  "footer": { "notice": "Đây là mẫu UI. Các con số chỉ là placeholder." }
+  }
 }

@@ -1,8 +1,9 @@
-// src/app/(site)/history/view/HistoryTable.tsx
 "use client";
 
 import { useMemo, useCallback } from "react";
 import type { HistoryRow } from "../types";
+import { useTranslations } from "next-intl";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
 interface HistoryTableProps {
   loading: boolean;
@@ -15,256 +16,288 @@ interface HistoryTableProps {
   refresh: () => void;
 }
 
-/**
- * 참고: HistoryRow는 /api/(site)/history 응답 형태와 동일해야 한다.
- * (요청대로 entryQty 표시는 제거)
- */
-
 function HistoryTable(props: HistoryTableProps) {
-  const { loading, error, rows, page, pageSize, total, setPage, refresh } =
-    props;
+  const t = useTranslations("history");
+  const { loading, error, rows, page, pageSize, total, setPage } = props;
 
-  const totalPages = useMemo((): number => {
+  const totalPages = useMemo(() => {
     if (pageSize <= 0) return 1;
     const calc = Math.ceil(total / pageSize);
     return calc > 0 ? calc : 1;
   }, [total, pageSize]);
 
-  const goPrev = useCallback((): void => {
+  const goPrev = useCallback(() => {
     if (page > 1) setPage(page - 1);
   }, [page, setPage]);
 
-  const goNext = useCallback((): void => {
+  const goNext = useCallback(() => {
     if (page < totalPages) setPage(page + 1);
   }, [page, totalPages, setPage]);
 
   function formatDate(iso: string | null): string {
     if (!iso) return "-";
-    return iso.replace("T", " ").replace("Z", "");
+    return iso.replace("T", " ").replace("Z", "").slice(0, 16);
   }
 
   function renderProfit(raw: string | null) {
-    if (!raw) return <span className="text-base-content/50">-</span>;
+    if (!raw)
+      return (
+        <span className="text-gray-400 [:root[data-theme=dark]_&]:text-gray-500">
+          -
+        </span>
+      );
     const num = Number(raw);
     if (!Number.isFinite(num))
-      return <span className="text-base-content/50">-</span>;
-    let cls = "text-base-content/70";
-    if (num > 0) cls = "text-green-500 font-semibold";
-    else if (num < 0) cls = "text-red-500 font-semibold";
-    return <span className={cls}>{raw}</span>;
+      return (
+        <span className="text-gray-400 [:root[data-theme=dark]_&]:text-gray-500">
+          -
+        </span>
+      );
+
+    const colorClass =
+      num > 0
+        ? "text-[#06b6d4]"
+        : num < 0
+          ? "text-red-500 [:root[data-theme=dark]_&]:text-red-400"
+          : "text-gray-400";
+    return (
+      <span className={`font-bold ${colorClass}`}>
+        {num > 0 ? `+${raw}` : raw}
+      </span>
+    );
   }
 
-  function renderRoi(raw: string | null | undefined) {
-    if (!raw) return <span className="text-base-content/50">-</span>;
+  function renderRoi(raw: string | null) {
+    if (!raw)
+      return (
+        <span className="text-gray-400 [:root[data-theme=dark]_&]:text-gray-500">
+          -
+        </span>
+      );
     const num = Number(raw);
     if (!Number.isFinite(num))
-      return <span className="text-base-content/50">-</span>;
-    let cls = "text-base-content/70";
-    if (num > 0) cls = "text-green-500 font-semibold";
-    else if (num < 0) cls = "text-red-500 font-semibold";
+      return (
+        <span className="text-gray-400 [:root[data-theme=dark]_&]:text-gray-500">
+          -
+        </span>
+      );
+
+    const colorClass =
+      num > 0
+        ? "text-[#06b6d4]"
+        : num < 0
+          ? "text-red-500 [:root[data-theme=dark]_&]:text-red-400"
+          : "text-gray-400";
     return (
-      <span className={cls}>
-        {raw}
-        <span className="opacity-70">%</span>
+      <span className={`font-bold ${colorClass}`}>
+        {num > 0 ? `+${raw}` : raw}
+        <span className="text-xs opacity-70 ml-0.5">%</span>
       </span>
     );
   }
 
   function renderStatusBadge(status: string) {
-    const badgeClass =
-      status === "OPEN" ? "badge badge-success" : "badge badge-neutral";
-    return <div className={badgeClass}>{status}</div>;
+    const isOpen = status === "OPEN";
+    return (
+      <span
+        className={`px-2 py-0.5 rounded text-[10px] font-bold border ${
+          isOpen
+            ? "bg-green-100 text-green-600 border-green-200 [:root[data-theme=dark]_&]:bg-green-500/10 [:root[data-theme=dark]_&]:text-green-500 [:root[data-theme=dark]_&]:border-green-500/20"
+            : "bg-gray-100 text-gray-500 border-gray-200 [:root[data-theme=dark]_&]:bg-gray-700/50 [:root[data-theme=dark]_&]:text-gray-400 [:root[data-theme=dark]_&]:border-gray-600"
+        }`}
+      >
+        {t(`status.${status.toLowerCase()}`)}
+      </span>
+    );
   }
 
+  // [수정] 테이블 스타일 (라이트/다크 분기)
+  const thClass =
+    "px-4 py-3 text-left text-xs font-medium uppercase tracking-wider border-b transition-colors " +
+    "bg-gray-50 text-gray-500 border-gray-200 " +
+    "[:root[data-theme=dark]_&]:bg-[#0B1222]/50 [:root[data-theme=dark]_&]:text-gray-400 [:root[data-theme=dark]_&]:border-gray-800 " +
+    "first:rounded-tl-lg last:rounded-tr-lg";
+
+  const tdClass =
+    "px-4 py-3 text-sm border-b whitespace-nowrap transition-colors " +
+    "border-gray-100 text-gray-600 " +
+    "[:root[data-theme=dark]_&]:border-gray-800/50 [:root[data-theme=dark]_&]:text-gray-300";
+
   return (
-    <section className="card bg-base-100 shadow-md">
-      <div className="card-body p-4 gap-4">
-        {/* header: count + pagination */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-          <div className="text-sm text-base-content/70">
-            총 {total}개 히스토리
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              className="btn btn-xs"
-              disabled={page <= 1}
-              onClick={goPrev}
-            >
-              «
-            </button>
-            <span className="text-sm">
-              {page}/{totalPages}
-            </span>
-            <button
-              className="btn btn-xs"
-              disabled={page >= totalPages}
-              onClick={goNext}
-            >
-              »
-            </button>
-
-            <button className="btn btn-xs btn-outline" onClick={refresh}>
-              새로고침
-            </button>
-          </div>
+    <section className="rounded-2xl shadow-xl overflow-hidden border transition-colors bg-white border-gray-200 [:root[data-theme=dark]_&]:bg-[#131B2D] [:root[data-theme=dark]_&]:border-gray-800">
+      {/* 헤더: 총계 + 페이지네이션 */}
+      <div className="p-4 border-b flex items-center justify-between transition-colors bg-gray-50 border-gray-200 [:root[data-theme=dark]_&]:bg-[#0B1222]/30 [:root[data-theme=dark]_&]:border-gray-800">
+        <div className="text-sm text-gray-500 [:root[data-theme=dark]_&]:text-gray-400">
+          {t("list.total", { count: total })}
         </div>
 
-        {/* 상태 표시 */}
-        {loading ? (
-          <div className="flex items-center gap-2 text-sm">
-            <span className="loading loading-spinner loading-sm" />
-            <span>로딩 중…</span>
-          </div>
-        ) : null}
+        <div className="flex items-center gap-2">
+          <button
+            className="btn btn-xs btn-square btn-ghost text-gray-500 disabled:opacity-30 [:root[data-theme=dark]_&]:text-gray-400"
+            disabled={page <= 1}
+            onClick={goPrev}
+          >
+            <ChevronLeftIcon className="h-4 w-4" />
+          </button>
+          <span className="text-sm font-mono text-gray-700 [:root[data-theme=dark]_&]:text-gray-300">
+            {page} / {totalPages}
+          </span>
+          <button
+            className="btn btn-xs btn-square btn-ghost text-gray-500 disabled:opacity-30 [:root[data-theme=dark]_&]:text-gray-400"
+            disabled={page >= totalPages}
+            onClick={goNext}
+          >
+            <ChevronRightIcon className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
 
-        {error ? (
-          <div className="alert alert-error text-sm">
-            <span>에러: {error}</span>
-          </div>
-        ) : null}
-
-        {!loading && !error && rows.length === 0 ? (
-          <div className="text-sm text-base-content/70">
-            표시할 거래 내역이 없습니다.
-          </div>
-        ) : null}
-
-        {/* 모바일 카드 뷰 (md:hidden) */}
-        {!loading && !error && rows.length > 0 ? (
-          <div className="grid grid-cols-1 gap-2 md:hidden">
-            {rows.map((row, idx) => {
-              return (
-                <div
-                  key={idx}
-                  className="border border-base-300 rounded-box p-3 flex flex-col gap-2"
-                >
-                  <div className="flex flex-row justify-between items-start">
-                    <div className="text-sm font-semibold">{row.botName}</div>
-                    {renderStatusBadge(row.status)}
-                  </div>
-
-                  <div className="text-[12px] flex flex-wrap gap-x-4 gap-y-1">
-                    <div>
-                      거래소:{" "}
-                      <span className="font-semibold">{row.exchange}</span>
-                    </div>
-                    <div>
-                      심볼: <span className="font-semibold">{row.symbol}</span>
-                    </div>
-                  </div>
-
-                  <div className="text-[12px] flex flex-wrap gap-x-4 gap-y-1">
-                    <div>
-                      방향: <span className="font-semibold">{row.side}</span>
-                    </div>
-                    <div>
-                      레버리지:{" "}
-                      <span className="font-semibold">{row.leverage}</span>
+      {loading ? (
+        <div className="flex justify-center py-20">
+          <span className="loading loading-spinner loading-lg text-[#06b6d4]"></span>
+        </div>
+      ) : error ? (
+        <div className="p-8 text-center m-4 rounded-lg border bg-red-50 border-red-200 text-red-600 [:root[data-theme=dark]_&]:bg-red-900/10 [:root[data-theme=dark]_&]:border-red-900/20 [:root[data-theme=dark]_&]:text-red-400">
+          {error}
+        </div>
+      ) : rows.length === 0 ? (
+        <div className="p-12 text-center text-gray-500">{t("list.empty")}</div>
+      ) : (
+        <>
+          {/* 모바일 뷰 (카드 리스트) */}
+          <div className="md:hidden divide-y divide-gray-100 [:root[data-theme=dark]_&]:divide-gray-800">
+            {rows.map((row, idx) => (
+              <div
+                key={idx}
+                className="p-4 space-y-3 transition-colors bg-white [:root[data-theme=dark]_&]:bg-[#131B2D]"
+              >
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="font-bold text-base text-gray-900 [:root[data-theme=dark]_&]:text-white">
+                      {row.botName}
+                    </h3>
+                    <div className="text-xs mt-0.5 text-gray-500 [:root[data-theme=dark]_&]:text-gray-500">
+                      {row.exchange} • {row.symbol}
                     </div>
                   </div>
+                  {renderStatusBadge(row.status)}
+                </div>
 
-                  <div className="text-[12px] flex flex-col gap-y-1">
-                    <div>
-                      진입USDT:{" "}
-                      <span className="font-semibold">
-                        {row.entryCostUsdt ?? "-"}
-                      </span>
-                    </div>
-                    <div>
-                      진입가격:{" "}
-                      <span className="font-semibold">
-                        {row.entryPrice ?? "-"}
-                      </span>
-                    </div>
+                <div className="grid grid-cols-2 gap-y-2 text-xs">
+                  <div>
+                    <span className="block mb-0.5 text-gray-500">
+                      {t("column.side")}
+                    </span>
+                    <span
+                      className={
+                        row.side === "LONG"
+                          ? "text-green-600 [:root[data-theme=dark]_&]:text-green-400"
+                          : "text-red-600 [:root[data-theme=dark]_&]:text-red-400"
+                      }
+                    >
+                      {row.side} x{row.leverage}
+                    </span>
                   </div>
-
-                  <div className="text-[12px] flex flex-wrap gap-x-4 gap-y-1">
-                    <div>
-                      수익:{" "}
-                      <span className="font-semibold">
-                        {renderProfit(row.profitUsdt)}
-                      </span>
-                    </div>
-                    <div>
-                      ROI:{" "}
-                      <span className="font-semibold">
-                        {renderRoi(row.realizedRoiPct)}
-                      </span>
-                    </div>
+                  <div className="text-right">
+                    <span className="block mb-0.5 text-gray-500">
+                      {t("column.roi")}
+                    </span>
+                    {renderRoi(row.realizedRoiPct)}
                   </div>
-
-                  <div className="text-[11px] text-base-content/60 flex flex-col gap-1">
-                    <div>진입시간: {formatDate(row.openedAt)}</div>
-                    <div>청산시간: {formatDate(row.closedAt)}</div>
+                  <div>
+                    <span className="block mb-0.5 text-gray-500">
+                      {t("column.entryPrice")}
+                    </span>
+                    <span className="text-gray-700 [:root[data-theme=dark]_&]:text-gray-300">
+                      {row.entryPrice || "-"}
+                    </span>
+                  </div>
+                  <div className="text-right">
+                    <span className="block mb-0.5 text-gray-500">
+                      {t("column.profit")}
+                    </span>
+                    {renderProfit(row.profitUsdt)}
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        ) : null}
 
-        {/* 데스크탑 테이블 뷰 (hidden md:block) */}
-        {!loading && !error && rows.length > 0 ? (
-          <div className="overflow-x-auto hidden md:block">
-            <table className="table table-xs">
+                <div className="pt-2 border-t flex justify-between text-[10px] border-gray-100 text-gray-400 [:root[data-theme=dark]_&]:border-gray-800 [:root[data-theme=dark]_&]:text-gray-600">
+                  <span>{formatDate(row.openedAt)}</span>
+                  <span>{formatDate(row.closedAt)}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* 데스크탑 뷰 (테이블) */}
+          <div className="hidden md:block overflow-x-auto">
+            <table className="w-full">
               <thead>
                 <tr>
-                  <th>상태</th>
-                  <th>봇</th>
-                  <th>거래소</th>
-                  <th>심볼</th>
-                  <th>방향</th>
-                  <th>레버리지</th>
-                  <th>진입USDT</th>
-                  <th>진입가격</th>
-                  <th>수익</th>
-                  <th>ROI</th>
-                  <th>진입시간</th>
-                  <th>청산시간</th>
+                  <th className={thClass}>{t("column.status")}</th>
+                  <th className={thClass}>{t("column.bot")}</th>
+                  <th className={thClass}>{t("column.market")}</th>
+                  <th className={thClass}>{t("column.side")}</th>
+                  <th className={thClass}>{t("column.leverage")}</th>
+                  <th className={thClass}>{t("column.entryPrice")}</th>
+                  <th className={thClass}>{t("column.entryUsdt")}</th>
+                  <th className={thClass}>{t("column.profit")}</th>
+                  <th className={thClass}>{t("column.roi")}</th>
+                  <th className={thClass}>{t("column.openedAt")}</th>
+                  <th className={thClass}>{t("column.closedAt")}</th>
                 </tr>
               </thead>
               <tbody>
-                {rows.map((row, idx) => {
-                  return (
-                    <tr
-                      key={idx}
-                      className="hover:bg-base-200 transition-colors"
+                {rows.map((row, idx) => (
+                  <tr
+                    key={idx}
+                    className="hover:bg-gray-50 transition-colors group [:root[data-theme=dark]_&]:hover:bg-[#0B1222]/50"
+                  >
+                    <td className={tdClass}>{renderStatusBadge(row.status)}</td>
+                    <td
+                      className={`${tdClass} font-medium text-gray-900 [:root[data-theme=dark]_&]:text-white`}
                     >
-                      <td className="align-top">
-                        {renderStatusBadge(row.status)}
-                      </td>
-                      <td className="text-[11px] align-top">{row.botName}</td>
-                      <td className="text-[11px] align-top">{row.exchange}</td>
-                      <td className="text-[11px] align-top">{row.symbol}</td>
-                      <td className="text-[11px] align-top">{row.side}</td>
-                      <td className="text-[11px] align-top">{row.leverage}</td>
-                      <td className="text-[11px] align-top">
-                        {row.entryCostUsdt ?? "-"}
-                      </td>
-                      <td className="text-[11px] align-top">
-                        {row.entryPrice ?? "-"}
-                      </td>
-                      <td className="text-[11px] align-top">
-                        {renderProfit(row.profitUsdt)}
-                      </td>
-                      <td className="text-[11px] align-top">
-                        {renderRoi(row.realizedRoiPct)}
-                      </td>
-                      <td className="text-[11px] align-top">
-                        {formatDate(row.openedAt)}
-                      </td>
-                      <td className="text-[11px] align-top">
-                        {formatDate(row.closedAt)}
-                      </td>
-                    </tr>
-                  );
-                })}
+                      {row.botName}
+                    </td>
+                    <td className={tdClass}>
+                      <span className="text-gray-500 [:root[data-theme=dark]_&]:text-gray-400">
+                        {row.exchange}
+                      </span>{" "}
+                      <span className="text-gray-400 [:root[data-theme=dark]_&]:text-gray-500">
+                        /
+                      </span>{" "}
+                      {row.symbol}
+                    </td>
+                    <td
+                      className={`${tdClass} font-bold ${
+                        row.side === "LONG"
+                          ? "text-green-600 [:root[data-theme=dark]_&]:text-green-500"
+                          : "text-red-600 [:root[data-theme=dark]_&]:text-red-500"
+                      }`}
+                    >
+                      {row.side}
+                    </td>
+                    <td className={tdClass}>x{row.leverage}</td>
+                    <td className={tdClass}>{row.entryPrice || "-"}</td>
+                    <td className={tdClass}>{row.entryCostUsdt || "-"}</td>
+                    <td className={tdClass}>{renderProfit(row.profitUsdt)}</td>
+                    <td className={tdClass}>{renderRoi(row.realizedRoiPct)}</td>
+                    <td
+                      className={`${tdClass} text-xs text-gray-400 [:root[data-theme=dark]_&]:text-gray-500`}
+                    >
+                      {formatDate(row.openedAt)}
+                    </td>
+                    <td
+                      className={`${tdClass} text-xs text-gray-400 [:root[data-theme=dark]_&]:text-gray-500`}
+                    >
+                      {formatDate(row.closedAt)}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
-        ) : null}
-      </div>
+        </>
+      )}
     </section>
   );
 }

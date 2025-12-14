@@ -1,28 +1,34 @@
 {
   "header": {
-    "title": "Sự kiện"
+    "title": "Sự kiện",
+    "subtitle": "Đừng bỏ lỡ các ưu đãi và sự kiện đặc biệt của GlobX."
   },
   "actions": {
     "refresh": "Làm mới",
     "home": "Trang chủ"
   },
-  "messages": {
-    "errorPrefix": "Lỗi:",
-    "loadingList": "Đang tải danh sách sự kiện…",
-    "emptyList": "Không có sự kiện nào để hiển thị."
-  },
   "table": {
-    "colTitle": "Tiêu đề",
+    "colTitle": "Sự kiện",
     "colPeriod": "Thời gian",
     "colPublishedAt": "Ngày đăng"
   },
+  "status": {
+    "ongoing": "Đang diễn ra",
+    "upcoming": "Sắp diễn ra",
+    "ended": "Đã kết thúc"
+  },
+  "messages": {
+    "loadingList": "Đang tải danh sách...",
+    "errorPrefix": "Lỗi:",
+    "emptyList": "Không có sự kiện nào."
+  },
   "detail": {
-    "title": "Chi tiết sự kiện",
-    "close": "Đóng",
-    "loading": "Đang tải chi tiết…",
-    "periodLabel": "Thời gian",
+    "title": "Chi tiết",
+    "periodLabel": "Thời gian sự kiện",
     "publishedLabel": "Ngày đăng",
-    "placeholder": "Chọn một sự kiện để xem chi tiết.",
-    "ctaButton": "Xem thêm"
+    "close": "Đóng",
+    "loading": "Đang tải chi tiết...",
+    "placeholder": "Không tìm thấy nội dung.",
+    "ctaButton": "Đi tới sự kiện"
   }
 }

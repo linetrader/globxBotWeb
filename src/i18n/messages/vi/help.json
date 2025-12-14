@@ -1,46 +1,61 @@
 {
-  "title": "Trung tâm hỗ trợ",
-  "subtitle": "Xem FAQ và cách liên hệ hỗ trợ.",
-  "actions": {
-    "home": "Trang chủ",
-    "createTicket": "Tạo yêu cầu (mẫu)",
-    "viewMyTickets": "Yêu cầu của tôi (mẫu)"
-  },
-  "notice": {
-    "sampleOnly": "Trang này là mẫu UI. Lưu/đọc ticket thực tế cần tích hợp API."
-  },
-  "quick": {
-    "title": "Hướng dẫn nhanh",
-    "tabs": { "qna": "Q&A (công khai)", "oneToOne": "1:1 (riêng tư)" },
-    "qna": {
-      "desc": "Q&A công khai hiển thị cho mọi người và giúp tìm câu trả lời nhanh.",
-      "badge": { "public": "Công khai", "searchable": "Có thể tìm kiếm" }
-    },
-    "oneToOne": {
-      "desc": "Yêu cầu 1:1 là riêng tư, chỉ bạn và quản trị viên xem được.",
-      "badge": { "private": "Riêng tư", "secure": "Bảo mật" }
-    }
+  "header": {
+    "title": "Chúng tôi có thể giúp gì cho bạn?",
+    "subtitle": "Tìm thông tin bạn cần tại Trung tâm Khách hàng GlobX.",
+    "searchPlaceholder": "Tìm kiếm...",
+    "searchButton": "Tìm kiếm"
   },
   "faq": {
-    "title": "FAQ",
-    "subtitle": "Những câu hỏi phổ biến.",
-    "openHint": "Mở",
-    "q1": "API key có an toàn không?",
-    "a1": "Khuyến nghị chỉ cấp quyền giao dịch (không cấp quyền rút). Cách lưu key tùy chính sách vận hành.",
-    "q2": "Dùng được trên điện thoại không?",
-    "a2": "Thiết kế responsive cho phép dùng trên PC/tablet/mobile.",
-    "q3": "Mất bao lâu để phản hồi?",
-    "a3": "Tùy giờ làm việc và số lượng ticket. Nếu có SLA, nên công bố ở trang chính sách.",
-    "q4": "Xem thông báo ở đâu?",
-    "a4": "Xem mục Announcements để đọc thông báo mới nhất.",
-    "q5": "Hỏi về thanh toán/hoàn tiền ở đâu?",
-    "a5": "Gửi ticket 1:1 kèm thông tin thanh toán để xử lý nhanh hơn."
+    "title": "Câu hỏi thường gặp",
+    "subtitle": "Đây là những câu hỏi thường gặp nhất."
+  },
+  "categories": {
+    "program": "Liên quan đến Chương trình GlobX AI",
+    "account": "Liên quan đến Tài khoản Sàn giao dịch",
+    "trading": "Liên quan đến Vị thế & Giao dịch",
+    "funds": "Liên quan đến Vốn & Cài đặt",
+    "data": "Liên quan đến Chia sẻ Dữ liệu"
+  },
+  "qna": {
+    "program_q1": "Tôi nên bắt đầu từ đâu khi sử dụng lần đầu?",
+    "program_a1": "Vui lòng tham khảo hướng dẫn 'Bắt đầu' trong tài liệu. Bạn cần liên kết khóa API trước.",
+    "program_q2": "Giao diện trông lạ hoặc hình ảnh không hiển thị.",
+    "program_a2": "Vui lòng kiểm tra kết nối internet của bạn và thử khởi động lại chương trình.",
+    "program_q3": "Đã xảy ra lỗi trong cửa sổ nhật ký khi đang chạy.",
+    "program_a3": "Vui lòng chụp lại mã lỗi và liên hệ với bộ phận hỗ trợ.",
+    "program_q4": "Số dư tài khoản của tôi hiển thị là 0 sau khi chạy chương trình.",
+    "program_a4": "Có thể mất một chút thời gian để đồng bộ hóa với sàn giao dịch. Vui lòng nhấp vào nút làm mới.",
+
+    "account_q1": "Tôi muốn tạo tài khoản dành riêng cho GlobX, nhưng tôi đã có tài khoản rồi.",
+    "account_a1": "Bạn có thể sử dụng tài khoản hiện có hoặc tạo tài khoản phụ nếu quyền API được thiết lập chính xác.",
+    "account_q2": "Xác minh KYC không hoạt động.",
+    "account_a2": "Vui lòng đảm bảo ảnh ID của bạn rõ nét và thử lại trong môi trường đủ ánh sáng.",
+
+    "trading_q1": "Tôi đã vào 1 hoặc 2 vị thế, nhưng lệnh thứ 3 không được thực hiện.",
+    "trading_a1": "Điều này có thể do giới hạn ký quỹ hoặc cài đặt chiến lược. Vui lòng kiểm tra cài đặt vị thế tối đa của bạn.",
+    "trading_q2": "Tôi có thể dừng và khởi động lại chương trình khi đang giữ vị thế không?",
+    "trading_a2": "Có, chương trình sẽ nhận diện các vị thế hiện có khi khởi động lại.",
+    "trading_q3": "Chương trình không bắt đầu vì số lần vào lệnh dưới 6-7.",
+    "trading_a3": "Chiến lược yêu cầu một tập dữ liệu lịch sử tối thiểu để tính toán các chỉ báo.",
+    "trading_q4": "Liệu có vào vị thế mới nếu tôi tắt và bật lại khi đang có vị thế không?",
+    "trading_a4": "Điều này phụ thuộc vào cài đặt 'Cho phép vào lệnh mới' trong cấu hình của bạn.",
+
+    "funds_q1": "Số USDT tối thiểu cần thiết để chạy chương trình là bao nhiêu?",
+    "funds_a1": "Chúng tôi khuyến nghị tối thiểu 500 USDT để vận hành ổn định.",
+    "funds_q2": "Mức sụt giảm tối đa (Drawdown) là bao nhiêu?",
+    "funds_a2": "Nó phụ thuộc vào biến động thị trường và cài đặt đòn bẩy của bạn.",
+    "funds_q3": "Lỗi Fibonacci là gì?",
+    "funds_a3": "Điều này đề cập đến độ lệch tính toán trong các mức thoái lui.",
+
+    "data_q1": "Khi nào số lần chia sẻ dữ liệu được đặt lại?",
+    "data_a1": "Nó được đặt lại hàng ngày vào lúc 00:00 UTC."
   },
   "contact": {
-    "title": "Liên hệ",
-    "subtitle": "Liên hệ theo kênh dưới đây (mẫu).",
-    "email": { "label": "Email", "value": "support@example.com" },
-    "hours": { "label": "Giờ làm việc", "value": "Thứ 2–6 10:00–18:00 (KST)" },
-    "linkToAnnouncements": "Xem thông báo"
+    "title": "Không tìm thấy thông tin bạn cần?",
+    "description": "Vui lòng liên hệ trực tiếp với chúng tôi qua thông tin bên dưới.",
+    "emailLabel": "Email:",
+    "phoneLabel": "Điện thoại:",
+    "hoursLabel": "Giờ làm việc:",
+    "hoursValue": "Các ngày trong tuần 10:00 - 18:00"
   }
 }

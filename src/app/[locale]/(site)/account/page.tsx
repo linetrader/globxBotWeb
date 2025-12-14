@@ -1,4 +1,3 @@
-// app/account/page.tsx
 "use client";
 
 import { useEffect, useMemo, useState, type ReactElement } from "react";
@@ -7,15 +6,20 @@ import AccountInfoForm from "./components/AccountInfoForm";
 import ChangePasswordForm from "./components/ChangePasswordForm";
 import OtpSection from "./components/OtpSection";
 import WalletForm from "./components/WalletForm";
-import { Section, Card, Badge, Alert, Toast, Caption } from "@/components/ui";
+import { useToast } from "@/components/ui";
 import {
   AccountProfile,
   ApiErr,
   ApiRes,
   ProfileState,
 } from "@/types/account/types";
+import { UserCircleIcon } from "@heroicons/react/24/outline";
+import { useTranslations } from "next-intl";
 
 export default function AccountPage(): ReactElement {
+  const t = useTranslations("account");
+  const { toast } = useToast();
+
   const [p, setP] = useState<ProfileState>({
     username: "",
     email: "",
@@ -31,10 +35,6 @@ export default function AccountPage(): ReactElement {
 
   const [loading, setLoading] = useState<boolean>(true);
   const [loadError, setLoadError] = useState<string | null>(null);
-  const [toast, setToast] = useState<{
-    msg: string;
-    type: "info" | "error";
-  } | null>(null);
 
   useEffect(() => {
     const ac = new AbortController();
@@ -55,7 +55,6 @@ export default function AccountPage(): ReactElement {
           signal: ac.signal,
         });
 
-        //const json = (await res.json().catch(() => null)) as ApiRes | null;
         const json = (await res.json().catch(() => null)) as ApiRes<{
           profile: AccountProfile;
         }> | null;
@@ -63,7 +62,7 @@ export default function AccountPage(): ReactElement {
         if (!res.ok || !json || json.ok !== true) {
           const msg =
             (json as ApiErr | null)?.message ??
-            `프로필 조회 실패 (HTTP ${res.status})`;
+            t("error.loadFailed", { status: res.status });
           throw new Error(msg);
         }
 
@@ -85,9 +84,7 @@ export default function AccountPage(): ReactElement {
       } catch (e: unknown) {
         if (ac.signal.aborted || (e as Error)?.name === "AbortError") return;
         if (!ignore) {
-          setLoadError(
-            (e as Error)?.message || "프로필 로드 중 오류가 발생했습니다."
-          );
+          setLoadError((e as Error)?.message || t("error.loadUnknown"));
         }
       } finally {
         if (!ignore && !ac.signal.aborted) setLoading(false);
@@ -98,9 +95,8 @@ export default function AccountPage(): ReactElement {
       ignore = true;
       ac.abort();
     };
-  }, []);
+  }, [t]);
 
-  // 레퍼럴 링크 생성 (/auth/signup?ref=CODE)
   const refLink = useMemo(() => {
     const code = p.refCode?.trim();
     if (!code) return "";
@@ -111,86 +107,103 @@ export default function AccountPage(): ReactElement {
     return `${base}/auth/signup?ref=${encodeURIComponent(code)}`;
   }, [p.refCode]);
 
-  // 링크 복사
   async function copyRefLink(): Promise<void> {
     if (!refLink) return;
     try {
       await navigator.clipboard.writeText(refLink);
-      setToast({ msg: "레퍼럴 링크가 복사되었습니다.", type: "info" });
+      toast({
+        title: t("toast.copySuccess"),
+        description: t("toast.refLinkCopied"),
+      });
     } catch {
-      setToast({
-        msg: "복사 실패. 링크를 직접 선택하여 복사하세요.",
-        type: "error",
+      toast({
+        title: t("toast.copyFail"),
+        description: t("toast.copyManual"),
+        variant: "error",
       });
     }
-    setTimeout(() => setToast(null), 2000);
   }
 
   if (loading) {
     return (
-      <Section actions={<Badge variant="info">불러오는 중</Badge>}>
-        <Card>
-          <Caption>프로필을 불러오는 중…</Caption>
-        </Card>
-      </Section>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 [:root[data-theme=dark]_&]:bg-[#0B1222]">
+        <span className="loading loading-spinner loading-lg text-[#06b6d4]"></span>
+      </div>
     );
   }
 
   if (loadError) {
     return (
-      <Section title="내 계정" actions={<Badge variant="error">오류</Badge>}>
-        <Card>
-          <Alert variant="error">{loadError}</Alert>
-        </Card>
-      </Section>
+      <div className="min-h-screen p-8 flex justify-center bg-gray-50 [:root[data-theme=dark]_&]:bg-[#0B1222]">
+        <div className="alert alert-error max-w-lg bg-red-100 border-red-200 text-red-600 [:root[data-theme=dark]_&]:bg-red-900/20 [:root[data-theme=dark]_&]:border-red-900/50 [:root[data-theme=dark]_&]:text-red-200">
+          <span>{loadError}</span>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Section className="mx-auto max-w-screen-md px-4 pt-4 pb-24 space-y-6">
-      {/* Toast 알림 */}
-      {toast && (
-        <Toast position="top-right" variant={toast.type}>
-          {toast.msg}
-        </Toast>
-      )}
+    // [수정] 라이트: bg-gray-50/text-gray-900 ↔ 다크: bg-[#0B1222]/text-gray-100
+    <div className="min-h-screen p-6 md:p-8 transition-colors duration-300 bg-gray-50 text-gray-900 [:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:text-gray-100">
+      <div className="max-w-4xl mx-auto space-y-8">
+        {/* 헤더 */}
+        <div className="flex items-center gap-3 mb-6">
+          <div className="p-2 bg-[#06b6d4]/10 rounded-lg">
+            <UserCircleIcon className="h-8 w-8 text-[#06b6d4]" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 [:root[data-theme=dark]_&]:text-white">
+              {t("page.title")}
+            </h1>
+            <p className="text-sm text-gray-500 [:root[data-theme=dark]_&]:text-gray-400">
+              {t("page.subtitle")}
+            </p>
+          </div>
+        </div>
 
-      {/* 0) 회원가입 레퍼럴 링크 */}
-      <ReferralCode refLink={refLink} onCopy={copyRefLink} />
+        <div className="grid grid-cols-1 gap-6">
+          {/* 0) 레퍼럴 코드 */}
+          <ReferralCode refLink={refLink} onCopy={copyRefLink} />
 
-      {/* 1) 계정 정보(읽기 전용) */}
-      <AccountInfoForm
-        username={p.username}
-        email={p.email}
-        name={p.name}
-        countryLabel={
-          p.countryName && p.countryCode
-            ? `${p.countryName} (${p.countryCode})`
-            : p.countryCode || "-"
-        }
-      />
+          {/* 1) 계정 정보 */}
+          <AccountInfoForm
+            username={p.username}
+            email={p.email}
+            name={p.name}
+            countryLabel={
+              p.countryName && p.countryCode
+                ? `${p.countryName} (${p.countryCode})`
+                : p.countryCode || "-"
+            }
+          />
 
-      {/* 2) 구글 OTP 정보/등록 */}
-      <OtpSection
-        email={p.email}
-        otpEnabled={p.otpEnabled}
-        otpSecret={p.otpSecret}
-        otpQr={p.otpQr}
-        setOtpSecret={(v) => setP((prev) => ({ ...prev, otpSecret: v }))}
-        setOtpQr={(v) => setP((prev) => ({ ...prev, otpQr: v }))}
-        onActivated={() => setP((prev) => ({ ...prev, otpEnabled: true }))}
-      />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* 2) OTP */}
+            <OtpSection
+              email={p.email}
+              otpEnabled={p.otpEnabled}
+              otpSecret={p.otpSecret}
+              otpQr={p.otpQr}
+              setOtpSecret={(v) => setP((prev) => ({ ...prev, otpSecret: v }))}
+              setOtpQr={(v) => setP((prev) => ({ ...prev, otpQr: v }))}
+              onActivated={() =>
+                setP((prev) => ({ ...prev, otpEnabled: true }))
+              }
+            />
 
-      {/* 3) 출금 지갑 주소 등록 */}
-      <WalletForm
-        email={p.email}
-        otpEnabled={p.otpEnabled}
-        wallet={p.wallet}
-        onChangeWallet={(v) => setP((prev) => ({ ...prev, wallet: v }))}
-      />
+            {/* 3) 지갑 */}
+            <WalletForm
+              email={p.email}
+              otpEnabled={p.otpEnabled}
+              wallet={p.wallet}
+              onChangeWallet={(v) => setP((prev) => ({ ...prev, wallet: v }))}
+            />
+          </div>
 
-      {/* 4) 비밀번호 변경 */}
-      <ChangePasswordForm />
-    </Section>
+          {/* 4) 비밀번호 변경 */}
+          <ChangePasswordForm />
+        </div>
+      </div>
+    </div>
   );
 }

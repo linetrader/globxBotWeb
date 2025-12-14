@@ -1,212 +1,147 @@
-// src/app/(site)/account/components/ChangePasswordForm.tsx
 "use client";
 
 import React, { useState, type FormEvent } from "react";
-// ⬇️ PasswordRow 제거하고 PasswordField 사용
-import {
-  PasswordField,
-  Card,
-  Button,
-  Badge,
-  Form,
-  Checklist,
-} from "@/components/ui";
 import { useToast } from "@/components/ui";
+import { useTranslations } from "next-intl";
+import {
+  LockClosedIcon,
+  EyeIcon,
+  EyeSlashIcon,
+} from "@heroicons/react/24/outline";
 
-// 공용 타입
-import type {
-  ChangePasswordBody,
-  ChangePasswordResponse,
-} from "@/types/account/password/types";
+// [추가] 내부 컴포넌트 Props 타입 정의
+interface PwdInputProps {
+  label: string;
+  val: string;
+  setVal: React.Dispatch<React.SetStateAction<string>>;
+  show: boolean;
+  setShow: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 export default function ChangePasswordForm() {
-  const [showCurrent, setShowCurrent] = useState(false);
-  const [showNew, setShowNew] = useState(false);
-  const [showNew2, setShowNew2] = useState(false);
+  const t = useTranslations("account");
+  const { toast } = useToast();
 
   const [currentPwd, setCurrentPwd] = useState("");
   const [newPwd, setNewPwd] = useState("");
   const [newPwd2, setNewPwd2] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const { toast } = useToast();
+  const [show1, setShow1] = useState(false);
+  const [show2, setShow2] = useState(false);
+  const [show3, setShow3] = useState(false);
 
-  // 규칙 체크
-  const pwLenOk = newPwd.length >= 8 && newPwd.length <= 18;
-  const pwHasLetter = /[A-Za-z]/.test(newPwd);
-  const pwHasDigit = /\d/.test(newPwd);
-  const pwHasUpper = /[A-Z]/.test(newPwd);
-  const pwHasSymbol = /[^A-Za-z0-9]/.test(newPwd);
+  const isValid =
+    newPwd.length >= 8 && newPwd === newPwd2 && currentPwd.length > 0;
 
-  const newPwAllOk =
-    pwLenOk && pwHasLetter && pwHasDigit && pwHasUpper && pwHasSymbol;
-
-  const confirmOk = newPwd.length > 0 && newPwd === newPwd2;
-
-  const canChangePwd =
-    currentPwd.length > 0 && newPwAllOk && confirmOk && currentPwd !== newPwd;
-
-  // 타입가드
-  type ErrorResp = Extract<ChangePasswordResponse, { ok: false }>;
-  type SuccessResp = Extract<ChangePasswordResponse, { ok: true }>;
-
-  const isErrorResp = (v: unknown): v is ErrorResp => {
-    if (typeof v !== "object" || v === null) return false;
-    const r = v as Record<string, unknown>;
-    return r.ok === false && typeof r.code === "string";
-  };
-
-  const isSuccessResp = (v: unknown): v is SuccessResp => {
-    return (
-      typeof v === "object" && v !== null && (v as { ok?: unknown }).ok === true
-    );
-  };
-
-  const codeToMsg = (code?: string, fallback?: string): string => {
-    switch (code) {
-      case "UNAUTHORIZED":
-        return "로그인이 필요합니다.";
-      case "INVALID_INPUT":
-        return "입력값이 올바르지 않습니다.";
-      case "SAME_PASSWORD":
-        return "새 비밀번호가 기존 비밀번호와 동일합니다.";
-      case "NOT_FOUND":
-        return "사용자 정보를 찾을 수 없습니다.";
-      case "CURRENT_PASSWORD_INVALID":
-        return "현재 비밀번호가 일치하지 않습니다.";
-      case "POLICY_LENGTH":
-        return "비밀번호 길이는 8~18자여야 합니다.";
-      case "POLICY_LETTER":
-        return "비밀번호에 영문자가 1자 이상 포함되어야 합니다.";
-      case "POLICY_DIGIT":
-        return "비밀번호에 숫자가 1자 이상 포함되어야 합니다.";
-      case "POLICY_UPPER":
-        return "비밀번호에 대문자가 1자 이상 포함되어야 합니다.";
-      case "POLICY_SYMBOL":
-        return "비밀번호에 기호가 1자 이상 포함되어야 합니다.";
-      default:
-        return fallback || "비밀번호 변경에 실패했습니다.";
-    }
-  };
-
-  async function onSubmit(e: FormEvent<HTMLFormElement>): Promise<void> {
+  async function onSubmit(e: FormEvent) {
     e.preventDefault();
-    if (!canChangePwd) return;
+    if (!isValid) return;
+    setLoading(true);
 
     try {
-      const body: ChangePasswordBody = {
-        currentPassword: currentPwd,
-        newPassword: newPwd,
-      };
-
       const res = await fetch("/api/account/password", {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        credentials: "same-origin",
-        body: JSON.stringify(body),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          currentPassword: currentPwd,
+          newPassword: newPwd,
+        }),
       });
 
-      const raw: unknown = await res.json().catch(() => null);
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.message || t("password.changeFail"));
 
-      if (!res.ok || !isSuccessResp(raw)) {
-        const errCode = isErrorResp(raw) ? raw.code : undefined;
-        const errMsgFromServer = isErrorResp(raw) ? raw.message : undefined;
-        const errMsg =
-          codeToMsg(errCode, errMsgFromServer) ||
-          `변경 실패 (HTTP ${res.status})`;
-        toast({ variant: "error", description: errMsg });
-        return;
-      }
-
-      // 성공 처리
-      toast({ variant: "success", description: "비밀번호가 변경되었습니다." });
-
+      toast({ description: t("password.changeSuccess"), variant: "success" });
       setCurrentPwd("");
       setNewPwd("");
       setNewPwd2("");
-      setShowCurrent(false);
-      setShowNew(false);
-      setShowNew2(false);
-    } catch (err) {
-      const msg =
-        err instanceof Error
-          ? err.message
-          : typeof err === "string"
-            ? err
-            : "요청 처리 중 오류가 발생했습니다.";
-      toast({ variant: "error", description: msg });
+    } catch (e: unknown) {
+      // [수정] any 제거 및 타입 가드 사용
+      const message = e instanceof Error ? e.message : t("password.changeFail");
+      toast({ description: message, variant: "error" });
+    } finally {
+      setLoading(false);
     }
   }
 
-  return (
-    <Card title="비밀번호 변경" actions={<Badge>보안</Badge>}>
-      <Form onSubmit={onSubmit}>
-        {/* 현재 비밀번호: autoComplete=current-password */}
-        <PasswordField
-          id="currentPwd"
-          label="현재 비밀번호"
-          value={currentPwd}
-          onChange={setCurrentPwd}
-          isNew={false}
-          show={showCurrent}
-          onShowChange={setShowCurrent}
+  // [수정] Props 타입 적용
+  const PwdInput = ({ label, val, setVal, show, setShow }: PwdInputProps) => (
+    <div className="form-control">
+      <label className="label py-1">
+        <span className="text-xs font-medium text-gray-600 [:root[data-theme=dark]_&]:text-gray-500">
+          {label}
+        </span>
+      </label>
+      <div className="relative">
+        <input
+          type={show ? "text" : "password"}
+          className="input input-bordered w-full transition-colors h-10 text-sm pr-10 bg-white border-gray-300 text-gray-900 focus:border-[#06b6d4] [:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:border-gray-700 [:root[data-theme=dark]_&]:text-gray-200"
+          value={val}
+          onChange={(e) => setVal(e.target.value)}
         />
-
-        {/* 새 비밀번호: autoComplete=new-password */}
-        <PasswordField
-          id="newPwd"
-          label="새 비밀번호"
-          value={newPwd}
-          onChange={setNewPwd}
-          isNew
-          show={showNew}
-          onShowChange={setShowNew}
-          errorText={
-            newPwd.length > 0 && !newPwAllOk
-              ? "8~18자, 문자/숫자/대문자/기호 포함"
-              : undefined
-          }
-        />
-
-        {/* 새 비밀번호 확인 */}
-        <PasswordField
-          id="newPwd2"
-          label="새 비밀번호 확인"
-          value={newPwd2}
-          onChange={setNewPwd2}
-          isNew
-          show={showNew2}
-          onShowChange={setShowNew2}
-          errorText={
-            newPwd2.length > 0 && !confirmOk
-              ? "비밀번호가 일치하지 않습니다."
-              : undefined
-          }
-        />
-
-        <Checklist
-          items={[
-            { text: "8~18 문자 길이", ok: pwLenOk },
-            { text: "문자 포함", ok: pwHasLetter },
-            { text: "숫자 포함", ok: pwHasDigit },
-            { text: "대문자 1자 이상", ok: pwHasUpper },
-            { text: "기호 1자 이상", ok: pwHasSymbol },
-            ...(newPwd2.length > 0 && !confirmOk
-              ? [{ text: "비밀번호가 일치하지 않습니다.", ok: false }]
-              : []),
-          ]}
-        />
-
-        <Button
-          type="submit"
-          disabled={!canChangePwd}
-          className="w-full h-11 rounded-xl"
+        <button
+          type="button"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 [:root[data-theme=dark]_&]:text-gray-500 [:root[data-theme=dark]_&]:hover:text-gray-300"
+          onClick={() => setShow(!show)}
         >
-          비밀번호 변경
-        </Button>
-      </Form>
-    </Card>
+          {show ? (
+            <EyeSlashIcon className="h-4 w-4" />
+          ) : (
+            <EyeIcon className="h-4 w-4" />
+          )}
+        </button>
+      </div>
+    </div>
+  );
+
+  return (
+    // [수정] 카드 컨테이너
+    <div className="rounded-2xl shadow-xl overflow-hidden border transition-colors bg-white border-gray-200 [:root[data-theme=dark]_&]:bg-[#131B2D] [:root[data-theme=dark]_&]:border-gray-800">
+      <div className="p-5 border-b flex items-center gap-2 transition-colors bg-gray-50 border-gray-200 [:root[data-theme=dark]_&]:bg-[#0B1222]/30 [:root[data-theme=dark]_&]:border-gray-800">
+        <LockClosedIcon className="h-5 w-5 text-[#06b6d4]" />
+        <h2 className="text-base font-bold text-gray-900 [:root[data-theme=dark]_&]:text-gray-200">
+          {t("password.title")}
+        </h2>
+      </div>
+
+      <div className="p-5">
+        <form onSubmit={onSubmit} className="space-y-4 max-w-lg">
+          <PwdInput
+            label={t("password.current")}
+            val={currentPwd}
+            setVal={setCurrentPwd}
+            show={show1}
+            setShow={setShow1}
+          />
+          <PwdInput
+            label={t("password.new")}
+            val={newPwd}
+            setVal={setNewPwd}
+            show={show2}
+            setShow={setShow2}
+          />
+          <PwdInput
+            label={t("password.confirm")}
+            val={newPwd2}
+            setVal={setNewPwd2}
+            show={show3}
+            setShow={setShow3}
+          />
+
+          <button
+            type="submit"
+            className="btn btn-primary w-full bg-[#06b6d4] hover:bg-[#0891b2] border-none text-white mt-2 shadow-md shadow-cyan-500/20 [:root[data-theme=dark]_&]:shadow-cyan-900/20"
+            disabled={!isValid || loading}
+          >
+            {loading ? (
+              <span className="loading loading-spinner loading-sm"></span>
+            ) : (
+              t("password.changeBtn")
+            )}
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }

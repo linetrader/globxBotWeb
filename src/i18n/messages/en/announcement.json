@@ -1,25 +1,28 @@
 {
   "header": {
-    "title": "Announcements"
+    "title": "Announcements",
+    "subtitle": "Check out the latest news and updates from GlobX."
   },
   "actions": {
     "refresh": "Refresh",
-    "home": "Home"
+    "home": "Home",
+    "searchPlaceholder": "Search announcements..."
   },
-  "table": {
-    "colTitle": "Title",
-    "colPublishedAt": "Published At"
+  "list": {
+    "title": "Announcement List",
+    "totalPosts": "Total {count} posts"
   },
   "messages": {
-    "loadingList": "Loading…",
-    "emptyList": "No announcements have been published.",
-    "errorPrefix": "Error:"
+    "loadingList": "Loading list...",
+    "errorPrefix": "Error:",
+    "emptyList": "No announcements found.",
+    "contentNotAvailable": "Content not available."
   },
   "detail": {
-    "title": "View Announcement",
-    "close": "Close",
-    "loading": "Loading…",
+    "title": "Details",
     "publishedLabel": "Published",
-    "placeholder": "Select an announcement from the list to display it here."
+    "close": "Close",
+    "loading": "Loading content...",
+    "placeholder": "Select an item from the list to view details."
   }
 }

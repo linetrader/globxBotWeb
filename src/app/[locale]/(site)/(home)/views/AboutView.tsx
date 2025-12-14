@@ -4,6 +4,8 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+// 💡 [추가] 페이지 이동을 위한 Link 컴포넌트 import
+import { Link } from "@/i18n/routing";
 import {
   CurrencyDollarIcon,
   ShieldCheckIcon,
@@ -17,7 +19,8 @@ export function AboutView() {
   const t = useTranslations("home");
 
   return (
-    <div className="min-h-screen bg-[#0B1120] text-slate-200">
+    // [수정] 배경/텍스트 색상: 라이트모드(흰색/검정) <-> 다크모드(기존 색상)
+    <div className="min-h-screen bg-gray-50 text-gray-900 transition-colors duration-300 [:root[data-theme=dark]_&]:bg-[#0B1120] [:root[data-theme=dark]_&]:text-slate-200">
       {/* 1. Hero Section */}
       <section className="relative w-full h-[700px] flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -37,7 +40,8 @@ export function AboutView() {
             </p>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight drop-shadow-lg">
-              <span className="bg-gradient-to-r from-white to-slate-200 bg-clip-text text-transparent">
+              {/* [수정] 텍스트 그라디언트: 라이트모드(검정->회색) <-> 다크모드(흰색->회색) */}
+              <span className="bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent [:root[data-theme=dark]_&]:from-white [:root[data-theme=dark]_&]:to-slate-200">
                 {t("heroTitle")}
               </span>
             </h1>
@@ -85,7 +89,7 @@ export function AboutView() {
             </span>
           </h2>
 
-          <p className="text-slate-400 leading-relaxed">
+          <p className="leading-relaxed text-gray-600 [:root[data-theme=dark]_&]:text-slate-400">
             {t("featuresMainDescLine1")}
             <br />
             {t("featuresMainDescLine2")}
@@ -95,38 +99,53 @@ export function AboutView() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          <div className="bg-[#131B2D] p-8 rounded-2xl border border-slate-800/50 hover:border-cyan-500/30 transition-colors relative overflow-hidden group">
+          {/* Card 1 */}
+          <div
+            className="p-8 rounded-2xl transition-colors relative overflow-hidden group border
+            bg-white border-gray-200 hover:border-cyan-500/30
+            [:root[data-theme=dark]_&]:bg-[#131B2D] [:root[data-theme=dark]_&]:border-slate-800/50"
+          >
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 to-blue-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
             <span className="text-xs font-bold text-cyan-400 tracking-widest mb-4 inline-block">
               TRADING
             </span>
             <ArrowUpRightIcon className="h-12 w-12 text-cyan-500 mb-6" />
             <h3 className="text-xl font-bold mb-3">{t("feature1Title")}</h3>
-            <p className="text-slate-400 text-sm leading-relaxed">
+            <p className="text-sm leading-relaxed text-gray-600 [:root[data-theme=dark]_&]:text-slate-400">
               {t("feature1Desc")}
             </p>
           </div>
 
-          <div className="bg-[#131B2D] p-8 rounded-2xl border border-slate-800/50 hover:border-cyan-500/30 transition-colors relative overflow-hidden group">
+          {/* Card 2 */}
+          <div
+            className="p-8 rounded-2xl transition-colors relative overflow-hidden group border
+            bg-white border-gray-200 hover:border-cyan-500/30
+            [:root[data-theme=dark]_&]:bg-[#131B2D] [:root[data-theme=dark]_&]:border-slate-800/50"
+          >
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 to-blue-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
             <span className="text-xs font-bold text-cyan-400 tracking-widest mb-4 inline-block">
               TRADING
             </span>
             <CurrencyDollarIcon className="h-12 w-12 text-cyan-500 mb-6" />
             <h3 className="text-xl font-bold mb-3">{t("feature2Title")}</h3>
-            <p className="text-slate-400 text-sm leading-relaxed">
+            <p className="text-sm leading-relaxed text-gray-600 [:root[data-theme=dark]_&]:text-slate-400">
               {t("feature2Desc")}
             </p>
           </div>
 
-          <div className="bg-[#131B2D] p-8 rounded-2xl border border-slate-800/50 hover:border-cyan-500/30 transition-colors relative overflow-hidden group">
+          {/* Card 3 */}
+          <div
+            className="p-8 rounded-2xl transition-colors relative overflow-hidden group border
+            bg-white border-gray-200 hover:border-cyan-500/30
+            [:root[data-theme=dark]_&]:bg-[#131B2D] [:root[data-theme=dark]_&]:border-slate-800/50"
+          >
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 to-blue-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
             <span className="text-xs font-bold text-cyan-400 tracking-widest mb-4 inline-block">
               SECURITY
             </span>
             <ShieldCheckIcon className="h-12 w-12 text-cyan-500 mb-6" />
             <h3 className="text-xl font-bold mb-3">{t("feature3Title")}</h3>
-            <p className="text-slate-400 text-sm leading-relaxed">
+            <p className="text-sm leading-relaxed text-gray-600 [:root[data-theme=dark]_&]:text-slate-400">
               {t("feature3Desc")}
             </p>
           </div>
@@ -149,13 +168,18 @@ export function AboutView() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          <div className="bg-[#131B2D] rounded-3xl border border-slate-800/50 overflow-hidden flex flex-col-reverse md:flex-row items-center">
+          {/* Card 1 */}
+          <div
+            className="rounded-3xl overflow-hidden flex flex-col-reverse md:flex-row items-center border
+            bg-white border-gray-200
+            [:root[data-theme=dark]_&]:bg-[#131B2D] [:root[data-theme=dark]_&]:border-slate-800/50"
+          >
             <div className="p-8 md:pr-0 flex-1 space-y-4">
               <span className="text-xs font-bold text-cyan-400 tracking-widest">
                 {t("firstTimeTag")}
               </span>
               <h3 className="text-2xl font-bold">{t("firstTimeCard1Title")}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
+              <p className="text-sm leading-relaxed text-gray-600 [:root[data-theme=dark]_&]:text-slate-400">
                 {t("firstTimeCard1Desc")}
               </p>
             </div>
@@ -171,13 +195,18 @@ export function AboutView() {
             </div>
           </div>
 
-          <div className="bg-[#131B2D] rounded-3xl border border-slate-800/50 overflow-hidden flex flex-col-reverse md:flex-row items-center">
+          {/* Card 2 */}
+          <div
+            className="rounded-3xl overflow-hidden flex flex-col-reverse md:flex-row items-center border
+            bg-white border-gray-200
+            [:root[data-theme=dark]_&]:bg-[#131B2D] [:root[data-theme=dark]_&]:border-slate-800/50"
+          >
             <div className="p-8 md:pr-0 flex-1 space-y-4">
               <span className="text-xs font-bold text-cyan-400 tracking-widest">
                 {t("firstTimeTag")}
               </span>
               <h3 className="text-2xl font-bold">{t("firstTimeCard2Title")}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
+              <p className="text-sm leading-relaxed text-gray-600 [:root[data-theme=dark]_&]:text-slate-400">
                 {t("firstTimeCard2Desc")}
               </p>
             </div>
@@ -198,17 +227,22 @@ export function AboutView() {
       {/* 4. Case Study Section */}
       <section className="py-24 container mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-8">
-          <div className="bg-[#131B2D] rounded-3xl border border-slate-800/50 overflow-hidden group">
+          {/* Case 1 */}
+          <div
+            className="rounded-3xl overflow-hidden group border
+            bg-white border-gray-200
+            [:root[data-theme=dark]_&]:bg-[#131B2D] [:root[data-theme=dark]_&]:border-slate-800/50"
+          >
             <div className="p-8 pb-0 space-y-4">
               <span className="text-xs font-bold text-blue-400 tracking-widest">
                 CASE STUDY
               </span>
               <h3 className="text-2xl font-bold">{t("case1Title")}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed mb-6">
+              <p className="text-sm leading-relaxed mb-6 text-gray-600 [:root[data-theme=dark]_&]:text-slate-400">
                 {t("case1Desc")}
               </p>
               <div>
-                <span className="inline-block bg-cyan-500/20 text-cyan-300 text-sm font-bold px-4 py-2 rounded-lg">
+                <span className="inline-block bg-cyan-500/20 text-cyan-600 text-sm font-bold px-4 py-2 rounded-lg [:root[data-theme=dark]_&]:text-cyan-300">
                   {t("case1Stat")}
                 </span>
               </div>
@@ -223,17 +257,22 @@ export function AboutView() {
             </div>
           </div>
 
-          <div className="bg-[#131B2D] rounded-3xl border border-slate-800/50 overflow-hidden group">
+          {/* Case 2 */}
+          <div
+            className="rounded-3xl overflow-hidden group border
+            bg-white border-gray-200
+            [:root[data-theme=dark]_&]:bg-[#131B2D] [:root[data-theme=dark]_&]:border-slate-800/50"
+          >
             <div className="p-8 pb-0 space-y-4">
               <span className="text-xs font-bold text-blue-400 tracking-widest">
                 CASE STUDY
               </span>
               <h3 className="text-2xl font-bold">{t("case2Title")}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed mb-6">
+              <p className="text-sm leading-relaxed mb-6 text-gray-600 [:root[data-theme=dark]_&]:text-slate-400">
                 {t("case2Desc")}
               </p>
               <div>
-                <span className="inline-block bg-cyan-500/20 text-cyan-300 text-sm font-bold px-4 py-2 rounded-lg">
+                <span className="inline-block bg-cyan-500/20 text-cyan-600 text-sm font-bold px-4 py-2 rounded-lg [:root[data-theme=dark]_&]:text-cyan-300">
                   {t("case2Stat")}
                 </span>
               </div>
@@ -256,19 +295,27 @@ export function AboutView() {
           {t("faqTitleStart")}{" "}
           <span className="text-cyan-400">{t("faqTitleHighlight")}</span>
         </h2>
-        <p className="text-slate-400 mb-12">{t("faqSubtitle")}</p>
+        <p className="mb-12 text-gray-600 [:root[data-theme=dark]_&]:text-slate-400">
+          {t("faqSubtitle")}
+        </p>
 
         <div className="space-y-4 text-left">
           {FAQ_INDEXES.map((n) => (
             <details
               key={n}
-              className="group bg-[#131B2D] rounded-xl border border-slate-800/50 open:border-cyan-500/50 transition-colors"
+              className="group rounded-xl border transition-colors
+                bg-white border-gray-200 open:border-cyan-500/50
+                [:root[data-theme=dark]_&]:bg-[#131B2D] [:root[data-theme=dark]_&]:border-slate-800/50"
             >
               <summary className="flex justify-between items-center p-6 cursor-pointer list-none">
                 <h3 className="font-medium text-lg pr-4">{t(`faqQ${n}`)}</h3>
-                <ChevronDownIcon className="h-5 w-5 text-slate-400 transition-transform duration-300 group-open:rotate-180 group-open:text-cyan-500" />
+                <ChevronDownIcon className="h-5 w-5 text-gray-400 transition-transform duration-300 group-open:rotate-180 group-open:text-cyan-500 [:root[data-theme=dark]_&]:text-slate-400" />
               </summary>
-              <div className="px-6 pb-6 text-slate-400 leading-relaxed border-t border-slate-800/50 pt-4">
+              <div
+                className="px-6 pb-6 leading-relaxed border-t pt-4
+                text-gray-600 border-gray-100
+                [:root[data-theme=dark]_&]:text-slate-400 [:root[data-theme=dark]_&]:border-slate-800/50"
+              >
                 <p>{t(`faqA${n}`)}</p>
               </div>
             </details>
@@ -276,10 +323,16 @@ export function AboutView() {
         </div>
 
         <div className="mt-16 space-y-6">
-          <p className="text-slate-400">{t("faqFooterText")}</p>
-          <button className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-10 rounded-full transition-colors shadow-lg shadow-cyan-500/20">
+          <p className="text-gray-600 [:root[data-theme=dark]_&]:text-slate-400">
+            {t("faqFooterText")}
+          </p>
+          {/* 💡 [수정] 버튼을 Link로 변경하여 /help 페이지로 이동하도록 설정 */}
+          <Link
+            href="/help"
+            className="inline-block bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-10 rounded-full transition-colors shadow-lg shadow-cyan-500/20"
+          >
             {t("faqFooterButton")}
-          </button>
+          </Link>
         </div>
       </section>
     </div>

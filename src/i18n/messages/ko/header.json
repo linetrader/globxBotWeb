@@ -12,6 +12,7 @@
     "dashboard": "대시보드",
     "history": "히스토리",
     "myConfig": "개인 설정",
+    "apiConfig": "API 설정",
     "botList": "봇 리스트"
   },
   "auth": {
@@ -25,7 +26,8 @@
     "home": "홈으로 이동",
     "myAccount": "내 계정",
     "menu": "메인 메뉴",
-    "settings": "환경설정"
+    "settings": "환경설정",
+    "footerNav": "하단 내비게이션"
   },
   "status": {
     "startFailed": "시작 실패",

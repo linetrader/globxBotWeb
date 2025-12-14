@@ -1,25 +1,28 @@
 {
   "header": {
-    "title": "Thông báo"
+    "title": "Thông báo",
+    "subtitle": "Cập nhật tin tức và thông báo mới nhất từ GlobX."
   },
   "actions": {
     "refresh": "Làm mới",
-    "home": "Trang chủ"
+    "home": "Trang chủ",
+    "searchPlaceholder": "Tìm kiếm thông báo..."
   },
-  "table": {
-    "colTitle": "Tiêu đề",
-    "colPublishedAt": "Ngày đăng"
+  "list": {
+    "title": "Danh sách thông báo",
+    "totalPosts": "Tổng cộng {count} bài viết"
   },
   "messages": {
-    "loadingList": "Đang tải…",
-    "emptyList": "Chưa có thông báo nào được đăng.",
-    "errorPrefix": "Lỗi:"
+    "loadingList": "Đang tải danh sách...",
+    "errorPrefix": "Lỗi:",
+    "emptyList": "Không có thông báo nào.",
+    "contentNotAvailable": "Không thể hiển thị nội dung."
   },
   "detail": {
-    "title": "Xem thông báo",
+    "title": "Chi tiết",
+    "publishedLabel": "Ngày đăng",
     "close": "Đóng",
-    "loading": "Đang tải…",
-    "publishedLabel": "Đăng",
-    "placeholder": "Chọn một thông báo từ danh sách để hiển thị tại đây."
+    "loading": "Đang tải nội dung...",
+    "placeholder": "Chọn một mục từ danh sách để xem chi tiết."
   }
 }

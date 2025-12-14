@@ -1,9 +1,12 @@
-// src/app/[locale]/(site)/announcements/page.tsx
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import Link from "next/link";
 import { useTranslations, useFormatter } from "next-intl";
+import {
+  MagnifyingGlassIcon,
+  ChevronDownIcon,
+  ArrowPathIcon,
+} from "@heroicons/react/24/outline";
 
 // ===== Types =====
 interface SitePostListItem {
@@ -28,7 +31,7 @@ type SiteDetailResult =
   | { ok: true; data: SitePostDetail }
   | { ok: false; error: string };
 
-// ===== util =====
+// ===== Util =====
 async function jsonFetch<T>(
   input: RequestInfo | URL,
   init?: RequestInit
@@ -49,14 +52,20 @@ export default function AnnouncementSitePage() {
   const t = useTranslations("announcement");
   const f = useFormatter();
 
+  // ===== State =====
   const [list, setList] = useState<SitePostListItem[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  // 상세 내용 State
   const [detail, setDetail] = useState<SitePostDetail | null>(null);
   const [loadingDetail, setLoadingDetail] = useState<boolean>(false);
-  const [errorDetail, setErrorDetail] = useState<string | null>(null);
 
+  // UI State
+  const [searchTerm, setSearchTerm] = useState("");
+  const [openItemId, setOpenItemId] = useState<string | null>(null);
+
+  // ===== Data Fetching =====
   const refresh = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -74,9 +83,10 @@ export default function AnnouncementSitePage() {
     }
   }, []);
 
+  // 상세 내용 로드
   const loadDetail = useCallback(async (id: string) => {
     setLoadingDetail(true);
-    setErrorDetail(null);
+    setDetail(null);
     try {
       const raw = await jsonFetch<SiteDetailResult>(
         `/api/announcement?id=${encodeURIComponent(id)}`,
@@ -85,151 +95,215 @@ export default function AnnouncementSitePage() {
       if (raw.ok) setDetail(raw.data);
       else throw new Error(raw.error);
     } catch (e) {
-      setErrorDetail(e instanceof Error ? e.message : "unknown error");
-      setDetail(null);
+      console.error(e);
     } finally {
       setLoadingDetail(false);
     }
-  }, []);
-
-  const clearDetail = useCallback(() => {
-    setDetail(null);
-    setErrorDetail(null);
   }, []);
 
   useEffect(() => {
     void refresh();
   }, [refresh]);
 
+  // ===== Logic =====
   const ordered = useMemo(
     () =>
       [...list].sort((a, b) => {
-        // 최신 발행일 순
         return (b.publishedAt || "").localeCompare(a.publishedAt || "");
       }),
     [list]
   );
+
+  const filteredList = useMemo(() => {
+    if (!searchTerm.trim()) return ordered;
+    const lowerTerm = searchTerm.toLowerCase();
+    return ordered.filter((item) =>
+      item.title.toLowerCase().includes(lowerTerm)
+    );
+  }, [ordered, searchTerm]);
+
+  const handleToggle = (id: string) => {
+    if (openItemId === id) {
+      setOpenItemId(null);
+    } else {
+      setOpenItemId(id);
+      loadDetail(id);
+    }
+  };
 
   const formatDateTime = (iso: string): string =>
     f.dateTime(new Date(iso), {
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
     });
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
-      {/* 헤더 */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold">{t("header.title")}</h1>
-        </div>
-        <div className="flex gap-2">
-          <button className="btn btn-sm" onClick={refresh} disabled={loading}>
-            {t("actions.refresh")}
-          </button>
-          <Link href="/" className="btn btn-ghost btn-sm">
-            {t("actions.home")}
-          </Link>
-        </div>
-      </div>
+    <main className="min-h-screen pb-20 bg-gray-50 text-gray-900 transition-colors duration-300 [:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:text-gray-100">
+      {/* 1. 상단 헤더 & 검색 영역 */}
+      <section className="pt-20 pb-12 px-4 text-center">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-3xl md:text-4xl font-bold mb-3 text-gray-900 [:root[data-theme=dark]_&]:text-white">
+            {t("header.title")}
+          </h1>
+          {error ? (
+            <p className="text-red-500 mb-8 font-medium">
+              {t("messages.errorPrefix")} {error}
+            </p>
+          ) : (
+            <p className="text-gray-500 mb-8 [:root[data-theme=dark]_&]:text-gray-400">
+              {/* [수정] 다국어 키 적용 */}
+              {t("header.subtitle")}
+            </p>
+          )}
 
-      {/* 에러 */}
-      {error ? (
-        <div className="alert alert-error mb-4">
-          <span>
-            {t("messages.errorPrefix")} {error}
-          </span>
-        </div>
-      ) : null}
-
-      {/* 목록 */}
-      <div className="card bg-base-100 shadow">
-        <div className="card-body">
-          <div className="overflow-x-auto">
-            <table className="table table-zebra w-full">
-              <thead>
-                <tr>
-                  <th>{t("table.colTitle")}</th>
-                  <th className="w-48">{t("table.colPublishedAt")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {ordered.map((row) => (
-                  <tr
-                    key={row.id}
-                    className="hover cursor-pointer"
-                    onClick={() => {
-                      void loadDetail(row.id);
-                      window.scrollTo({
-                        top: document.body.scrollHeight,
-                        behavior: "smooth",
-                      });
-                    }}
-                  >
-                    <td className="font-medium">{row.title}</td>
-                    <td>{formatDateTime(row.publishedAt)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            {loading ? (
-              <div className="mt-2 text-sm">{t("messages.loadingList")}</div>
-            ) : null}
-            {ordered.length === 0 && !loading ? (
-              <div className="mt-2 text-sm opacity-70">
-                {t("messages.emptyList")}
-              </div>
-            ) : null}
-          </div>
-        </div>
-      </div>
-
-      {/* 상세 */}
-      <div className="mt-6">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-xl font-semibold">{t("detail.title")}</h2>
-          {detail ? (
-            <button className="btn btn-ghost btn-sm" onClick={clearDetail}>
-              {t("detail.close")}
-            </button>
-          ) : null}
-        </div>
-
-        {loadingDetail ? (
-          <div className="alert">
-            <span>{t("detail.loading")}</span>
-          </div>
-        ) : null}
-        {errorDetail ? (
-          <div className="alert alert-error">
-            <span>
-              {t("messages.errorPrefix")} {errorDetail}
-            </span>
-          </div>
-        ) : null}
-
-        {detail ? (
-          <div className="card bg-base-100 shadow">
-            <div className="card-body">
-              <h3 className="text-lg font-bold mb-2">{detail.title}</h3>
-              <div className="text-xs opacity-70 mb-4">
-                {t("detail.publishedLabel")}:{" "}
-                {detail.publishedAt ? formatDateTime(detail.publishedAt) : "-"}
-              </div>
-              <div
-                className="prose max-w-none"
-                // 서버에 저장된 sanitize된 HTML 사용
-                dangerouslySetInnerHTML={{ __html: detail.bodyHtml ?? "" }}
+          {/* 검색 바 */}
+          <div className="relative max-w-2xl mx-auto flex items-center w-full">
+            <div className="relative flex-1">
+              <input
+                type="text"
+                placeholder={t("actions.searchPlaceholder")} // [수정] 다국어 키 적용
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full h-14 border border-gray-300 border-r-0 rounded-l-lg pl-12 pr-4 
+                  bg-white text-gray-900 placeholder-gray-400
+                  focus:outline-none focus:border-[#06b6d4] focus:z-10 transition-colors
+                  [:root[data-theme=dark]_&]:bg-[#131B2D] 
+                  [:root[data-theme=dark]_&]:border-gray-700 
+                  [:root[data-theme=dark]_&]:text-gray-100 
+                  [:root[data-theme=dark]_&]:placeholder-gray-500"
               />
+              <MagnifyingGlassIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 [:root[data-theme=dark]_&]:text-gray-500" />
             </div>
+
+            <button
+              onClick={refresh}
+              disabled={loading}
+              className="h-14 bg-[#06b6d4] hover:bg-[#0891b2] text-white font-medium px-6 rounded-r-lg transition-colors border border-[#06b6d4] 
+              shrink-0 whitespace-nowrap flex items-center gap-2"
+            >
+              {loading ? (
+                <span className="loading loading-spinner loading-sm" />
+              ) : (
+                <ArrowPathIcon className="h-5 w-5" />
+              )}
+              <span className="hidden sm:inline">{t("actions.refresh")}</span>
+            </button>
           </div>
-        ) : (
-          <div className="text-sm opacity-70">{t("detail.placeholder")}</div>
+        </div>
+      </section>
+
+      {/* 2. 공지사항 메인 콘텐츠 영역 */}
+      <section className="max-w-4xl mx-auto px-4">
+        <div className="mb-8 flex items-end justify-between">
+          <div>
+            <h2 className="text-2xl font-bold mb-2">
+              {t("list.title")} {/* [수정] 다국어 키 적용 */}
+            </h2>
+            <p className="text-gray-500 text-sm [:root[data-theme=dark]_&]:text-gray-400">
+              {/* [수정] 다국어 키 적용 (변수 포함) */}
+              {t("list.totalPosts", { count: filteredList.length })}
+            </p>
+          </div>
+        </div>
+
+        {/* 결과 없음 */}
+        {!loading && filteredList.length === 0 && (
+          <div className="text-center py-16 border border-dashed border-gray-300 rounded-xl [:root[data-theme=dark]_&]:border-gray-700">
+            <p className="text-gray-500 [:root[data-theme=dark]_&]:text-gray-400">
+              {t("messages.emptyList")}
+            </p>
+          </div>
         )}
-      </div>
-    </div>
+
+        {/* 리스트 반복 */}
+        <div className="space-y-4">
+          {filteredList.map((item) => {
+            const isOpen = openItemId === item.id;
+            return (
+              <div
+                key={item.id}
+                className={`rounded-lg overflow-hidden border transition-all duration-200
+                  ${
+                    isOpen
+                      ? "border-[#06b6d4] shadow-md shadow-cyan-900/10"
+                      : "border-gray-200 [:root[data-theme=dark]_&]:border-gray-800"
+                  }
+                  bg-white [:root[data-theme=dark]_&]:bg-[#131B2D]`}
+              >
+                <button
+                  onClick={() => handleToggle(item.id)}
+                  className="w-full flex items-center justify-between px-6 py-5 text-left focus:outline-none transition-colors
+                    hover:bg-gray-50 [:root[data-theme=dark]_&]:hover:bg-white/5"
+                  aria-expanded={isOpen}
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 pr-4 w-full">
+                    <span
+                      className="shrink-0 text-xs font-medium px-2.5 py-1 rounded-md 
+                      bg-gray-100 text-gray-600 
+                      [:root[data-theme=dark]_&]:bg-gray-800 [:root[data-theme=dark]_&]:text-gray-400"
+                    >
+                      {formatDateTime(item.publishedAt)}
+                    </span>
+                    <span
+                      className={`text-base md:text-lg font-medium transition-colors
+                      ${
+                        isOpen
+                          ? "text-[#06b6d4]"
+                          : "text-gray-900 [:root[data-theme=dark]_&]:text-gray-100"
+                      }`}
+                    >
+                      {item.title}
+                    </span>
+                  </div>
+
+                  <ChevronDownIcon
+                    className={`h-5 w-5 transition-transform duration-200 shrink-0 
+                      ${
+                        isOpen
+                          ? "rotate-180 text-[#06b6d4]"
+                          : "text-gray-400 [:root[data-theme=dark]_&]:text-gray-500"
+                      }`}
+                  />
+                </button>
+
+                <div
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                    isOpen ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <div
+                    className="px-6 pb-8 pt-4 border-t
+                    border-gray-100 [:root[data-theme=dark]_&]:border-gray-800/50"
+                  >
+                    {loadingDetail && !detail ? (
+                      <div className="flex justify-center py-8">
+                        <span className="loading loading-spinner text-primary" />
+                      </div>
+                    ) : detail && detail.id === item.id ? (
+                      <div
+                        className="prose max-w-none 
+                        text-gray-600 prose-headings:text-gray-900 prose-strong:text-gray-900 prose-a:text-[#06b6d4]
+                        [:root[data-theme=dark]_&]:text-gray-300 [:root[data-theme=dark]_&]:prose-headings:text-gray-100 [:root[data-theme=dark]_&]:prose-strong:text-gray-100"
+                        dangerouslySetInnerHTML={{
+                          __html: detail.bodyHtml ?? "",
+                        }}
+                      />
+                    ) : (
+                      <div className="text-center py-4 text-sm opacity-70">
+                        {/* [수정] 다국어 키 적용 */}
+                        {t("messages.contentNotAvailable")}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <div className="h-12" />
+    </main>
   );
 }

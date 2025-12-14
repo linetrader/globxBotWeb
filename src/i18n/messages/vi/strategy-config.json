@@ -1,0 +1,59 @@
+{
+  "page": {
+    "title": "Cấu hình chiến lược",
+    "subtitle": "Cấu hình tham số chiến lược cho bot giao dịch tự động."
+  },
+  "create": {
+    "title": "Tạo chiến lược mới"
+  },
+  "edit": {
+    "title": "Sửa chiến lược",
+    "id": "ID chiến lược"
+  },
+  "section": {
+    "common": "Cài đặt chung",
+    "trend": "Cài đặt Xu hướng (TREND)",
+    "box": "Cài đặt Hộp (BOX)",
+    "signalConfirm": "Xác nhận tín hiệu / Tham số phụ"
+  },
+  "field": {
+    "name": "Tên chiến lược",
+    "kind": "Loại chiến lược",
+    "timeframe": "Khung thời gian",
+    "rsiLength": "Độ dài RSI",
+    "leverage": "Đòn bẩy (x)",
+    "profit": "Lợi nhuận mục tiêu (%)",
+    "loss": "Cắt lỗ (%)",
+    "defaultSize": "Kích thước cơ bản (USDT)",
+    "maxSize": "Kích thước tối đa (USDT)",
+    "useMartin": "Dùng Martingale",
+    "martinMultiplier": "Hệ số Martin",
+    "rangeFollowTrendOnly": "Chỉ theo xu hướng trong phạm vi",
+    "reverseEntry": "Cho phép vào lệnh ngược",
+    "trendUpper": "Pullback trên",
+    "trendLower": "Pullback dưới",
+    "boxUpper": "Ngưỡng trên",
+    "boxLower": "Ngưỡng dưới",
+    "boxTouch": "% Chạm hộp"
+  },
+  "placeholder": {
+    "name": "Nhập tên chiến lược",
+    "floatOrNull": "Nhập giá trị"
+  },
+  "action": {
+    "create": "Tạo chiến lược",
+    "update": "Lưu thay đổi",
+    "close": "Đóng",
+    "deleteSelected": "Xóa đã chọn ({count})"
+  },
+  "list": {
+    "title": "Danh sách chiến lược",
+    "empty": "Không tìm thấy chiến lược nào."
+  },
+  "table": {
+    "updatedAt": "Cập nhật",
+    "name": "Tên",
+    "kind": "Loại",
+    "detail": "Chi tiết"
+  }
+}

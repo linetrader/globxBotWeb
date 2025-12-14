@@ -1,0 +1,59 @@
+{
+  "page": {
+    "title": "戦略設定",
+    "subtitle": "自動売買ボットで使用する戦略パラメータを設定します。"
+  },
+  "create": {
+    "title": "新しい戦略を作成"
+  },
+  "edit": {
+    "title": "戦略を編集",
+    "id": "戦略ID"
+  },
+  "section": {
+    "common": "共通設定",
+    "trend": "トレンド(TREND)設定",
+    "box": "ボックス(BOX)設定",
+    "signalConfirm": "シグナル確証 / 補助パラメータ"
+  },
+  "field": {
+    "name": "戦略名",
+    "kind": "種類",
+    "timeframe": "タイムフレーム",
+    "rsiLength": "RSI期間",
+    "leverage": "レバレッジ (x)",
+    "profit": "目標利益 (%)",
+    "loss": "損切り (%)",
+    "defaultSize": "基本サイズ (USDT)",
+    "maxSize": "最大サイズ (USDT)",
+    "useMartin": "マーチンゲール使用",
+    "martinMultiplier": "マーチン倍率",
+    "rangeFollowTrendOnly": "レンジはトレンド追従のみ",
+    "reverseEntry": "リバースエントリー許可",
+    "trendUpper": "上限プルバック",
+    "trendLower": "下限プルバック",
+    "boxUpper": "上限しきい値",
+    "boxLower": "下限しきい値",
+    "boxTouch": "ボックス接触 %"
+  },
+  "placeholder": {
+    "name": "戦略名を入力してください",
+    "floatOrNull": "値を入力"
+  },
+  "action": {
+    "create": "戦略作成",
+    "update": "変更を保存",
+    "close": "閉じる",
+    "deleteSelected": "選択削除 ({count})"
+  },
+  "list": {
+    "title": "戦略リスト",
+    "empty": "登録された戦略がありません。"
+  },
+  "table": {
+    "updatedAt": "更新日",
+    "name": "名前",
+    "kind": "種類",
+    "detail": "詳細設定"
+  }
+}
