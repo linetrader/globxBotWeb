@@ -1,0 +1,34 @@
+{
+  "public": {
+    "about": "Giới thiệu dự án",
+    "announcements": "Thông báo",
+    "cases": "Câu chuyện thành công",
+    "events": "Sự kiện",
+    "help": "Trung tâm hỗ trợ"
+  },
+  "app": {
+    "botConfig": "Cấu hình Bot",
+    "strategyConfig": "Cấu hình chiến lược",
+    "dashboard": "Bảng điều khiển",
+    "history": "Lịch sử",
+    "myConfig": "Cấu hình cá nhân",
+    "botList": "Danh sách Bot"
+  },
+  "auth": {
+    "signup": "Đăng ký",
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất",
+    "admin": "Quản trị",
+    "pleaseLogin": "Vui lòng đăng nhập."
+  },
+  "aria": {
+    "home": "Về trang chủ",
+    "myAccount": "Tài khoản của tôi",
+    "menu": "Menu chính",
+    "settings": "Cài đặt"
+  },
+  "status": {
+    "startFailed": "Khởi động thất bại",
+    "stopFailed": "Dừng thất bại"
+  }
+}

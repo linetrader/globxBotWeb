@@ -1,0 +1,30 @@
+{
+  "title": "Log In",
+  "subtitle": "Please log in to use the service.",
+  "fields": {
+    "idLabel": "ID or Email",
+    "idPlaceholder": "Enter ID or Email",
+    "idError": "Please check the ID/Email format.",
+    "pwLabel": "Password",
+    "pwPlaceholder": "Enter Password",
+    "pwError": "Please enter your password."
+  },
+  "buttons": {
+    "submit": "Log In",
+    "loading": "Logging in...",
+    "findId": "Find ID",
+    "findPw": "Find Password",
+    "signup": "Sign Up"
+  },
+  "messages": {
+    "successTitle": "Login Successful",
+    "successDesc": "Welcome, {username}.",
+    "failTitle": "Login Failed",
+    "invalidCredentials": "ID (or Email) or Password is incorrect.",
+    "validationError": "Please check your input.",
+    "generalError": "Unable to log in due to a temporary issue.",
+    "serverErrorTitle": "Server Error",
+    "networkErrorTitle": "Network Error",
+    "networkErrorDesc": "Please check your internet connection and try again."
+  }
+}

@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/generated/prisma";
-import { requireAdmin } from "@/app/admin/exchanges/list/gaurd/auth";
+import { requireAdmin } from "@/app/[locale]/admin/exchanges/list/gaurd/auth";
 import { getUserId } from "@/lib/request-user";
 import {
   ExchangeCredentialItemSchema,
@@ -12,7 +12,7 @@ import {
   type ExchangeCredentialListResponse,
   type ExchangeCredentialUpdateBody,
   type ErrorResponse,
-} from "@/app/admin/exchanges/credential/types";
+} from "@/app/[locale]/admin/exchanges/credential/types";
 
 export const runtime = "nodejs";
 

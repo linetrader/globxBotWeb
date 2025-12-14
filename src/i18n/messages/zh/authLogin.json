@@ -1,0 +1,30 @@
+{
+  "title": "登录",
+  "subtitle": "请登录以使用服务。",
+  "fields": {
+    "idLabel": "账号或邮箱",
+    "idPlaceholder": "输入账号或邮箱",
+    "idError": "请检查账号/邮箱格式。",
+    "pwLabel": "密码",
+    "pwPlaceholder": "输入密码",
+    "pwError": "请输入密码。"
+  },
+  "buttons": {
+    "submit": "登录",
+    "loading": "登录中...",
+    "findId": "找回账号",
+    "findPw": "找回密码",
+    "signup": "注册"
+  },
+  "messages": {
+    "successTitle": "登录成功",
+    "successDesc": "欢迎，{username}。",
+    "failTitle": "登录失败",
+    "invalidCredentials": "账号（或邮箱）或密码不正确。",
+    "validationError": "请重新检查输入内容。",
+    "generalError": "由于暂时性问题无法登录。",
+    "serverErrorTitle": "服务器错误",
+    "networkErrorTitle": "网络错误",
+    "networkErrorDesc": "请检查网络连接后重试。"
+  }
+}

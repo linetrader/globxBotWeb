@@ -4,7 +4,7 @@ import { ZodError } from "zod";
 import { prisma } from "@/lib/prisma";
 import { getUserId } from "@/lib/request-user";
 import { Prisma, StrategyKind } from "@/generated/prisma";
-import { ErrorResponse } from "@/app/(site)/my-config/types";
+import { ErrorResponse } from "@/app/[locale]/(site)/my-config/types";
 import {
   StrategyConfigWithRelations,
   StrategyCreateBody,
@@ -16,7 +16,7 @@ import {
   StrategyListSchema,
   StrategyUpdateBody,
   StrategyUpdateBodySchema,
-} from "@/app/(site)/strategy-config/types";
+} from "@/app/[locale]/(site)/strategy-config/types";
 
 export const runtime = "nodejs";
 

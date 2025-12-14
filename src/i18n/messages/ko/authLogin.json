@@ -1,0 +1,30 @@
+{
+  "title": "로그인",
+  "subtitle": "서비스 이용을 위해 로그인이 필요합니다.",
+  "fields": {
+    "idLabel": "아이디 또는 이메일",
+    "idPlaceholder": "아이디 또는 이메일 입력",
+    "idError": "아이디/이메일 형식을 확인해 주세요.",
+    "pwLabel": "패스워드",
+    "pwPlaceholder": "비밀번호 입력",
+    "pwError": "비밀번호를 입력해 주세요."
+  },
+  "buttons": {
+    "submit": "로그인",
+    "loading": "로그인 중...",
+    "findId": "아이디 찾기",
+    "findPw": "비밀번호 찾기",
+    "signup": "회원가입"
+  },
+  "messages": {
+    "successTitle": "로그인 성공",
+    "successDesc": "{username}님, 환영합니다.",
+    "failTitle": "로그인 실패",
+    "invalidCredentials": "아이디(또는 이메일) 또는 비밀번호가 올바르지 않습니다.",
+    "validationError": "입력값을 다시 확인해 주세요.",
+    "generalError": "일시적인 문제로 로그인할 수 없습니다.",
+    "serverErrorTitle": "서버 오류",
+    "networkErrorTitle": "네트워크 오류",
+    "networkErrorDesc": "인터넷 연결을 확인하고 다시 시도해 주세요."
+  }
+}

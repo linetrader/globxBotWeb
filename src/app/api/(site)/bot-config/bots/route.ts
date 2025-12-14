@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getUserId } from "@/lib/request-user";
 import { BotMode } from "@/generated/prisma";
-import type { BotStatus } from "@/app/(site)/bot-config/types";
+import type { BotStatus } from "@/app/[locale]/(site)/bot-config/types";
 
 // 확장 상태를 보존해서 반환
 function runtimeToBotStatus(runtime: { status: string } | null): BotStatus {

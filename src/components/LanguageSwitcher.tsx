@@ -1,9 +1,14 @@
 // src/components/LanguageSwitcher.tsx
 "use client";
 
-import { useEffect, useMemo, useState, useCallback } from "react";
-import { Dropdown } from "@/components/ui/overlay/Dropdown";
-import { GlobeAltIcon } from "@heroicons/react/24/outline";
+import { useLocale } from "next-intl";
+import { usePathname, useRouter } from "@/i18n/routing"; // [핵심 복원] useRouter를 다시 가져옵니다.
+import {
+  GlobeAltIcon,
+  ChevronUpIcon,
+  CheckIcon,
+} from "@heroicons/react/24/outline";
+import { useState, useRef, useEffect, useMemo } from "react";
 
 export type LangCode = "ko" | "en" | "ja" | "zh" | "vi";
 export type LangOption = { code: LangCode; label: string; flag: string };
@@ -17,181 +22,131 @@ const LANGS: LangOption[] = [
 ];
 
 type LanguageSwitcherProps = {
-  /** 외부에서 제어할 때 사용 (MainMenuDropdown과 유사) */
-  open?: boolean;
-  setOpen?: (next: boolean) => void;
-
-  /** 현재 언어 값을 외부 제어형으로 전달하고 싶을 때 */
-  value?: LangCode;
-  defaultValue?: LangCode;
-  onChange?: (code: LangCode) => void;
-
-  /** UI 옵션 */
   variant?: "flag-label" | "icon-label";
-  triggerClassName?: string; // Dropdown의 래핑 버튼에 적용될 클래스 (btn 계열만 넘기면 됨)
-  itemClassName?: string; // 각 항목 버튼 클래스
-  widthClassName?: string; // 드롭다운 폭
-  maxHeightClassName?: string; // 스크롤 높이
-  contentClassName?: string;
-
-  /** 언어 선택 영역 클릭 시 상위 드롭다운 닫힘 방지 */
-  stopPropagationInContainer?: boolean; // default: true
-
-  /** 로컬 퍼시스턴스 + <html lang> 반영 여부 */
-  persist?: boolean; // default: true
-
-  /** 로딩 스켈레톤 */
-  skeletonClassName?: string;
+  triggerClassName?: string;
+  itemClassName?: string;
 };
 
 export default function LanguageSwitcher({
-  open,
-  setOpen,
-  value,
-  defaultValue = "ko",
-  onChange,
   variant = "flag-label",
   triggerClassName = "btn btn-ghost gap-2 px-3 h-10 min-h-10",
   itemClassName = "flex items-center gap-2 w-full",
-  widthClassName = "w-44",
-  maxHeightClassName = "max-h-[70vh]",
-  contentClassName,
-  stopPropagationInContainer = true,
-  persist = true,
-  skeletonClassName = "btn btn-ghost btn-square skeleton h-10 w-20",
 }: LanguageSwitcherProps) {
-  // 제어형/비제어형 open
-  const isOpenControlled =
-    typeof open === "boolean" && typeof setOpen === "function";
-  const [innerOpen, setInnerOpen] = useState<boolean>(false);
-  const actualOpen = isOpenControlled ? (open as boolean) : innerOpen;
-  const setActualOpen = useCallback(
-    (next: boolean) => (isOpenControlled ? setOpen!(next) : setInnerOpen(next)),
-    [isOpenControlled, setOpen]
+  // 1. Next-Intl 훅
+  const locale = useLocale();
+  const router = useRouter(); // [복원] useRouter 사용
+  const pathname = usePathname();
+
+  // 2. 상태 관리 (직접 구현하여 중첩 드롭다운 충돌 방지)
+  const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+
+  // 3. 현재 언어 정보
+  const current = useMemo<LangOption>(
+    () => LANGS.find((l) => l.code === locale) ?? LANGS[0],
+    [locale]
   );
 
-  // 제어형/비제어형 value
-  const isValueControlled = typeof value === "string";
-  const [innerLang, setInnerLang] = useState<LangCode>(defaultValue);
-
-  // mount 후 localStorage에서 언어 복구
-  const [mounted, setMounted] = useState<boolean>(false);
+  // 4. 마운트 확인
   useEffect(() => {
     setMounted(true);
-    try {
-      const saved = (localStorage.getItem("lang") as LangCode | null) ?? null;
-      if (!isValueControlled) {
-        const next =
-          saved && LANGS.some((l) => l.code === saved) ? saved : defaultValue;
-        setInnerLang(next);
-        if (persist) {
-          document.documentElement.setAttribute("lang", next);
-        }
-      } else if (persist && value) {
-        document.documentElement.setAttribute("lang", value);
-      }
-    } catch {
-      if (!isValueControlled) {
-        setInnerLang(defaultValue);
-      }
-      if (persist) {
-        document.documentElement.setAttribute("lang", defaultValue);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 외부 value 바뀔 때 html lang 반영
+  // 5. 외부 클릭 감지 (메뉴 닫기)
   useEffect(() => {
-    if (persist && isValueControlled && value) {
-      document.documentElement.setAttribute("lang", value);
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
     }
-  }, [isValueControlled, persist, value]);
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
-  const lang: LangCode = isValueControlled ? (value as LangCode) : innerLang;
-
-  const current = useMemo<LangOption>(
-    () => LANGS.find((l) => l.code === lang) ?? LANGS[0],
-    [lang]
-  );
-
+  // 6. 언어 변경 핸들러
   const apply = (code: LangCode) => {
-    if (isValueControlled) {
-      onChange?.(code);
-    } else {
-      setInnerLang(code);
-      onChange?.(code);
+    if (code === locale) {
+      setIsOpen(false);
+      return;
     }
-    if (persist) {
-      try {
-        localStorage.setItem("lang", code);
-      } catch {}
-      document.documentElement.setAttribute("lang", code);
-    }
-    setActualOpen(false);
+
+    // [최종 라우팅 로직] useRouter를 사용하여 표준 Soft Navigation을 시도합니다.
+    // 이전 단계에서 window.location.assign을 사용했지만, 이것이 Next.js의
+    // 라우팅 시스템을 방해하여 다른 문제를 유발했을 수 있습니다.
+
+    // router.replace는 usePathname이 locale-agnostic path(예: /about)를
+    // 반환한다고 가정하고 새 locale을 적용합니다.
+    router.replace(pathname, { locale: code });
+
+    setIsOpen(false);
   };
 
   if (!mounted) {
-    return <div className={skeletonClassName} aria-hidden />;
+    return <div className="btn btn-ghost btn-square skeleton h-9 w-20" />;
   }
 
-  // MainMenuDropdown 패턴: trigger는 fragment만 넘겨 Dropdown이 button으로 감싸게 함
-  const Trigger = () => {
-    if (variant === "icon-label") {
-      return (
-        <>
-          <GlobeAltIcon className="h-5 w-5" aria-hidden />
-          <span className="text-sm">{current.label}</span>
-        </>
-      );
-    }
-    // flag-label
-    return (
-      <>
-        <span className="text-lg leading-none">{current.flag}</span>
-        <span className="text-sm">{current.label}</span>
-      </>
-    );
-  };
-
   return (
-    <Dropdown
-      end
-      open={actualOpen}
-      onOpenChange={setActualOpen}
-      className="relative"
-      triggerClassName={triggerClassName} // Dropdown이 만드는 버튼에 적용
-      trigger={<Trigger />} // fragment만 전달 (중첩 button 방지)
-      widthClassName={widthClassName}
-      maxHeightClassName={maxHeightClassName}
-      contentClassName={contentClassName}
-      closeOnItemClick // 보조 (직접 setActualOpen(false)도 호출)
-    >
-      <div
-        className="p-1"
-        {...(stopPropagationInContainer
-          ? { onClick: (e) => e.stopPropagation() }
-          : {})}
+    <div ref={containerRef} className="relative w-full">
+      {/* 트리거 버튼 */}
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className={`${triggerClassName} flex justify-between items-center`}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
       >
-        <ul className="menu p-1 gap-0.5">
-          {LANGS.map((op) => (
-            <li key={op.code}>
-              <button
-                type="button"
-                className={`${itemClassName} ${op.code === lang ? "font-semibold" : ""}`}
-                onClick={() => apply(op.code)}
-              >
-                {variant === "icon-label" ? (
-                  <GlobeAltIcon className="h-5 w-5" aria-hidden />
-                ) : (
-                  <span className="text-lg leading-none">{op.flag}</span>
-                )}
-                <span className="text-sm">{op.label}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </Dropdown>
+        <div className="flex items-center gap-2">
+          {variant === "icon-label" ? (
+            <GlobeAltIcon className="h-5 w-5" />
+          ) : (
+            <span className="text-lg leading-none">{current.flag}</span>
+          )}
+          <span className="text-sm font-normal">{current.label}</span>
+        </div>
+
+        {/* 화살표 아이콘 (열림/닫힘 표시) */}
+        <ChevronUpIcon
+          className={`h-3 w-3 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+        />
+      </button>
+
+      {/* 드롭다운 메뉴 목록 
+        - bottom-full: 버튼의 위쪽으로 열림 (하단 메뉴에 위치하므로)
+        - z-[100]: 다른 요소보다 위에 표시
+      */}
+      {isOpen && (
+        <div className="absolute bottom-full left-0 mb-2 w-full min-w-[160px] rounded-lg border border-base-300 bg-base-100 shadow-xl z-[100]">
+          <ul className="menu p-1 gap-0.5" role="listbox">
+            {LANGS.map((op) => (
+              <li key={op.code}>
+                <button
+                  type="button"
+                  onClick={() => apply(op.code)}
+                  className={`${itemClassName} justify-between px-3 py-2 ${
+                    op.code === locale ? "active font-bold" : ""
+                  }`}
+                  role="option"
+                  aria-selected={op.code === locale}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg leading-none">{op.flag}</span>
+                    <span className="text-sm">{op.label}</span>
+                  </div>
+                  {op.code === locale && <CheckIcon className="h-4 w-4" />}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
   );
 }

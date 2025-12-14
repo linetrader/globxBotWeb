@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import prisma from "@/lib/prisma";
 import { Prisma, BotMode, BotStatus as DbBotStatus } from "@/generated/prisma";
-import type { ApiResponse } from "@/app/(site)/bot-config/types";
+import type { ApiResponse } from "@/app/[locale]/(site)/bot-config/types";
 import { getUserId } from "@/lib/request-user";
 
 const IdParamSchema = z.object({ id: z.string().min(1) });

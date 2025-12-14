@@ -1,0 +1,30 @@
+{
+  "title": "Đăng nhập",
+  "subtitle": "Vui lòng đăng nhập để sử dụng dịch vụ.",
+  "fields": {
+    "idLabel": "ID hoặc Email",
+    "idPlaceholder": "Nhập ID hoặc Email",
+    "idError": "Vui lòng kiểm tra định dạng ID/Email.",
+    "pwLabel": "Mật khẩu",
+    "pwPlaceholder": "Nhập mật khẩu",
+    "pwError": "Vui lòng nhập mật khẩu."
+  },
+  "buttons": {
+    "submit": "Đăng nhập",
+    "loading": "Đang đăng nhập...",
+    "findId": "Tìm ID",
+    "findPw": "Tìm mật khẩu",
+    "signup": "Đăng ký"
+  },
+  "messages": {
+    "successTitle": "Đăng nhập thành công",
+    "successDesc": "Chào mừng, {username}.",
+    "failTitle": "Đăng nhập thất bại",
+    "invalidCredentials": "ID (hoặc Email) hoặc mật khẩu không chính xác.",
+    "validationError": "Vui lòng kiểm tra lại thông tin đầu vào.",
+    "generalError": "Không thể đăng nhập do sự cố tạm thời.",
+    "serverErrorTitle": "Lỗi máy chủ",
+    "networkErrorTitle": "Lỗi mạng",
+    "networkErrorDesc": "Vui lòng kiểm tra kết nối internet và thử lại."
+  }
+}

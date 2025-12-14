@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/generated/prisma";
-import { requireAdmin } from "@/app/admin/exchanges/list/gaurd/auth";
+import { requireAdmin } from "@/app/[locale]/admin/exchanges/list/gaurd/auth";
 import {
   ExchangeListItemSchema,
   ExchangeListResponseSchema,
@@ -11,7 +11,7 @@ import {
   type ExchangeListResponse,
   type ExchangeUpdateBody,
   type ErrorResponse,
-} from "@/app/admin/exchanges/list/types";
+} from "@/app/[locale]/admin/exchanges/list/types";
 
 export const runtime = "nodejs";
 

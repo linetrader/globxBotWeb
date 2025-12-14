@@ -5,7 +5,7 @@ import type {
   StrategyGlobalDTO,
   StrategyGlobalHistoryDTO,
   ApiResponse, // ✅ 추가
-} from "@/app/admin/bots/strategy/types";
+} from "@/app/[locale]/admin/bots/strategy/types";
 import { getStrategyBundle, replaceActiveStrategy } from "./service";
 import { isAdmin } from "@/lib/request-user";
 
