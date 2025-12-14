@@ -1,23 +1,24 @@
 // src/i18n/request.ts
-
 import { getRequestConfig } from "next-intl/server";
-import { LOCALES } from "./routing"; // LOCALES는 src/i18n/routing.ts에서 가져옴
 
-/** 지원 로케일 (routing.ts와 동기화) */
+/** 지원 로케일 */
+const LOCALES = ["ko", "en", "ja", "zh", "vi"] as const;
 type AppLocale = (typeof LOCALES)[number];
 
-/** 네임스페이스 정의 (필요한 모든 메시지 파일을 명시) */
+/** 네임스페이스(슬래시 허용) */
 const NAMESPACES = [
   "header",
   "authLogin",
   "authSignup",
-  "about",
-  // [참고] 이 목록은 프로젝트에서 실제로 사용되는 모든 네임스페이스를 포함해야 합니다.
-  // 예: "common", "dashboard", "history/staking", 등
+  "home",
+  "announcement",
+  "event",
+  "help",
+  "cases",
 ] as const;
 type Namespace = (typeof NAMESPACES)[number];
 
-/** 재귀 JSON 타입 */
+/** 재귀 JSON 타입 (빈 인터페이스 제거) */
 type JSONValue =
   | string
   | number
@@ -26,51 +27,66 @@ type JSONValue =
   | { [key: string]: JSONValue }
   | JSONValue[];
 
-/** 안전 import 함수 */
+/** 로케일 정규화 */
+function normalizeLocale(input: string | undefined | null): AppLocale {
+  const v = (input ?? "").toLowerCase();
+  return (LOCALES as readonly string[]).includes(v) ? (v as AppLocale) : "ko";
+}
+
+/** 안전 import */
 async function importMessages(
   lang: AppLocale,
   ns: Namespace
 ): Promise<{ [key: string]: JSONValue }> {
   try {
-    // 경로: 현재 파일 위치 (src/i18n/)에서 messages 폴더로 접근합니다.
+    // 경로 주의: 이 파일이 src/i18n/request.ts라면,
+    // ./messages/... 는 src/i18n/messages 를 가리킵니다.
+    // 실제 파일이 src/messages/... 라면 '../messages' 또는 '@/messages' 로 바꾸세요.
     const mod = await import(`./messages/${lang}/${ns}.json`);
     return mod.default as { [key: string]: JSONValue };
   } catch (e) {
-    console.error(`i18n load error: locale='${lang}', ns='${ns}'`, e);
-    // 로드 실패 시 빈 객체를 반환하여 앱 충돌을 방지하고 빈 메시지 사용을 허용합니다.
-    return {};
+    const msg =
+      e instanceof Error ? e.message : typeof e === "string" ? e : "unknown";
+    throw new Error(
+      `i18n load error: locale='${lang}', ns='${ns}', reason='${msg}'`
+    );
   }
 }
 
-/** 중첩 객체에 값 설정 (필요한 경우 구현 - 현재는 네임스페이스가 평탄하므로 단순화) */
-function setMessages(
+/** 중첩 객체에 값 설정 */
+function setNested(
   target: { [key: string]: JSONValue },
-  ns: Namespace,
+  path: readonly string[],
   value: { [key: string]: JSONValue }
 ): void {
-  // 만약 네임스페이스에 슬래시(예: history/center)가 있다면 setNested 로직을 사용해야 합니다.
-  // 현재는 평탄한 네임스페이스만 가정하고 단순 주입합니다.
-  target[ns] = value;
+  let cur = target;
+  for (let i = 0; i < path.length; i++) {
+    const key = path[i]!;
+    if (i === path.length - 1) {
+      cur[key] = value;
+    } else {
+      const next = cur[key];
+      if (typeof next !== "object" || next === null || Array.isArray(next)) {
+        cur[key] = {};
+      }
+      cur = cur[key] as { [key: string]: JSONValue };
+    }
+  }
 }
 
-export default getRequestConfig(async ({ locale: requestLocale }) => {
-  // 💡 [수정] let을 const로 변경하여 ESLint 오류 해결
-  const locale = await requestLocale;
-
-  const lang = (LOCALES as readonly string[]).includes(locale as string)
-    ? (locale as AppLocale)
-    : "ko";
+export default getRequestConfig(async ({ locale }) => {
+  const lang = normalizeLocale(locale);
 
   // 병렬 로드
   const loaded = await Promise.all(
     NAMESPACES.map((ns) => importMessages(lang, ns))
   );
 
-  // 로드된 메시지를 messages 객체에 중첩 주입
+  // 슬래시를 기준으로 중첩 주입
   const messages: { [key: string]: JSONValue } = {};
   NAMESPACES.forEach((ns, i) => {
-    // 평탄한 구조이므로, 단순히 네임스페이스 이름을 키로 사용합니다.
-    setMessages(messages, ns, loaded[i]);
+    const segments = ns.split("/");
+    setNested(messages, segments, loaded[i]);
   });
 
   return { locale: lang, messages };

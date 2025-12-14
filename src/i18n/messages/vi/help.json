@@ -1,0 +1,46 @@
+{
+  "title": "Trung tâm hỗ trợ",
+  "subtitle": "Xem FAQ và cách liên hệ hỗ trợ.",
+  "actions": {
+    "home": "Trang chủ",
+    "createTicket": "Tạo yêu cầu (mẫu)",
+    "viewMyTickets": "Yêu cầu của tôi (mẫu)"
+  },
+  "notice": {
+    "sampleOnly": "Trang này là mẫu UI. Lưu/đọc ticket thực tế cần tích hợp API."
+  },
+  "quick": {
+    "title": "Hướng dẫn nhanh",
+    "tabs": { "qna": "Q&A (công khai)", "oneToOne": "1:1 (riêng tư)" },
+    "qna": {
+      "desc": "Q&A công khai hiển thị cho mọi người và giúp tìm câu trả lời nhanh.",
+      "badge": { "public": "Công khai", "searchable": "Có thể tìm kiếm" }
+    },
+    "oneToOne": {
+      "desc": "Yêu cầu 1:1 là riêng tư, chỉ bạn và quản trị viên xem được.",
+      "badge": { "private": "Riêng tư", "secure": "Bảo mật" }
+    }
+  },
+  "faq": {
+    "title": "FAQ",
+    "subtitle": "Những câu hỏi phổ biến.",
+    "openHint": "Mở",
+    "q1": "API key có an toàn không?",
+    "a1": "Khuyến nghị chỉ cấp quyền giao dịch (không cấp quyền rút). Cách lưu key tùy chính sách vận hành.",
+    "q2": "Dùng được trên điện thoại không?",
+    "a2": "Thiết kế responsive cho phép dùng trên PC/tablet/mobile.",
+    "q3": "Mất bao lâu để phản hồi?",
+    "a3": "Tùy giờ làm việc và số lượng ticket. Nếu có SLA, nên công bố ở trang chính sách.",
+    "q4": "Xem thông báo ở đâu?",
+    "a4": "Xem mục Announcements để đọc thông báo mới nhất.",
+    "q5": "Hỏi về thanh toán/hoàn tiền ở đâu?",
+    "a5": "Gửi ticket 1:1 kèm thông tin thanh toán để xử lý nhanh hơn."
+  },
+  "contact": {
+    "title": "Liên hệ",
+    "subtitle": "Liên hệ theo kênh dưới đây (mẫu).",
+    "email": { "label": "Email", "value": "support@example.com" },
+    "hours": { "label": "Giờ làm việc", "value": "Thứ 2–6 10:00–18:00 (KST)" },
+    "linkToAnnouncements": "Xem thông báo"
+  }
+}

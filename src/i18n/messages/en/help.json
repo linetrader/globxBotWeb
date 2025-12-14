@@ -1,0 +1,46 @@
+{
+  "title": "Help Center",
+  "subtitle": "Find FAQs and how to contact support.",
+  "actions": {
+    "home": "Home",
+    "createTicket": "Create ticket (sample)",
+    "viewMyTickets": "My tickets (sample)"
+  },
+  "notice": {
+    "sampleOnly": "This page is a UI sample. Real ticket storage/retrieval requires API integration."
+  },
+  "quick": {
+    "title": "Quick guide",
+    "tabs": { "qna": "Q&A (public)", "oneToOne": "1:1 (private)" },
+    "qna": {
+      "desc": "Public Q&A is visible to everyone and helps users find answers quickly.",
+      "badge": { "public": "Public", "searchable": "Searchable" }
+    },
+    "oneToOne": {
+      "desc": "1:1 inquiries are private and visible only to you and admins.",
+      "badge": { "private": "Private", "secure": "Secure" }
+    }
+  },
+  "faq": {
+    "title": "FAQ",
+    "subtitle": "Most common questions.",
+    "openHint": "Open",
+    "q1": "Are API keys safe?",
+    "a1": "It’s recommended to grant trading permissions only (no withdrawals). Key handling depends on your operational policy.",
+    "q2": "Can I use it on mobile?",
+    "a2": "With responsive design, the same features work on PC/tablet/mobile.",
+    "q3": "How long does a reply take?",
+    "a3": "It depends on business hours and ticket volume. If you have an SLA, publish it on a policy page.",
+    "q4": "Where can I see announcements?",
+    "a4": "Check the Announcements menu for the latest updates.",
+    "q5": "Where do I ask about billing/refunds?",
+    "a5": "Submit a 1:1 inquiry with your payment details for faster handling."
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Reach us via the channels below (sample).",
+    "email": { "label": "Email", "value": "support@example.com" },
+    "hours": { "label": "Hours", "value": "Weekdays 10:00–18:00 (KST)" },
+    "linkToAnnouncements": "Go to announcements"
+  }
+}

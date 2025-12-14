@@ -1,0 +1,28 @@
+{
+  "header": {
+    "title": "이벤트"
+  },
+  "actions": {
+    "refresh": "새로고침",
+    "home": "홈으로"
+  },
+  "messages": {
+    "errorPrefix": "오류:",
+    "loadingList": "목록을 불러오는 중…",
+    "emptyList": "표시할 이벤트가 없습니다."
+  },
+  "table": {
+    "colTitle": "제목",
+    "colPeriod": "기간",
+    "colPublishedAt": "게시일"
+  },
+  "detail": {
+    "title": "이벤트 상세",
+    "close": "닫기",
+    "loading": "상세 내용을 불러오는 중…",
+    "periodLabel": "기간",
+    "publishedLabel": "게시일",
+    "placeholder": "이벤트를 선택하면 상세 내용이 표시됩니다.",
+    "ctaButton": "자세히 보기"
+  }
+}

@@ -13,6 +13,10 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@prisma/client": "^6.16.1",
+    "@tiptap/core": "^3.13.0",
+    "@tiptap/extension-image": "^3.13.0",
+    "@tiptap/react": "^3.13.0",
+    "@tiptap/starter-kit": "^3.13.0",
     "bcryptjs": "^3.0.2",
     "ethers": "^6.15.0",
     "i18n-iso-countries": "^7.14.0",

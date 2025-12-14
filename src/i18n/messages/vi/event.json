@@ -1,0 +1,28 @@
+{
+  "header": {
+    "title": "Sự kiện"
+  },
+  "actions": {
+    "refresh": "Làm mới",
+    "home": "Trang chủ"
+  },
+  "messages": {
+    "errorPrefix": "Lỗi:",
+    "loadingList": "Đang tải danh sách sự kiện…",
+    "emptyList": "Không có sự kiện nào để hiển thị."
+  },
+  "table": {
+    "colTitle": "Tiêu đề",
+    "colPeriod": "Thời gian",
+    "colPublishedAt": "Ngày đăng"
+  },
+  "detail": {
+    "title": "Chi tiết sự kiện",
+    "close": "Đóng",
+    "loading": "Đang tải chi tiết…",
+    "periodLabel": "Thời gian",
+    "publishedLabel": "Ngày đăng",
+    "placeholder": "Chọn một sự kiện để xem chi tiết.",
+    "ctaButton": "Xem thêm"
+  }
+}

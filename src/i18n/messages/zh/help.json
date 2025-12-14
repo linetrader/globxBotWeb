@@ -1,0 +1,46 @@
+{
+  "title": "客服中心",
+  "subtitle": "提供常见问题与联系支持的方法。",
+  "actions": {
+    "home": "首页",
+    "createTicket": "提交工单（示例）",
+    "viewMyTickets": "我的工单（示例）"
+  },
+  "notice": {
+    "sampleOnly": "此页面为UI示例。真实的工单存取需要对接API。"
+  },
+  "quick": {
+    "title": "快速说明",
+    "tabs": { "qna": "问答（公开）", "oneToOne": "一对一（私密）" },
+    "qna": {
+      "desc": "公开问答对所有人可见，便于快速搜索相似问题。",
+      "badge": { "public": "公开", "searchable": "可搜索" }
+    },
+    "oneToOne": {
+      "desc": "一对一咨询为私密，仅本人和管理员可查看。",
+      "badge": { "private": "私密", "secure": "安全" }
+    }
+  },
+  "faq": {
+    "title": "常见问题",
+    "subtitle": "最常见的问题汇总。",
+    "openHint": "展开",
+    "q1": "API Key 安全吗？",
+    "a1": "建议只授予交易权限（不授予提币权限）。Key 的存储方式取决于运营策略。",
+    "q2": "手机端可以使用吗？",
+    "a2": "采用响应式设计后，可在PC/平板/手机使用相同功能。",
+    "q3": "多久会回复？",
+    "a3": "取决于工作时间与工单量。如有SLA建议在政策页公开。",
+    "q4": "在哪里查看公告？",
+    "a4": "可在 Announcements 菜单查看最新公告。",
+    "q5": "退款/账单问题去哪问？",
+    "a5": "建议通过一对一工单并附上支付信息以便更快处理。"
+  },
+  "contact": {
+    "title": "联系方式",
+    "subtitle": "可通过以下渠道联系（示例）。",
+    "email": { "label": "邮箱", "value": "support@example.com" },
+    "hours": { "label": "工作时间", "value": "工作日 10:00–18:00 (KST)" },
+    "linkToAnnouncements": "查看公告"
+  }
+}

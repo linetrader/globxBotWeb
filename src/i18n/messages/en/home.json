@@ -1,0 +1,58 @@
+{
+  "metaTitle": "About the Project - GlobX Bot",
+  "metaDescription": "Meet GlobX, an AI-powered automated trading bot.",
+
+  "heroTagline": "The most efficient and transparent risk-minimization system",
+  "heroTitle": "Bitcoin Auto Trading Bot",
+  "heroSubtitle": "GLOBX",
+  "heroButton": "Learn more",
+
+  "featuresMainTitleStart": "A leader in the age of ",
+  "featuresMainTitleHighlight": "automation",
+  "featuresMainDescLine1": "An AI-based automated trading system monitors the market 24/7 and executes trades automatically at the optimal timing.",
+  "featuresMainDescLine2": "Leave complex market analysis to GlobX.",
+  "featuresMainDescLine3": "You just check the results.",
+
+  "feature1Title": "Powerful strategies",
+  "feature1Desc": "Provides various trading strategies to respond to market volatility and maximize profit.",
+  "feature2Title": "Unlimited performance potential",
+  "feature2Desc": "Keeps capturing market opportunities without stopping until profits are realized.",
+  "feature3Title": "Security-focused safety",
+  "feature3Desc": "Trades while protecting assets with top-tier security systems.",
+
+  "firstTimeTag": "GlobX",
+  "firstTimeTitleStart": "If this is your ",
+  "firstTimeTitleHighlight": "first time with GlobX",
+  "firstTimeCard1Title": "AI that never sleeps",
+  "firstTimeCard1Desc": "Even while you sleep, GlobX monitors the market and captures optimal trading opportunities.",
+  "firstTimeCard2Title": "Fast execution, 100% personalized",
+  "firstTimeCard2Desc": "Generate returns through automation without complex chart analysis or market monitoring.",
+
+  "case1Title": "A chart analyst for busy professionals",
+  "case1Desc": "Even during a busy work life, GlobX traded automatically and generated stable, consistent returns.",
+  "case1Stat": "Average monthly return 15.3%",
+
+  "case2Title": "Stable returns even for beginners",
+  "case2Desc": "With an interface that's easy to use for beginners, assets are being managed simply and very safely.",
+  "case2Stat": "3-month cumulative return 28.7%",
+
+  "faqTitleStart": "Frequently asked ",
+  "faqTitleHighlight": "questions",
+  "faqSubtitle": "Find answers to what you want to know about GlobX.",
+
+  "faqQ1": "Is GlobX safe?",
+  "faqA1": "Yes. GlobX stores API keys encrypted and uses only trading permissions without withdrawal rights to protect your assets.",
+  "faqQ2": "What strategies does it use?",
+  "faqA2": "It uses AI algorithms based on various technical indicators such as moving averages, RSI, and Bollinger Bands.",
+  "faqQ3": "Can it trade coins other than Bitcoin?",
+  "faqA3": "Yes. It also supports major altcoins like Ethereum and XRP, and you can set the coin you want.",
+  "faqQ4": "Does it work on both PC and mobile?",
+  "faqA4": "Yes. With responsive web design, it provides an optimized experience on PC, tablets, and mobile devices.",
+  "faqQ5": "Can I incur losses?",
+  "faqA5": "All investments carry risk. However, the AI is designed to minimize losses through a stop-loss feature.",
+  "faqQ6": "How much does it cost to operate?",
+  "faqA6": "In addition to the basic bot fee, exchange fees may apply. Please refer to the pricing page for details.",
+
+  "faqFooterText": "Still have questions?",
+  "faqFooterButton": "Contact us"
+}

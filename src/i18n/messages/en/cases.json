@@ -1,0 +1,40 @@
+{
+  "title": "Case Studies",
+  "subtitle": "Sample scenarios by user type.",
+  "actions": { "home": "Home", "readMore": "Read more (sample)" },
+  "filters": {
+    "title": "Filters",
+    "hint": "In production, you can expand to tags/time ranges/plans and more."
+  },
+  "tags": {
+    "all": "All",
+    "pro": "Pro/Busy",
+    "beginner": "Beginner",
+    "longterm": "Long-term"
+  },
+  "badge": { "sample": "SAMPLE" },
+  "statLabel": "Key metric",
+  "items": {
+    "case1": {
+      "tag": "Pro/Busy",
+      "title": "Busy professionals: automated monitoring",
+      "desc": "Reduced operational burden with automated monitoring and execution.",
+      "stat": "Avg monthly performance 12.4% (sample)"
+    },
+    "case2": {
+      "tag": "Beginner",
+      "title": "Beginners: start with minimal setup",
+      "desc": "A scenario that lowers the barrier with presets and minimal configuration.",
+      "stat": "3-month cumulative 18.7% (sample)"
+    },
+    "case3": {
+      "tag": "Long-term",
+      "title": "Long-term: risk management first",
+      "desc": "Focused on volatility and risk control rather than maximizing returns.",
+      "stat": "Max drawdown -6.2% (sample)"
+    }
+  },
+  "footer": {
+    "notice": "This is a UI sample. The numbers are placeholder text."
+  }
+}

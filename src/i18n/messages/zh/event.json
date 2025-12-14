@@ -1,0 +1,28 @@
+{
+  "header": {
+    "title": "活动"
+  },
+  "actions": {
+    "refresh": "刷新",
+    "home": "首页"
+  },
+  "messages": {
+    "errorPrefix": "错误：",
+    "loadingList": "正在加载活动列表…",
+    "emptyList": "暂无可显示的活动。"
+  },
+  "table": {
+    "colTitle": "标题",
+    "colPeriod": "活动时间",
+    "colPublishedAt": "发布日期"
+  },
+  "detail": {
+    "title": "活动详情",
+    "close": "关闭",
+    "loading": "正在加载详情…",
+    "periodLabel": "活动时间",
+    "publishedLabel": "发布日期",
+    "placeholder": "选择一个活动以查看详情。",
+    "ctaButton": "了解更多"
+  }
+}

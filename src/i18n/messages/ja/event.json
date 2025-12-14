@@ -1,0 +1,28 @@
+{
+  "header": {
+    "title": "イベント"
+  },
+  "actions": {
+    "refresh": "更新",
+    "home": "ホーム"
+  },
+  "messages": {
+    "errorPrefix": "エラー:",
+    "loadingList": "一覧を読み込み中…",
+    "emptyList": "表示できるイベントがありません。"
+  },
+  "table": {
+    "colTitle": "タイトル",
+    "colPeriod": "期間",
+    "colPublishedAt": "掲載日"
+  },
+  "detail": {
+    "title": "イベント詳細",
+    "close": "閉じる",
+    "loading": "詳細を読み込み中…",
+    "periodLabel": "期間",
+    "publishedLabel": "掲載日",
+    "placeholder": "イベントを選択すると詳細が表示されます。",
+    "ctaButton": "詳しく見る"
+  }
+}

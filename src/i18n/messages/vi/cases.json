@@ -1,0 +1,38 @@
+{
+  "title": "Case thành công",
+  "subtitle": "Các kịch bản mẫu theo nhóm người dùng.",
+  "actions": { "home": "Trang chủ", "readMore": "Xem thêm (mẫu)" },
+  "filters": {
+    "title": "Bộ lọc",
+    "hint": "Bản thật có thể mở rộng theo tag/khoảng thời gian/gói dịch vụ."
+  },
+  "tags": {
+    "all": "Tất cả",
+    "pro": "Bận rộn/Pro",
+    "beginner": "Mới bắt đầu",
+    "longterm": "Dài hạn"
+  },
+  "badge": { "sample": "SAMPLE" },
+  "statLabel": "Chỉ số chính",
+  "items": {
+    "case1": {
+      "tag": "Bận rộn/Pro",
+      "title": "Người bận rộn: tự động giám sát",
+      "desc": "Giảm gánh nặng vận hành bằng giám sát và thực thi tự động.",
+      "stat": "TB tháng 12.4% (mẫu)"
+    },
+    "case2": {
+      "tag": "Mới bắt đầu",
+      "title": "Người mới: bắt đầu với cấu hình tối thiểu",
+      "desc": "Kịch bản dùng preset để giảm rào cản khởi đầu.",
+      "stat": "Cộng dồn 3 tháng 18.7% (mẫu)"
+    },
+    "case3": {
+      "tag": "Dài hạn",
+      "title": "Dài hạn: ưu tiên quản trị rủi ro",
+      "desc": "Tập trung vào kiểm soát biến động và rủi ro hơn là tối đa lợi nhuận.",
+      "stat": "Max drawdown -6.2% (mẫu)"
+    }
+  },
+  "footer": { "notice": "Đây là mẫu UI. Các con số chỉ là placeholder." }
+}

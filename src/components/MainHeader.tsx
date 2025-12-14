@@ -64,7 +64,7 @@ export default function MainHeader({
 
   // 1. 왼쪽 메뉴 (공개 정보)
   const PUBLIC_MENU = [
-    { href: "/about", label: t("public.about") },
+    { href: "/", label: t("public.about") },
     { href: "/announcements", label: t("public.announcements") },
     { href: "/cases", label: t("public.cases") },
     { href: "/events", label: t("public.events") },
@@ -75,7 +75,6 @@ export default function MainHeader({
   const APP_MENU = [
     { href: "/bot-config", label: t("app.botConfig") },
     { href: "/strategy-config", label: t("app.strategyConfig") },
-    { href: "/", label: t("app.dashboard") },
     { href: "/history", label: t("app.history") },
     { href: "/my-config", label: t("app.myConfig") },
   ];
@@ -94,7 +93,7 @@ export default function MainHeader({
         {/* ============================== */}
         <div className="navbar-start">
           <Link
-            href="/about" // 로고 클릭 시 경로를 /about으로 변경
+            href="/" // 로고 클릭 시 경로를 /about으로 변경
             aria-label={t("aria.home")} // [번역 적용] 홈으로 이동
             className="inline-flex items-center lg:-ml-4"
           >

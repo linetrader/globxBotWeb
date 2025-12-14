@@ -54,6 +54,14 @@ const navTree: NavNode[] = [
   },
 
   {
+    label: "게시판 관리",
+    children: [
+      { label: "공지사항", href: "/admin/boards/announcements" }, //
+      { label: "이벤트", href: "/admin/boards/events" }, //
+    ],
+  },
+
+  {
     label: "거래소 관리",
     children: [
       // 5번 요구

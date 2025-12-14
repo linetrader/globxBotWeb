@@ -1,0 +1,58 @@
+{
+  "metaTitle": "Giới thiệu dự án - GlobX Bot",
+  "metaDescription": "Giới thiệu GlobX, bot giao dịch tự động dựa trên AI.",
+
+  "heroTagline": "Hệ thống giảm thiểu rủi ro hiệu quả và minh bạch nhất",
+  "heroTitle": "Bot giao dịch tự động Bitcoin",
+  "heroSubtitle": "GLOBX",
+  "heroButton": "Tìm hiểu thêm",
+
+  "featuresMainTitleStart": "Người dẫn đầu trong kỷ nguyên ",
+  "featuresMainTitleHighlight": "tự động hóa",
+  "featuresMainDescLine1": "Hệ thống giao dịch tự động dựa trên AI giám sát thị trường 24/7 và tự động thực hiện lệnh tại thời điểm tối ưu.",
+  "featuresMainDescLine2": "Hãy để GlobX xử lý phân tích thị trường phức tạp.",
+  "featuresMainDescLine3": "Bạn chỉ cần kiểm tra lợi nhuận.",
+
+  "feature1Title": "Chiến lược mạnh mẽ",
+  "feature1Desc": "Cung cấp nhiều chiến lược giao dịch để thích ứng với biến động thị trường và tối đa hóa lợi nhuận.",
+  "feature2Title": "Cơ hội lợi nhuận không giới hạn",
+  "feature2Desc": "Không dừng lại cho đến khi hiện thực hóa lợi nhuận, giúp nắm bắt cơ hội thị trường mà không bỏ lỡ.",
+  "feature3Title": "Tập trung vào bảo mật an toàn",
+  "feature3Desc": "Giao dịch đồng thời bảo vệ tài sản với hệ thống bảo mật cấp cao nhất.",
+
+  "firstTimeTag": "GlobX",
+  "firstTimeTitleStart": "Nếu đây là lần đầu bạn dùng ",
+  "firstTimeTitleHighlight": "GlobX",
+  "firstTimeCard1Title": "AI hoạt động 24/7",
+  "firstTimeCard1Desc": "Ngay cả khi bạn ngủ, GlobX vẫn giám sát thị trường và nắm bắt cơ hội giao dịch tối ưu.",
+  "firstTimeCard2Title": "Thực thi nhanh, 100% tùy biến",
+  "firstTimeCard2Desc": "Tạo lợi nhuận bằng tự động hóa mà không cần phân tích biểu đồ phức tạp hay theo dõi thị trường liên tục.",
+
+  "case1Title": "Trợ lý phân tích biểu đồ cho người đi làm",
+  "case1Desc": "Ngay cả trong lịch trình bận rộn, GlobX vẫn tự động giao dịch và tạo ra lợi nhuận ổn định, đều đặn.",
+  "case1Stat": "Lợi nhuận trung bình tháng 15.3%",
+
+  "case2Title": "Người mới cũng có lợi nhuận ổn định",
+  "case2Desc": "Với giao diện dễ dùng cho người mới, bạn có thể quản lý tài sản đơn giản và rất an toàn.",
+  "case2Stat": "Lợi nhuận tích lũy 3 tháng 28.7%",
+
+  "faqTitleStart": "Câu hỏi ",
+  "faqTitleHighlight": "thường gặp",
+  "faqSubtitle": "Xem những điều bạn muốn biết về GlobX.",
+
+  "faqQ1": "GlobX có an toàn không?",
+  "faqA1": "Có. GlobX lưu trữ khóa API dưới dạng mã hóa và chỉ sử dụng quyền giao dịch (không có quyền rút tiền) để bảo vệ tài sản.",
+  "faqQ2": "GlobX dùng chiến lược nào?",
+  "faqA2": "Sử dụng thuật toán AI dựa trên nhiều chỉ báo kỹ thuật như đường trung bình động, RSI, Bollinger Bands, v.v.",
+  "faqQ3": "Ngoài Bitcoin thì có giao dịch được coin khác không?",
+  "faqA3": "Có. Hỗ trợ các altcoin chính như Ethereum, XRP và bạn có thể cài đặt đồng coin mong muốn.",
+  "faqQ4": "Dùng được trên PC và di động không?",
+  "faqA4": "Có. Thiết kế web responsive giúp tối ưu trên PC, tablet và điện thoại.",
+  "faqQ5": "Có trường hợp bị lỗ không?",
+  "faqA5": "Mọi khoản đầu tư đều có rủi ro. Tuy nhiên, AI được thiết kế để giảm thiểu thua lỗ thông qua tính năng stop-loss.",
+  "faqQ6": "Chi phí vận hành là bao nhiêu?",
+  "faqA6": "Ngoài phí sử dụng bot cơ bản, có thể phát sinh phí giao dịch của sàn. Vui lòng xem trang bảng giá để biết chi tiết.",
+
+  "faqFooterText": "Bạn còn thắc mắc gì không?",
+  "faqFooterButton": "Liên hệ"
+}

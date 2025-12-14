@@ -1,0 +1,28 @@
+{
+  "header": {
+    "title": "Events"
+  },
+  "actions": {
+    "refresh": "Refresh",
+    "home": "Home"
+  },
+  "messages": {
+    "errorPrefix": "Error:",
+    "loadingList": "Loading events…",
+    "emptyList": "No events to display."
+  },
+  "table": {
+    "colTitle": "Title",
+    "colPeriod": "Period",
+    "colPublishedAt": "Published"
+  },
+  "detail": {
+    "title": "Event Details",
+    "close": "Close",
+    "loading": "Loading details…",
+    "periodLabel": "Period",
+    "publishedLabel": "Published",
+    "placeholder": "Select an event to view details.",
+    "ctaButton": "Learn more"
+  }
+}
