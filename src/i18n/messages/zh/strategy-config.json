@@ -1,7 +1,7 @@
 {
   "page": {
     "title": "策略配置",
-    "subtitle": "配置自动交易机器人使用的策略参数。"
+    "subtitle": "设置自动交易机器人使用的策略参数。"
   },
   "create": {
     "title": "创建新策略"
@@ -13,7 +13,7 @@
   "section": {
     "common": "通用设置",
     "trend": "趋势(TREND)设置",
-    "box": "箱体(BOX)设置",
+    "box": "震荡(BOX)设置",
     "signalConfirm": "信号确认 / 辅助参数"
   },
   "field": {
@@ -26,15 +26,16 @@
     "loss": "止损 (%)",
     "defaultSize": "基础仓位 (USDT)",
     "maxSize": "最大仓位 (USDT)",
-    "useMartin": "使用马丁格尔",
+    "useMartin": "启用马丁格尔",
     "martinMultiplier": "马丁倍数",
-    "rangeFollowTrendOnly": "仅跟随趋势的区间",
+    "rangeFollowTrendOnly": "仅震荡顺势",
     "reverseEntry": "允许反向开仓",
-    "trendUpper": "上方回调",
-    "trendLower": "下方回调",
-    "boxUpper": "上限阈值",
-    "boxLower": "下限阈值",
-    "boxTouch": "箱体触碰 %"
+    "trendUpper": "顶部回调",
+    "trendLower": "底部回调",
+    "boxUpper": "上轨阈值",
+    "boxLower": "下轨阈值",
+    "boxTouch": "触碰比例 %",
+    "volatilityIndex": "波动率指数 (Min ATR%)"
   },
   "placeholder": {
     "name": "请输入策略名称",
@@ -42,7 +43,8 @@
   },
   "action": {
     "create": "创建策略",
-    "update": "保存更改",
+    "update": "保存修改",
+    "saving": "保存中...",
     "close": "关闭",
     "deleteSelected": "删除选中 ({count})"
   },

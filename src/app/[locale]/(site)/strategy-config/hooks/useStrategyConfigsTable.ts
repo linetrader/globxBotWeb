@@ -20,10 +20,12 @@ type Params = {
 function commonDetail(it: StrategyItem): string {
   const rangeFlag = it.rangeFollowTrendOnly ? "range=trendOnly" : "range=both";
   const reverseFlag = it.reverseEntryEnabled ? "rev=on" : "rev=off";
+
+  // 🚀 [수정] Min ATR% -> Volatility Index (변동성 지수)로 변경
   return [
     `len:${it.rsiLength}`,
     `ADX>=${it.adxConfirmThreshold}`,
-    `ATR>=${it.minAtrPct}%`,
+    `Vol Index>=${it.minAtrPct}%`, // 🚀 [수정] 필드 이름 변경 반영
     `DC:${it.donchianLookback}`,
     `ST:${it.supertrendPeriod}x${it.supertrendMult}`,
     `slope>=${it.trendSlopeThresholdAbs}`,

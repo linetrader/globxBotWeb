@@ -16,6 +16,19 @@ interface HistoryTableProps {
   refresh: () => void;
 }
 
+// 🚀 [추가] 숫자를 받아 소수점 2자리 문자열로 포맷하는 공통 함수
+function formatNumber(raw: string | null, decimals: number = 2): string | null {
+  if (raw === null || raw.trim() === "") return null;
+  const num = Number(raw);
+  if (!Number.isFinite(num)) return null;
+
+  // 소수점 2자리로 고정하고, 쉼표를 찍어 로케일에 맞게 포맷
+  return num.toLocaleString(undefined, {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
+}
+
 function HistoryTable(props: HistoryTableProps) {
   const t = useTranslations("history");
   const { loading, error, rows, page, pageSize, total, setPage } = props;
@@ -36,9 +49,11 @@ function HistoryTable(props: HistoryTableProps) {
 
   function formatDate(iso: string | null): string {
     if (!iso) return "-";
+    // T와 Z 제거 후 16자리(YYYY-MM-DD HH:MM)로 자름
     return iso.replace("T", " ").replace("Z", "").slice(0, 16);
   }
 
+  // 🚀 [수정] 실현 손익 (USDT) 렌더링 함수
   function renderProfit(raw: string | null) {
     if (!raw)
       return (
@@ -46,13 +61,17 @@ function HistoryTable(props: HistoryTableProps) {
           -
         </span>
       );
-    const num = Number(raw);
-    if (!Number.isFinite(num))
+
+    // 포맷 함수 적용
+    const formatted = formatNumber(raw, 2);
+    if (!formatted)
       return (
         <span className="text-gray-400 [:root[data-theme=dark]_&]:text-gray-500">
           -
         </span>
       );
+
+    const num = Number(raw);
 
     const colorClass =
       num > 0
@@ -60,13 +79,16 @@ function HistoryTable(props: HistoryTableProps) {
         : num < 0
           ? "text-red-500 [:root[data-theme=dark]_&]:text-red-400"
           : "text-gray-400";
+
+    // 양수일 때 + 기호 추가
     return (
       <span className={`font-bold ${colorClass}`}>
-        {num > 0 ? `+${raw}` : raw}
+        {num > 0 ? `+${formatted}` : formatted}
       </span>
     );
   }
 
+  // 🚀 [수정] 수익률 (ROI) 렌더링 함수
   function renderRoi(raw: string | null) {
     if (!raw)
       return (
@@ -74,13 +96,17 @@ function HistoryTable(props: HistoryTableProps) {
           -
         </span>
       );
-    const num = Number(raw);
-    if (!Number.isFinite(num))
+
+    // 포맷 함수 적용 (ROI는 보통 %이므로 2자리 고정)
+    const formatted = formatNumber(raw, 2);
+    if (!formatted)
       return (
         <span className="text-gray-400 [:root[data-theme=dark]_&]:text-gray-500">
           -
         </span>
       );
+
+    const num = Number(raw);
 
     const colorClass =
       num > 0
@@ -88,9 +114,11 @@ function HistoryTable(props: HistoryTableProps) {
         : num < 0
           ? "text-red-500 [:root[data-theme=dark]_&]:text-red-400"
           : "text-gray-400";
+
+    // 양수일 때 + 기호 추가
     return (
       <span className={`font-bold ${colorClass}`}>
-        {num > 0 ? `+${raw}` : raw}
+        {num > 0 ? `+${formatted}` : formatted}
         <span className="text-xs opacity-70 ml-0.5">%</span>
       </span>
     );
@@ -208,8 +236,9 @@ function HistoryTable(props: HistoryTableProps) {
                     <span className="block mb-0.5 text-gray-500">
                       {t("column.entryPrice")}
                     </span>
+                    {/* 🚀 [수정] 소수점 2자리 적용 */}
                     <span className="text-gray-700 [:root[data-theme=dark]_&]:text-gray-300">
-                      {row.entryPrice || "-"}
+                      {formatNumber(row.entryPrice, 2) || "-"}
                     </span>
                   </div>
                   <div className="text-right">
@@ -277,8 +306,14 @@ function HistoryTable(props: HistoryTableProps) {
                       {row.side}
                     </td>
                     <td className={tdClass}>x{row.leverage}</td>
-                    <td className={tdClass}>{row.entryPrice || "-"}</td>
-                    <td className={tdClass}>{row.entryCostUsdt || "-"}</td>
+                    {/* 🚀 [수정] 소수점 2자리 적용 */}
+                    <td className={tdClass}>
+                      {formatNumber(row.entryPrice, 2) || "-"}
+                    </td>
+                    {/* 🚀 [수정] 소수점 2자리 적용 */}
+                    <td className={tdClass}>
+                      {formatNumber(row.entryCostUsdt, 2) || "-"}
+                    </td>
                     <td className={tdClass}>{renderProfit(row.profitUsdt)}</td>
                     <td className={tdClass}>{renderRoi(row.realizedRoiPct)}</td>
                     <td

@@ -1,55 +1,57 @@
 {
   "form": {
-    "title": "ボット設定",
-    "subtitle": "新しいボットを作成するか、既存の設定を変更します。"
+    "title": "取引ボット設定",
+    "subtitle": "新しいボットを作成するか、既存の設定を修正します。"
   },
   "field": {
     "botName": "ボット名",
     "symbol": "シンボル",
     "strategy": "戦略",
     "exchangeMarket": "取引所-マーケット",
-    "marketKind": "マーケット種別",
+    "marketKind": "マーケット種類",
     "exchange": "取引所",
     "market": "マーケット",
     "allocation": "配分 (bps)",
-    "enabled": "有効"
+    "enabled": "有効化"
   },
   "placeholder": {
-    "botName": "ボット名を入力",
+    "botName": "ボット名を入力してください",
     "selectSymbol": "シンボル選択",
     "selectStrategy": "戦略選択",
     "select": "選択"
   },
   "mode": {
-    "single": "シングルモード",
-    "multi": "マルチモード"
+    "single": "シングルモード (SINGLE)",
+    "multi": "マルチモード (MULTI)"
   },
   "group": {
+    "a_title": "グループ A",
+    "b_title": "グループ B",
     "a": "グループ A (買い/ロング)",
     "b": "グループ B (売り/ショート)"
   },
   "action": {
     "addExchange": "取引所追加",
-    "save": "保存",
+    "save": "設定保存",
     "saving": "保存中..."
   },
   "message": {
-    "noExchanges": "登録された取引所がありません。追加ボタンを押してください。"
+    "noExchanges": "取引所が登録されていません。追加ボタンを押してください。"
   },
   "list": {
-    "title": "ボットリスト",
-    "empty": "登録されたボットがありません。"
+    "title": "ボット一覧",
+    "empty": "登録されたボットはありません。"
   },
   "error": {
     "metaLoadFail": "メタデータの読み込みに失敗しました。"
   },
   "toast": {
-    "validationError": "バリデーションエラー",
+    "validationError": "入力エラー",
     "saveSuccess": "保存完了",
-    "saveSuccessDesc": "ボット構成が正常に保存されました。",
+    "saveSuccessDesc": "ボット設定が正常に保存されました。",
     "saveFail": "保存失敗",
     "networkError": "ネットワークエラー",
-    "networkErrorDesc": "通信中にエラーが発生しました。",
+    "networkErrorDesc": "サーバー通信中にエラーが発生しました。",
     "deleteSuccess": "削除完了",
     "deleteSuccessDesc": "ボットが削除されました。",
     "deleteFail": "削除失敗",

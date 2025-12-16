@@ -1,6 +1,6 @@
+// src/app/(site)/strategy-config/view/CommonSettingsSectionView.tsx
 "use client";
 
-// [수정] ChangeEvent 제거
 import { Timeframe, StrategyKind } from "@/generated/prisma";
 import type { CommonFormSlice } from "../types/common";
 import { useTranslations } from "next-intl";
@@ -179,6 +179,21 @@ export default function CommonSettingsSectionView({
             onChange={(e) => setForm(() => ({ maxSize: e.target.value }))}
           />
         </div>
+        {/* 🚀 [추가] 변동성 지수 (Min ATR%) 필드만 노출 */}
+        <div>
+          <label htmlFor="min-atr" className={labelClass}>
+            {t("field.volatilityIndex")} {/* 새로운 번역 키 사용 */}
+          </label>
+          <input
+            id="min-atr"
+            className={inputClass}
+            placeholder="%"
+            inputMode="decimal"
+            value={form.minAtrPct}
+            disabled={disabled}
+            onChange={(e) => setForm(() => ({ minAtrPct: e.target.value }))}
+          />
+        </div>
       </div>
 
       <div className="rounded-xl border p-4 mb-6 flex flex-wrap gap-6 bg-gray-50 border-gray-200 [:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:border-gray-800">
@@ -243,7 +258,8 @@ export default function CommonSettingsSectionView({
         )}
       </div>
 
-      <div className="mt-6 pt-6 border-t border-gray-200 [:root[data-theme=dark]_&]:border-gray-800">
+      {/* 🚀 [수정] 시그널 확증/보조 파라미터 섹션 전체를 숨김 */}
+      <div className="hidden mt-6 pt-6 border-t border-gray-200 [:root[data-theme=dark]_&]:border-gray-800">
         <h4 className="text-xs font-bold text-gray-500 mb-4 uppercase">
           {t("section.signalConfirm")}
         </h4>
@@ -261,12 +277,7 @@ export default function CommonSettingsSectionView({
               val: form.atrConfirmPeriod,
               set: "atrConfirmPeriod" as const,
             },
-            {
-              id: "atr-min",
-              label: "Min ATR%",
-              val: form.minAtrPct,
-              set: "minAtrPct" as const,
-            },
+            // 🚀 [제거] Min ATR% 필드는 위로 옮겨졌으므로 여기서 제거
             {
               id: "don-n",
               label: "Donchian N",
@@ -324,7 +335,6 @@ export default function CommonSettingsSectionView({
                 value={field.val}
                 disabled={disabled}
                 onChange={(e) =>
-                  // [수정] any 제거
                   setForm(() => ({ [field.set]: e.target.value }))
                 }
               />

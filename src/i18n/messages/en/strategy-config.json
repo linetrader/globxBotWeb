@@ -1,7 +1,7 @@
 {
   "page": {
-    "title": "Strategy Config",
-    "subtitle": "Configure strategy parameters for your trading bots."
+    "title": "Strategy Configuration",
+    "subtitle": "Configure strategy parameters for auto-trading bots."
   },
   "create": {
     "title": "Create New Strategy"
@@ -14,35 +14,37 @@
     "common": "Common Settings",
     "trend": "Trend Settings",
     "box": "Box Settings",
-    "signalConfirm": "Signal Confirmation / Aux Params"
+    "signalConfirm": "Signal Confirmation / Auxiliary Parameters"
   },
   "field": {
-    "name": "Name",
-    "kind": "Kind",
+    "name": "Strategy Name",
+    "kind": "Strategy Type",
     "timeframe": "Timeframe",
     "rsiLength": "RSI Length",
     "leverage": "Leverage (x)",
     "profit": "Target Profit (%)",
     "loss": "Stop Loss (%)",
-    "defaultSize": "Default Size (USDT)",
-    "maxSize": "Max Size (USDT)",
+    "defaultSize": "Base Entry (USDT)",
+    "maxSize": "Max Entry (USDT)",
     "useMartin": "Use Martingale",
-    "martinMultiplier": "Martin Multiplier",
-    "rangeFollowTrendOnly": "Range Follow Trend Only",
+    "martinMultiplier": "Martingale Multiplier",
+    "rangeFollowTrendOnly": "Range Follows Trend Only",
     "reverseEntry": "Allow Reverse Entry",
     "trendUpper": "Upper Pullback",
     "trendLower": "Lower Pullback",
     "boxUpper": "Upper Threshold",
     "boxLower": "Lower Threshold",
-    "boxTouch": "Box Touch %"
+    "boxTouch": "Box Touch %",
+    "volatilityIndex": "Volatility Index (Min ATR%)"
   },
   "placeholder": {
     "name": "Enter strategy name",
-    "floatOrNull": "Value"
+    "floatOrNull": "Enter value"
   },
   "action": {
     "create": "Create Strategy",
     "update": "Save Changes",
+    "saving": "Saving...",
     "close": "Close",
     "deleteSelected": "Delete Selected ({count})"
   },
@@ -53,7 +55,7 @@
   "table": {
     "updatedAt": "Updated",
     "name": "Name",
-    "kind": "Kind",
+    "kind": "Type",
     "detail": "Details"
   }
 }

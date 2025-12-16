@@ -1,4 +1,5 @@
 // src/app/(site)/bot-config/hooks/useBotConfigForm.ts
+
 "use client";
 
 import { useState } from "react";
@@ -57,7 +58,7 @@ export function useBotConfigForm(
   function addExchangeToGroup(key: GroupKey) {
     const row: ExchangeItemInput = {
       exchangeMarketId: "",
-      allocationBps: 0,
+      allocationBps: 100, // 🚀 [수정] 기본값 0 -> 100 (1%)으로 변경
       enabled: true,
     };
     if (key === GroupKey.A) {

@@ -34,7 +34,8 @@
     "trendLower": "하단 풀백",
     "boxUpper": "상단 임계값",
     "boxLower": "하단 임계값",
-    "boxTouch": "박스 터치 %"
+    "boxTouch": "박스 터치 %",
+    "volatilityIndex": "변동성 지수 (Min ATR%)"
   },
   "placeholder": {
     "name": "전략 이름을 입력하세요",
@@ -43,6 +44,7 @@
   "action": {
     "create": "전략 생성",
     "update": "수정 저장",
+    "saving": "저장 중...",
     "close": "닫기",
     "deleteSelected": "선택 삭제 ({count})"
   },

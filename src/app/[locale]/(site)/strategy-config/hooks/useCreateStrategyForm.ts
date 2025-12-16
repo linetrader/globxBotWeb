@@ -42,10 +42,10 @@ export function useCreateStrategyForm(params: Params) {
     // 🔽 리버스 진입 플래그
     reverseEntryEnabled: false,
 
-    // ✅ StrategyConfig 공통 파라미터 초기값 (Prisma default와 정합)
+    // ✅ StrategyConfig 공통 파라미터 초기값
     adxConfirmThreshold: "25",
     atrConfirmPeriod: "14",
-    minAtrPct: "1",
+    minAtrPct: "0.3", // 🚀 [수정] 기본값 1 -> 0.3으로 변경
 
     donchianLookback: "20",
     supertrendPeriod: "10",

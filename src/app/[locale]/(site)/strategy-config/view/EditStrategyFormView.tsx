@@ -1,10 +1,15 @@
-// src/app/(site)/strategy-config/view/EditStrategyFormView.tsx
 "use client";
 
 import { ChangeEvent } from "react";
 import { StrategyKind } from "@/generated/prisma";
 import type { EditForm } from "../types/common";
 import CommonSettingsSectionView from "./CommonSettingsSectionView";
+import { useTranslations } from "next-intl";
+import {
+  PencilSquareIcon,
+  XMarkIcon,
+  CheckIcon,
+} from "@heroicons/react/24/outline";
 
 type Props = {
   form: EditForm;
@@ -15,6 +20,16 @@ type Props = {
   onClose: () => void;
 };
 
+// 공통 스타일 (라이트/다크 분기) - CreateForm과 통일
+const inputClass =
+  "input input-bordered w-full transition-colors h-10 text-sm " +
+  "bg-white border-gray-300 text-gray-900 focus:border-[#06b6d4] focus:outline-none " +
+  "[:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:border-gray-700 [:root[data-theme=dark]_&]:text-gray-200";
+
+const labelClass =
+  "label-text text-xs font-medium mb-1 block " +
+  "text-gray-600 [:root[data-theme=dark]_&]:text-gray-400";
+
 export default function EditStrategyFormView({
   form,
   setForm,
@@ -23,52 +38,63 @@ export default function EditStrategyFormView({
   onUpdateClick,
   onClose,
 }: Props) {
+  const t = useTranslations("strategy-config");
+
   const showTrend =
     form.kind === StrategyKind.TREND || form.kind === StrategyKind.BOTH;
   const showBox =
     form.kind === StrategyKind.BOX || form.kind === StrategyKind.BOTH;
 
   return (
-    <div className="card bg-base-100 shadow">
-      <div className="card-body space-y-6">
-        <h2 className="text-base font-semibold">전략 수정</h2>
-
-        {/* ID 읽기전용 */}
-        <section className="rounded-2xl border border-base-300 p-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div className="form-control">
-              <label htmlFor="id" className="label">
-                <span className="label-text">아이디</span>
-              </label>
-              <input
-                id="id"
-                className="input input-bordered"
-                readOnly
-                value={form.id}
-              />
+    // [수정] 카드 스타일 (Create 폼과 통일된 디자인 언어)
+    <div className="bg-white border border-gray-200 transition-colors [:root[data-theme=dark]_&]:bg-[#131B2D] [:root[data-theme=dark]_&]:border-gray-800">
+      {/* 헤더 영역 (Sticky) */}
+      <div className="p-5 border-b flex items-center justify-between sticky top-0 z-10 bg-white/95 backdrop-blur border-gray-200 [:root[data-theme=dark]_&]:bg-[#131B2D]/95 [:root[data-theme=dark]_&]:border-gray-800">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-[#06b6d4]/10 rounded-lg text-[#06b6d4]">
+            <PencilSquareIcon className="h-6 w-6" />
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 [:root[data-theme=dark]_&]:text-white">
+              {t("edit.title")}
+            </h2>
+            <div className="flex items-center gap-2 text-xs text-gray-500">
+              <span className="font-mono bg-gray-100 px-1.5 py-0.5 rounded border border-gray-200 [:root[data-theme=dark]_&]:bg-gray-800 [:root[data-theme=dark]_&]:border-gray-700">
+                ID: {form.id}
+              </span>
             </div>
           </div>
-        </section>
+        </div>
+        <button
+          onClick={onClose}
+          className="btn btn-sm btn-ghost btn-circle text-gray-500 hover:bg-gray-100 [:root[data-theme=dark]_&]:text-gray-400 [:root[data-theme=dark]_&]:hover:bg-gray-800"
+        >
+          <XMarkIcon className="h-6 w-6" />
+        </button>
+      </div>
 
+      <div className="p-6 space-y-8">
+        {/* 공통 설정 섹션 (기존 컴포넌트 재사용) */}
         <CommonSettingsSectionView
           form={form}
           setForm={(u) => setForm((prev) => ({ ...prev, ...u(prev) }))}
           disabled={updating || disabled}
         />
 
+        {/* TREND 설정 섹션 */}
         {showTrend && (
-          <section className="rounded-2xl border border-base-300 p-4">
-            <div className="mb-3 flex items-center justify-between">
-              <h3 className="text-sm font-semibold">트렌드 설정</h3>
-            </div>
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-              <div className="form-control">
-                <label htmlFor="trend-upper" className="label">
-                  <span className="label-text">트렌드 풀백 상단</span>
+          <section className="rounded-xl p-5 border bg-gray-50 border-gray-200 [:root[data-theme=dark]_&]:bg-[#0B1222]/50 [:root[data-theme=dark]_&]:border-gray-800/50">
+            <h3 className="text-sm font-bold text-[#06b6d4] mb-4 uppercase tracking-wider">
+              {t("section.trend")}
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="trend-upper" className={labelClass}>
+                  {t("field.trendUpper")}
                 </label>
                 <input
                   id="trend-upper"
-                  className="input input-bordered"
+                  className={inputClass}
                   inputMode="decimal"
                   value={form.trendRsiUpperPullback}
                   disabled={updating || disabled}
@@ -80,13 +106,13 @@ export default function EditStrategyFormView({
                   }
                 />
               </div>
-              <div className="form-control">
-                <label htmlFor="trend-lower" className="label">
-                  <span className="label-text">트렌드 풀백 하단</span>
+              <div>
+                <label htmlFor="trend-lower" className={labelClass}>
+                  {t("field.trendLower")}
                 </label>
                 <input
                   id="trend-lower"
-                  className="input input-bordered"
+                  className={inputClass}
                   inputMode="decimal"
                   value={form.trendRsiLowerPullback}
                   disabled={updating || disabled}
@@ -102,19 +128,20 @@ export default function EditStrategyFormView({
           </section>
         )}
 
+        {/* BOX 설정 섹션 */}
         {showBox && (
-          <section className="rounded-2xl border border-base-300 p-4">
-            <div className="mb-3 flex items-center justify-between">
-              <h3 className="text-sm font-semibold">박스 설정</h3>
-            </div>
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-              <div className="form-control">
-                <label htmlFor="box-upper" className="label">
-                  <span className="label-text">상단</span>
+          <section className="rounded-xl p-5 border bg-gray-50 border-gray-200 [:root[data-theme=dark]_&]:bg-[#0B1222]/50 [:root[data-theme=dark]_&]:border-gray-800/50">
+            <h3 className="text-sm font-bold text-[#06b6d4] mb-4 uppercase tracking-wider">
+              {t("section.box")}
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label htmlFor="box-upper" className={labelClass}>
+                  {t("field.boxUpper")}
                 </label>
                 <input
                   id="box-upper"
-                  className="input input-bordered"
+                  className={inputClass}
                   inputMode="decimal"
                   value={form.upperTh}
                   disabled={updating || disabled}
@@ -123,13 +150,13 @@ export default function EditStrategyFormView({
                   }
                 />
               </div>
-              <div className="form-control">
-                <label htmlFor="box-lower" className="label">
-                  <span className="label-text">하단</span>
+              <div>
+                <label htmlFor="box-lower" className={labelClass}>
+                  {t("field.boxLower")}
                 </label>
                 <input
                   id="box-lower"
-                  className="input input-bordered"
+                  className={inputClass}
                   inputMode="decimal"
                   value={form.lowerTh}
                   disabled={updating || disabled}
@@ -138,14 +165,14 @@ export default function EditStrategyFormView({
                   }
                 />
               </div>
-              <div className="form-control">
-                <label htmlFor="box-touch" className="label">
-                  <span className="label-text">박스 터치 %</span>
+              <div>
+                <label htmlFor="box-touch" className={labelClass}>
+                  {t("field.boxTouch")}
                 </label>
                 <input
                   id="box-touch"
-                  className="input input-bordered"
-                  placeholder="실수 또는 공란(null)"
+                  className={inputClass}
+                  placeholder={t("placeholder.floatOrNull")}
                   inputMode="decimal"
                   value={form.boxTouchPct}
                   disabled={updating || disabled}
@@ -157,20 +184,31 @@ export default function EditStrategyFormView({
             </div>
           </section>
         )}
+      </div>
 
-        <div className="flex gap-2">
-          <button
-            type="button"
-            className="btn btn-primary"
-            disabled={updating || disabled}
-            onClick={onUpdateClick}
-          >
-            {updating ? "수정 중…" : "수정 저장"}
-          </button>
-          <button type="button" className="btn btn-ghost" onClick={onClose}>
-            닫기
-          </button>
-        </div>
+      {/* 하단 액션 버튼 (Sticky) */}
+      <div className="p-5 border-t sticky bottom-0 bg-gray-50 border-gray-200 flex justify-end gap-3 [:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:border-gray-800">
+        <button
+          type="button"
+          className="btn btn-ghost text-gray-500 hover:bg-gray-200 [:root[data-theme=dark]_&]:text-gray-400 [:root[data-theme=dark]_&]:hover:bg-white/10"
+          onClick={onClose}
+          disabled={updating}
+        >
+          {t("action.close")}
+        </button>
+        <button
+          type="button"
+          className="btn btn-primary bg-[#06b6d4] hover:bg-[#0891b2] border-none text-white px-6 gap-2 shadow-lg shadow-cyan-500/20 [:root[data-theme=dark]_&]:shadow-cyan-900/20"
+          disabled={updating || disabled}
+          onClick={onUpdateClick}
+        >
+          {updating ? (
+            <span className="loading loading-spinner loading-sm"></span>
+          ) : (
+            <CheckIcon className="h-4 w-4" />
+          )}
+          {updating ? t("action.saving") : t("action.update")}
+        </button>
       </div>
     </div>
   );

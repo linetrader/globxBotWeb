@@ -6,14 +6,16 @@ import createIntlMiddleware from "next-intl/middleware";
 // ---- i18n 설정 ----
 const LOCALES = ["ko", "en", "ja", "zh", "vi"] as const;
 type AppLocale = (typeof LOCALES)[number];
-const DEFAULT_LOCALE: AppLocale = "ko";
+const DEFAULT_LOCALE: AppLocale = "en"; // 💡 [유지] 기본 로케일은 'en'
 const LOCALE_SET = new Set<string>(LOCALES as unknown as string[]);
 
 const intlMiddleware = createIntlMiddleware({
   locales: LOCALES,
   defaultLocale: DEFAULT_LOCALE,
-  // ✅ 모든 경로에 로케일 prefix 강제(/en/..., /ko/...)
   localePrefix: "always",
+  // 🚀 [핵심 수정] 브라우저의 언어 감지 기능을 비활성화합니다.
+  // 이로써 브라우저 설정(ko) 대신 DEFAULT_LOCALE(en)이 강제됩니다.
+  localeDetection: false,
 });
 
 // ---- 인증/접근 제어 설정 ----
@@ -36,13 +38,12 @@ const VERIFY_OPTS: JWTVerifyOptions = {
 };
 
 // 로케일 prefix를 제거한 경로를 기준으로 공개 여부 판단
-// 여기에 포함된 경로는 로그아웃 상태에서도 접근 가능 (리다이렉트 안 함)
 const PUBLIC_PATHS: RegExp[] = [
-  /^\/$/, // 루트
+  /^\/$/,
   /^\/home(?:\/.*)?$/,
   /^\/account(?:\/.*)?$/,
   /^\/announcements(?:\/.*)?$/,
-  /^\/events(?:\/.*)?$/, // [수정] /event -> /events (이벤트 페이지 경로 일치)
+  /^\/events(?:\/.*)?$/,
   /^\/help(?:\/.*)?$/,
   /^\/cases(?:\/.*)?$/,
   /^\/bot-config(?:\/.*)?$/,
@@ -50,24 +51,19 @@ const PUBLIC_PATHS: RegExp[] = [
 
   /^\/auth\/login(?:\/.*)?$/,
   /^\/auth\/signup(?:\/.*)?$/,
-  // /^\/bot-config(?:\/.*)?$/, // (중복 제거)
   /^\/history(?:\/.*)?$/,
   /^\/my-config(?:\/.*)?$/,
   /^\/strategy-config(?:\/.*)?$/,
 
-  // 공개: 테마
   /^\/api\/theme(?:\/.*)?$/,
-
-  // 공개 API (또는 소프트 인증 API)
   /^\/api\/account(?:\/.*)?$/,
   /^\/api\/announcements(?:\/.*)?$/,
-  /^\/api\/events(?:\/.*)?$/, // [수정] API도 events로 맞춤 (필요시)
+  /^\/api\/events(?:\/.*)?$/,
   /^\/api\/help(?:\/.*)?$/,
   /^\/api\/cases(?:\/.*)?$/,
   /^\/api\/bot-config(?:\/.*)?$/,
   /^\/api\/bot-list(?:\/.*)?$/,
 
-  // Auth 관련 API
   /^\/api\/auth\/login(?:\/.*)?$/,
   /^\/api\/auth\/logout(?:\/.*)?$/,
   /^\/api\/auth\/signup(?:\/.*)?$/,

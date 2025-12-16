@@ -140,7 +140,7 @@ export default function BotConfigForm() {
     }
   };
 
-  // [수정] 공통 스타일: 라이트/다크 분기
+  // [수정] 공통 스타일: 라이트/다크 분기 (이전 단계에서 이미 적용됨)
   const inputClass =
     "input input-bordered w-full transition-colors " +
     "bg-white border-gray-300 text-gray-900 focus:border-[#06b6d4] focus:outline-none " +
@@ -319,13 +319,13 @@ export default function BotConfigForm() {
                 {[
                   {
                     key: GroupKey.A,
-                    title: t("group.a"),
+                    title: t("group.a_title"), // 💡 [수정] 단순화된 타이틀 사용
                     list: form.groupA.exchanges,
                     names: form.groupAExchangeNames,
                   },
                   {
                     key: GroupKey.B,
-                    title: t("group.b"),
+                    title: t("group.b_title"), // 💡 [수정] 단순화된 타이틀 사용
                     list: form.groupB.exchanges,
                     names: form.groupBExchangeNames,
                   },

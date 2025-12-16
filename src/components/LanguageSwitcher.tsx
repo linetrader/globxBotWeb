@@ -13,9 +13,10 @@ import { useState, useRef, useEffect, useMemo } from "react";
 export type LangCode = "ko" | "en" | "ja" | "zh" | "vi";
 export type LangOption = { code: LangCode; label: string; flag: string };
 
+// 💡 [수정] English를 최상단으로, Korean을 두 번째로 이동
 const LANGS: LangOption[] = [
-  { code: "ko", label: "한국어", flag: "🇰🇷" },
-  { code: "en", label: "English", flag: "🇺🇸" },
+  { code: "en", label: "English", flag: "🇺🇸" }, // 1. English
+  { code: "ko", label: "한국어", flag: "🇰🇷" }, // 2. 한국어
   { code: "ja", label: "日本語", flag: "🇯🇵" },
   { code: "zh", label: "中文", flag: "🇨🇳" },
   { code: "vi", label: "Tiếng Việt", flag: "🇻🇳" },
@@ -132,6 +133,7 @@ export default function LanguageSwitcher({
 
       {/* 드롭다운 메뉴 목록 */}
       {isOpen && (
+        // [수정] 드롭다운 메뉴 스타일은 그대로 유지
         <div
           className={`absolute ${positionClass} ${alignClass} w-max min-w-[160px] rounded-lg border border-base-300 bg-base-100 shadow-xl z-[100]`}
         >
