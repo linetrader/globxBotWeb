@@ -15,7 +15,7 @@ import {
 
 const FAQ_INDEXES = [1, 2, 3, 4, 5, 6] as const;
 
-export function AboutView() {
+export function GlobxView() {
   const t = useTranslations("home");
 
   return (
@@ -124,7 +124,7 @@ export function AboutView() {
           >
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 to-blue-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
             <span className="text-xs font-bold text-cyan-400 tracking-widest mb-4 inline-block">
-              TRADING
+              TRADING GlobX
             </span>
             <CurrencyDollarIcon className="h-12 w-12 text-cyan-500 mb-6" />
             <h3 className="text-xl font-bold mb-3">{t("feature2Title")}</h3>
