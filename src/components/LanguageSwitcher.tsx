@@ -1,4 +1,3 @@
-// src/components/LanguageSwitcher.tsx
 "use client";
 
 import { useLocale } from "next-intl";
@@ -13,21 +12,17 @@ import { useState, useRef, useEffect, useMemo } from "react";
 export type LangCode = "ko" | "en" | "ja" | "zh" | "vi";
 export type LangOption = { code: LangCode; label: string; flag: string };
 
-// 💡 [수정] English를 최상단으로, Korean을 두 번째로 이동
 const LANGS: LangOption[] = [
-  { code: "en", label: "English", flag: "🇺🇸" }, // 1. English
-  { code: "ko", label: "한국어", flag: "🇰🇷" }, // 2. 한국어
+  { code: "en", label: "English", flag: "🇺🇸" },
+  { code: "ko", label: "한국어", flag: "🇰🇷" },
   { code: "ja", label: "日本語", flag: "🇯🇵" },
   { code: "zh", label: "中文", flag: "🇨🇳" },
   { code: "vi", label: "Tiếng Việt", flag: "🇻🇳" },
 ];
 
 type LanguageSwitcherProps = {
-  // [수정] 'icon-only' 옵션 추가
   variant?: "flag-label" | "icon-label" | "icon-only";
-  // [추가] 드롭다운 펼쳐지는 방향 (위/아래)
   direction?: "up" | "down";
-  // [추가] 드롭다운 정렬 (왼쪽/오른쪽) - 헤더 우측 배치를 위해 필요
   align?: "left" | "right";
   triggerClassName?: string;
   itemClassName?: string;
@@ -35,7 +30,7 @@ type LanguageSwitcherProps = {
 
 export default function LanguageSwitcher({
   variant = "flag-label",
-  direction = "up", // 기본값은 위로 (기존 호환)
+  direction = "up",
   align = "left",
   triggerClassName = "btn btn-ghost gap-2 px-3 h-10 min-h-10",
   itemClassName = "flex items-center gap-2 w-full",
@@ -79,12 +74,16 @@ export default function LanguageSwitcher({
       setIsOpen(false);
       return;
     }
+
+    // 💡 [핵심 수정] 언어 변경 시 브라우저 쿠키에 NEXT_LOCALE 저장 (유효기간 1년)
+    // 이렇게 해야 미들웨어가 새로고침 시에도 이 언어를 기억합니다.
+    document.cookie = `NEXT_LOCALE=${code}; path=/; max-age=31536000; SameSite=Lax`;
+
     router.replace(pathname, { locale: code });
     setIsOpen(false);
   };
 
   if (!mounted) {
-    // [수정] 아이콘 모드일 때 스켈레톤 크기 조정
     return variant === "icon-only" ? (
       <div className="btn btn-ghost btn-circle skeleton h-9 w-9" />
     ) : (
@@ -92,7 +91,6 @@ export default function LanguageSwitcher({
     );
   }
 
-  // [로직] 드롭다운 위치 클래스 계산
   const positionClass =
     direction === "up" ? "bottom-full mb-2" : "top-full mt-2";
   const alignClass = align === "right" ? "right-0" : "left-0";
@@ -109,10 +107,8 @@ export default function LanguageSwitcher({
         aria-label="Change Language"
       >
         {variant === "icon-only" ? (
-          // [추가] 아이콘만 표시하는 모드
           <GlobeAltIcon className="h-6 w-6" />
         ) : (
-          // 기존 모드 (아이콘+라벨 혹은 국기+라벨)
           <>
             <div className="flex items-center gap-2">
               {variant === "icon-label" ? (
@@ -133,7 +129,6 @@ export default function LanguageSwitcher({
 
       {/* 드롭다운 메뉴 목록 */}
       {isOpen && (
-        // [수정] 드롭다운 메뉴 스타일은 그대로 유지
         <div
           className={`absolute ${positionClass} ${alignClass} w-max min-w-[160px] rounded-lg border border-base-300 bg-base-100 shadow-xl z-[100]`}
         >

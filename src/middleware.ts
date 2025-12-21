@@ -13,9 +13,9 @@ const intlMiddleware = createIntlMiddleware({
   locales: LOCALES,
   defaultLocale: DEFAULT_LOCALE,
   localePrefix: "always",
-  // 🚀 [핵심 수정] 브라우저의 언어 감지 기능을 비활성화합니다.
-  // 이로써 브라우저 설정(ko) 대신 DEFAULT_LOCALE(en)이 강제됩니다.
-  localeDetection: false,
+  // 💡 [수정] localeDetection을 true(기본값)로 해야 쿠키(NEXT_LOCALE)를 감지하여 언어를 유지합니다.
+  // false로 설정하면 쿠키를 무시하고 무조건 DEFAULT_LOCALE로 리다이렉트됩니다.
+  localeDetection: true,
 });
 
 // ---- 인증/접근 제어 설정 ----

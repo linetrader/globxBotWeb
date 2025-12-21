@@ -6,7 +6,7 @@ import Image from "next/image";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import MainMenuDropdown from "@/components/MainMenuDropdown";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl"; // 💡 [추가] useLocale import
 
 import GlobXlogoImage from "../../public/GlobXlogo.png";
 import QuantylogoImage from "../../public/Quantylogo.png";
@@ -25,6 +25,7 @@ export default function MainHeader({
   userLevel = 0,
 }: MainHeaderProps) {
   const t = useTranslations("header");
+  const locale = useLocale(); // 💡 [추가] 현재 언어 가져오기
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const isManager = Number(userLevel) >= 21;
 
@@ -36,9 +37,11 @@ export default function MainHeader({
       });
     } finally {
       setMenuOpen(false);
-      window.location.assign("/");
+      // 💡 [핵심 수정] 로그아웃 시 무조건 루트('/')가 아니라, 현재 언어 경로('/ko', '/en' 등)로 이동
+      // 이렇게 해야 로그아웃 후에도 언어가 유지됩니다.
+      window.location.assign(`/${locale}`);
     }
-  }, []);
+  }, [locale]);
 
   const pathname = useIntlPathname();
 
