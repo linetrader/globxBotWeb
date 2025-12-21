@@ -1,28 +1,44 @@
 {
-  "header": {
-    "title": "お知らせ",
-    "subtitle": "GlobXの最新ニュースとアップデートをご確認ください。"
+  "Globx": {
+    "metaTitle": "お知らせ - GlobX",
+    "metaDescription": "GlobXの最新ニュースとアップデートをご確認ください。",
+    "header": {
+      "title": "お知らせ",
+      "subtitle": "GlobXの最新ニュースとアップデートをご確認ください。"
+    },
+    "actions": {
+      "searchPlaceholder": "検索ワードを入力...",
+      "refresh": "更新"
+    },
+    "list": {
+      "title": "すべての記事",
+      "totalPosts": "全 {count} 件"
+    },
+    "messages": {
+      "errorPrefix": "エラーが発生しました：",
+      "emptyList": "登録されたお知らせはありません。",
+      "contentNotAvailable": "内容を読み込めません。"
+    }
   },
-  "actions": {
-    "refresh": "更新",
-    "home": "ホーム",
-    "searchPlaceholder": "お知らせを検索..."
-  },
-  "list": {
-    "title": "お知らせ一覧",
-    "totalPosts": "全 {count} 件"
-  },
-  "messages": {
-    "loadingList": "読み込み中...",
-    "errorPrefix": "エラー:",
-    "emptyList": "お知らせはありません。",
-    "contentNotAvailable": "内容を表示できません。"
-  },
-  "detail": {
-    "title": "詳細",
-    "publishedLabel": "公開日",
-    "close": "閉じる",
-    "loading": "内容を読み込んでいます...",
-    "placeholder": "リストから項目を選択して詳細を確認してください。"
+  "Quanty": {
+    "metaTitle": "お知らせ - Quanty",
+    "metaDescription": "Quantyの最新ニュースとアップデートをご確認ください。",
+    "header": {
+      "title": "お知らせ",
+      "subtitle": "Quantyの最新ニュースとアップデートをご確認ください。"
+    },
+    "actions": {
+      "searchPlaceholder": "検索ワードを入力...",
+      "refresh": "更新"
+    },
+    "list": {
+      "title": "すべての記事",
+      "totalPosts": "全 {count} 件"
+    },
+    "messages": {
+      "errorPrefix": "エラーが発生しました：",
+      "emptyList": "登録されたお知らせはありません。",
+      "contentNotAvailable": "内容を読み込めません。"
+    }
   }
 }

@@ -1,28 +1,44 @@
 {
-  "header": {
-    "title": "Announcements",
-    "subtitle": "Check out the latest news and updates from GlobX."
+  "Globx": {
+    "metaTitle": "Announcements - GlobX",
+    "metaDescription": "Check out the latest news and updates from GlobX.",
+    "header": {
+      "title": "Announcements",
+      "subtitle": "Check out the latest news and updates from GlobX."
+    },
+    "actions": {
+      "searchPlaceholder": "Search...",
+      "refresh": "Refresh"
+    },
+    "list": {
+      "title": "All Posts",
+      "totalPosts": "Total {count} items"
+    },
+    "messages": {
+      "errorPrefix": "Error occurred:",
+      "emptyList": "No announcements found.",
+      "contentNotAvailable": "Content not available."
+    }
   },
-  "actions": {
-    "refresh": "Refresh",
-    "home": "Home",
-    "searchPlaceholder": "Search announcements..."
-  },
-  "list": {
-    "title": "Announcement List",
-    "totalPosts": "Total {count} posts"
-  },
-  "messages": {
-    "loadingList": "Loading list...",
-    "errorPrefix": "Error:",
-    "emptyList": "No announcements found.",
-    "contentNotAvailable": "Content not available."
-  },
-  "detail": {
-    "title": "Details",
-    "publishedLabel": "Published",
-    "close": "Close",
-    "loading": "Loading content...",
-    "placeholder": "Select an item from the list to view details."
+  "Quanty": {
+    "metaTitle": "Announcements - Quanty",
+    "metaDescription": "Check out the latest news and updates from Quanty.",
+    "header": {
+      "title": "Announcements",
+      "subtitle": "Check out the latest news and updates from Quanty."
+    },
+    "actions": {
+      "searchPlaceholder": "Search...",
+      "refresh": "Refresh"
+    },
+    "list": {
+      "title": "All Posts",
+      "totalPosts": "Total {count} items"
+    },
+    "messages": {
+      "errorPrefix": "Error occurred:",
+      "emptyList": "No announcements found.",
+      "contentNotAvailable": "Content not available."
+    }
   }
 }

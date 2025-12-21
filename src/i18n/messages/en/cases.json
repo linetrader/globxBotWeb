@@ -1,45 +1,76 @@
 {
-  "title": "Success Cases",
-  "subtitle": "Check out the actual performance achieved with GlobX strategies.",
-  "actions": {
-    "home": "Home",
-    "readMore": "Read More"
-  },
-  "filters": {
-    "title": "Categories",
-    "hint": "Select a tag to filter results."
-  },
-  "tags": {
-    "all": "All",
-    "pro": "Pro",
-    "beginner": "Beginner",
-    "longterm": "Long-term"
-  },
-  "badge": {
-    "sample": "Verified"
-  },
-  "statLabel": "Key Performance",
-  "footer": {
-    "notice": "※ Past performance does not guarantee future results. All investment decisions are your own responsibility."
-  },
-  "items": {
-    "case1": {
-      "title": "High-Frequency Volatility Breakout",
-      "desc": "A high-frequency trading strategy that secures profits in short periods during high volatility.",
-      "stat": "Monthly Return +15.4%",
-      "tag": "Pro"
+  "common": {
+    "statLabel": "Key Performance",
+    "badge": "Verified",
+    "actions": {
+      "readMore": "View Full Report"
     },
-    "case2": {
-      "title": "Stable Low-Risk Bot Setup",
-      "desc": "A setup designed to minimize MDD and protect assets while maintaining steady growth.",
-      "stat": "MDD -2.1%",
-      "tag": "Beginner"
+    "footer": {
+      "notice": "※ Past performance is not indicative of future results. Investment decisions and risks are the sole responsibility of the user."
+    }
+  },
+  "GlobX": {
+    "metaTitle": "GlobX Success Stories | Bot Trading",
+    "metaDescription": "Discover real-world profit cases driven by GlobX's high-frequency trading algorithms.",
+    "title": "GlobX Bot Trading Performance",
+    "subtitle": "Real-world profit cases driven by 0.1s high-frequency trading algorithms.",
+    "tags": {
+      "all": "All Cases",
+      "arbitrage": "Arbitrage",
+      "scalping": "Scalping",
+      "volatility": "Volatility"
     },
-    "case3": {
-      "title": "Mid-to-Long Term Trend Following",
-      "desc": "A strategy that maximizes profit by holding positions longer during strong market trends.",
-      "stat": "Cumulative Return +120%",
-      "tag": "Long-term"
+    "items": {
+      "case1": {
+        "title": "USDT-KRW Kimchi Premium Bot",
+        "desc": "Real-time tracking of price differences between global exchanges to realize risk-free arbitrage profits.",
+        "stat": "Daily Avg +0.45%",
+        "tag": "Arbitrage"
+      },
+      "case2": {
+        "title": "Volatility Breakout Scalping",
+        "desc": "Detects sharp price spikes to enter and exit positions instantly, securing quick profits with high efficiency.",
+        "stat": "Win Rate 78%",
+        "tag": "Scalping"
+      },
+      "case3": {
+        "title": "Hybrid Market Making",
+        "desc": "Generates consistent liquidity profits using order book spreads, even during sideways market conditions.",
+        "stat": "Monthly +12%",
+        "tag": "Volatility"
+      }
+    }
+  },
+  "Quanty": {
+    "metaTitle": "Quanty Analysis Report | AI Investment",
+    "metaDescription": "Check out Quanty's success stories, featuring market trends predicted by Big Data and Machine Learning.",
+    "title": "Quanty AI Analysis Report",
+    "subtitle": "Market trends predicted by Big Data and Machine Learning. Strategies proven by data.",
+    "tags": {
+      "all": "All Reports",
+      "trend": "Trend Following",
+      "sentiment": "Sentiment Analysis",
+      "macro": "Macro Indicators"
+    },
+    "items": {
+      "case1": {
+        "title": "AI Trend Master V2",
+        "desc": "Learns from 5 years of on-chain data to accurately predict the start of bull markets.",
+        "stat": "Annual +145%",
+        "tag": "Trend Following"
+      },
+      "case2": {
+        "title": "Fear/Greed Contrarian Strategy",
+        "desc": "A reverse-thinking AI model that accumulates assets when public sentiment reaches extreme fear.",
+        "stat": "MDD -5% Defended",
+        "tag": "Sentiment Analysis"
+      },
+      "case3": {
+        "title": "Global Macro Hedging",
+        "desc": "Analyzes macro indicators like interest rates and forex to automatically adjust asset allocation during downturns.",
+        "stat": "Risk Reduced 60%",
+        "tag": "Macro Indicators"
+      }
     }
   }
 }

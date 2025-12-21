@@ -1,45 +1,76 @@
 {
-  "title": "Các trường hợp thành công",
-  "subtitle": "Kiểm tra hiệu suất thực tế đạt được với các chiến lược GlobX.",
-  "actions": {
-    "home": "Trang chủ",
-    "readMore": "Xem thêm"
-  },
-  "filters": {
-    "title": "Danh mục",
-    "hint": "Chọn thẻ để lọc kết quả."
-  },
-  "tags": {
-    "all": "Tất cả",
-    "pro": "Chuyên nghiệp",
-    "beginner": "Người mới",
-    "longterm": "Dài hạn"
-  },
-  "badge": {
-    "sample": "Đã xác minh"
-  },
-  "statLabel": "Hiệu suất chính",
-  "footer": {
-    "notice": "※ Hiệu suất trong quá khứ không đảm bảo lợi nhuận trong tương lai. Mọi quyết định đầu tư là trách nhiệm của riêng bạn."
-  },
-  "items": {
-    "case1": {
-      "title": "Chiến lược Đột phá Biến động Cao tần",
-      "desc": "Chiến lược giao dịch tần suất cao chốt lời trong thời gian ngắn khi thị trường biến động mạnh.",
-      "stat": "Lợi nhuận tháng +15.4%",
-      "tag": "Chuyên nghiệp"
+  "common": {
+    "statLabel": "Hiệu suất chính",
+    "badge": "Đã kiểm chứng",
+    "actions": {
+      "readMore": "Xem báo cáo chi tiết"
     },
-    "case2": {
-      "title": "Cài đặt Bot Ổn định Rủi ro Thấp",
-      "desc": "Cài đặt giúp giảm thiểu MDD, bảo vệ tài sản trong thị trường giảm và tăng trưởng đều đặn.",
-      "stat": "MDD -2.1%",
-      "tag": "Người mới"
+    "footer": {
+      "notice": "※ Dữ liệu quá khứ chỉ mang tính tham khảo và không đảm bảo lợi nhuận trong tương lai. Người dùng chịu trách nhiệm về quyết định đầu tư."
+    }
+  },
+  "GlobX": {
+    "metaTitle": "Câu chuyện thành công GlobX | Bot Trading",
+    "metaDescription": "Khám phá các trường hợp lợi nhuận thực tế được tạo ra bởi thuật toán giao dịch tần suất cao của GlobX.",
+    "title": "Hiệu suất Bot Trading GlobX",
+    "subtitle": "Cuộc chiến 0.1 giây, các trường hợp lợi nhuận thực tế được tạo ra bởi thuật toán giao dịch tần suất cao.",
+    "tags": {
+      "all": "Tất cả",
+      "arbitrage": "Chênh lệch giá",
+      "scalping": "Scalping",
+      "volatility": "Đột phá biến động"
     },
-    "case3": {
-      "title": "Giao dịch Theo xu hướng Trung & Dài hạn",
-      "desc": "Chiến lược tối đa hóa lợi nhuận bằng cách giữ vị thế lâu hơn khi có xu hướng lớn.",
-      "stat": "Lợi nhuận tích lũy +120%",
-      "tag": "Dài hạn"
+    "items": {
+      "case1": {
+        "title": "Bot Kimchi Premium USDT-KRW",
+        "desc": "Theo dõi chênh lệch giá giữa các sàn giao dịch quốc tế theo thời gian thực để thực hiện lợi nhuận phi rủi ro.",
+        "stat": "TB Ngày +0.45%",
+        "tag": "Chênh lệch giá"
+      },
+      "case2": {
+        "title": "Scalping Đột phá Biến động",
+        "desc": "Nắm bắt tín hiệu biến động giá mạnh, vào lệnh siêu ngắn hạn để chốt lời nhanh chóng và hiệu quả.",
+        "stat": "Tỷ lệ thắng 78%",
+        "tag": "Scalping"
+      },
+      "case3": {
+        "title": "Market Making Lai",
+        "desc": "Tận dụng chênh lệch spread trong sổ lệnh để tạo ra lợi nhuận thanh khoản ổn định ngay cả khi thị trường đi ngang.",
+        "stat": "Tháng +12%",
+        "tag": "Đột phá biến động"
+      }
+    }
+  },
+  "Quanty": {
+    "metaTitle": "Báo cáo phân tích Quanty | Đầu tư AI",
+    "metaDescription": "Kiểm tra các câu chuyện thành công của Quanty, với xu hướng thị trường được dự đoán bởi Big Data và Machine Learning.",
+    "title": "Báo cáo Phân tích AI Quanty",
+    "subtitle": "Xu hướng thị trường được dự đoán bởi Big Data và Machine Learning. Chiến lược đã được chứng minh bằng dữ liệu.",
+    "tags": {
+      "all": "Tất cả báo cáo",
+      "trend": "Theo xu hướng",
+      "sentiment": "Phân tích tâm lý",
+      "macro": "Chỉ số vĩ mô"
+    },
+    "items": {
+      "case1": {
+        "title": "AI Trend Master V2",
+        "desc": "Học từ dữ liệu on-chain 5 năm qua để dự đoán chính xác sự khởi đầu của thị trường tăng giá.",
+        "stat": "Hàng năm +145%",
+        "tag": "Theo xu hướng"
+      },
+      "case2": {
+        "title": "Chiến lược Ngược dòng Sợ hãi/Tham lam",
+        "desc": "Mô hình AI tư duy ngược, thực hiện mua gom khi tâm lý đám đông đạt đến mức sợ hãi tột độ.",
+        "stat": "Bảo vệ MDD -5%",
+        "tag": "Phân tích tâm lý"
+      },
+      "case3": {
+        "title": "Phòng vệ Vĩ mô Toàn cầu",
+        "desc": "Phân tích các chỉ số vĩ mô như lãi suất và tỷ giá hối đoái để tự động điều chỉnh tỷ trọng tài sản trong thị trường giảm.",
+        "stat": "Giảm rủi ro 60%",
+        "tag": "Chỉ số vĩ mô"
+      }
     }
   }
 }

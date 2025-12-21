@@ -1,28 +1,44 @@
 {
-  "header": {
-    "title": "Thông báo",
-    "subtitle": "Cập nhật tin tức và thông báo mới nhất từ GlobX."
+  "Globx": {
+    "metaTitle": "Thông báo - GlobX",
+    "metaDescription": "Kiểm tra tin tức và cập nhật mới nhất từ GlobX.",
+    "header": {
+      "title": "Thông báo",
+      "subtitle": "Kiểm tra tin tức và cập nhật mới nhất từ GlobX."
+    },
+    "actions": {
+      "searchPlaceholder": "Nhập từ khóa...",
+      "refresh": "Làm mới"
+    },
+    "list": {
+      "title": "Tất cả bài viết",
+      "totalPosts": "Tổng {count} bài"
+    },
+    "messages": {
+      "errorPrefix": "Đã xảy ra lỗi:",
+      "emptyList": "Không có thông báo nào.",
+      "contentNotAvailable": "Không thể tải nội dung."
+    }
   },
-  "actions": {
-    "refresh": "Làm mới",
-    "home": "Trang chủ",
-    "searchPlaceholder": "Tìm kiếm thông báo..."
-  },
-  "list": {
-    "title": "Danh sách thông báo",
-    "totalPosts": "Tổng cộng {count} bài viết"
-  },
-  "messages": {
-    "loadingList": "Đang tải danh sách...",
-    "errorPrefix": "Lỗi:",
-    "emptyList": "Không có thông báo nào.",
-    "contentNotAvailable": "Không thể hiển thị nội dung."
-  },
-  "detail": {
-    "title": "Chi tiết",
-    "publishedLabel": "Ngày đăng",
-    "close": "Đóng",
-    "loading": "Đang tải nội dung...",
-    "placeholder": "Chọn một mục từ danh sách để xem chi tiết."
+  "Quanty": {
+    "metaTitle": "Thông báo - Quanty",
+    "metaDescription": "Kiểm tra tin tức và cập nhật mới nhất từ Quanty.",
+    "header": {
+      "title": "Thông báo",
+      "subtitle": "Kiểm tra tin tức và cập nhật mới nhất từ Quanty."
+    },
+    "actions": {
+      "searchPlaceholder": "Nhập từ khóa...",
+      "refresh": "Làm mới"
+    },
+    "list": {
+      "title": "Tất cả bài viết",
+      "totalPosts": "Tổng {count} bài"
+    },
+    "messages": {
+      "errorPrefix": "Đã xảy ra lỗi:",
+      "emptyList": "Không có thông báo nào.",
+      "contentNotAvailable": "Không thể tải nội dung."
+    }
   }
 }

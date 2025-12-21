@@ -8,7 +8,12 @@ import MainMenuDropdown from "@/components/MainMenuDropdown";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useTranslations } from "next-intl";
 
-import logoImage from "./logo.png";
+import GlobXlogoImage from "../../public/GlobXlogo.png";
+import QuantylogoImage from "../../public/Quantylogo.png";
+
+// 환경변수에 따라 로고 이미지 결정
+const BRAND = process.env.NEXT_PUBLIC_BRAND_NAME;
+const logoImage = BRAND === "Quanty" ? QuantylogoImage : GlobXlogoImage;
 
 type MainHeaderProps = {
   authed?: boolean;
@@ -76,10 +81,11 @@ export default function MainHeader({
             aria-label={t("aria.home")}
             className="inline-flex items-center lg:-ml-4"
           >
-            <div className="relative h-10 w-auto min-w-[120px] shrink-0">
+            {/* [수정] 로고 크기 확대: h-12 -> h-14, min-w-[140px] -> min-w-[160px] */}
+            <div className="relative h-14 w-auto min-w-[160px] shrink-0">
               <Image
                 src={logoImage}
-                alt="GlobX Logo"
+                alt="Brand Logo"
                 fill
                 className="object-contain object-left"
                 priority

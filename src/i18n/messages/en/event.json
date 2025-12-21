@@ -1,34 +1,39 @@
 {
-  "header": {
-    "title": "Events",
-    "subtitle": "Don't miss out on GlobX's special offers and events."
+  "common": {
+    "actions": {
+      "refresh": "Refresh"
+    },
+    "status": {
+      "ongoing": "Ongoing",
+      "upcoming": "Upcoming",
+      "ended": "Ended"
+    },
+    "messages": {
+      "errorPrefix": "Error:",
+      "emptyList": "No events available."
+    },
+    "detail": {
+      "loading": "Loading...",
+      "periodLabel": "Event Period",
+      "publishedLabel": "Published Date",
+      "ctaButton": "View Details",
+      "placeholder": "Unable to load event details."
+    }
   },
-  "actions": {
-    "refresh": "Refresh",
-    "home": "Home"
+  "GlobX": {
+    "metaTitle": "GlobX Events | Latest News",
+    "metaDescription": "Check out various events and promotions from GlobX.",
+    "header": {
+      "title": "GlobX Events",
+      "subtitle": "Check out special benefits and news just for you."
+    }
   },
-  "table": {
-    "colTitle": "Event",
-    "colPeriod": "Period",
-    "colPublishedAt": "Published"
-  },
-  "status": {
-    "ongoing": "On Going",
-    "upcoming": "Upcoming",
-    "ended": "Ended"
-  },
-  "messages": {
-    "loadingList": "Loading list...",
-    "errorPrefix": "Error:",
-    "emptyList": "No events found."
-  },
-  "detail": {
-    "title": "Details",
-    "periodLabel": "Period",
-    "publishedLabel": "Published",
-    "close": "Close",
-    "loading": "Loading details...",
-    "placeholder": "Content not found.",
-    "ctaButton": "Go to Event"
+  "Quanty": {
+    "metaTitle": "Quanty Events | AI Investment Benefits",
+    "metaDescription": "Don't miss out on special analysis events and benefits provided by Quanty.",
+    "header": {
+      "title": "Quanty Events",
+      "subtitle": "Discover special investment benefits based on data."
+    }
   }
 }

@@ -1,10 +1,7 @@
-// src/app/[locale]/(site)/(home)/views/Quanty.tsx
-
 "use client";
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-// 💡 [추가] 페이지 이동을 위한 Link 컴포넌트 import
 import { Link } from "@/i18n/routing";
 import {
   CurrencyDollarIcon,
@@ -16,16 +13,15 @@ import {
 const FAQ_INDEXES = [1, 2, 3, 4, 5, 6] as const;
 
 export function QuantyView() {
-  const t = useTranslations("home");
+  const t = useTranslations("home.Quanty");
 
   return (
-    // [수정] 배경/텍스트 색상: 라이트모드(흰색/검정) <-> 다크모드(기존 색상)
     <div className="min-h-screen bg-gray-50 text-gray-900 transition-colors duration-300 [:root[data-theme=dark]_&]:bg-[#0B1120] [:root[data-theme=dark]_&]:text-slate-200">
       {/* 1. Hero Section */}
       <section className="relative w-full h-[700px] flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/21380.png"
+            src="/Quantyback.png"
             alt="Hero Background"
             fill
             className="object-cover object-top"
@@ -40,16 +36,19 @@ export function QuantyView() {
             </p>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight drop-shadow-lg">
-              {/* [수정] 텍스트 그라디언트: 라이트모드(검정->회색) <-> 다크모드(흰색->회색) */}
               <span className="bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent [:root[data-theme=dark]_&]:from-white [:root[data-theme=dark]_&]:to-slate-200">
                 {t("heroTitle")}
               </span>
             </h1>
 
             <p className="text-xl text-slate-100 flex items-center justify-center lg:justify-start drop-shadow-md">
-              <span className="relative w-[150px] h-6 md:h-7">
+              {/* [수정됨] 로고 크기 조정 
+                  기존: w-[150px] h-6 md:h-7
+                  변경: w-[220px] h-12 md:h-16 (로고 비율에 따라 너비/높이 조절 필요)
+              */}
+              <span className="relative w-[220px] h-12 md:h-16">
                 <Image
-                  src="/logowite.png"
+                  src="/Quantylogo.png"
                   alt={t("heroSubtitle")}
                   fill
                   className="object-contain object-left"
@@ -65,17 +64,7 @@ export function QuantyView() {
             </div>
           </div>
 
-          <div className="relative h-full hidden lg:block w-full">
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-full max-w-[420px] h-[550px]">
-              <Image
-                src="/Group 14.png"
-                alt="App Interface Mockup"
-                fill
-                className="object-contain object-center drop-shadow-2xl"
-                priority
-              />
-            </div>
-          </div>
+          {/* Group 14.png 이미지 영역 제거됨 */}
         </div>
       </section>
 
@@ -326,7 +315,6 @@ export function QuantyView() {
           <p className="text-gray-600 [:root[data-theme=dark]_&]:text-slate-400">
             {t("faqFooterText")}
           </p>
-          {/* 💡 [수정] 버튼을 Link로 변경하여 /help 페이지로 이동하도록 설정 */}
           <Link
             href="/help"
             className="inline-block bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-10 rounded-full transition-colors shadow-lg shadow-cyan-500/20"

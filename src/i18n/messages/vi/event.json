@@ -1,34 +1,39 @@
 {
-  "header": {
-    "title": "Sự kiện",
-    "subtitle": "Đừng bỏ lỡ các ưu đãi và sự kiện đặc biệt của GlobX."
+  "common": {
+    "actions": {
+      "refresh": "Làm mới"
+    },
+    "status": {
+      "ongoing": "Đang diễn ra",
+      "upcoming": "Sắp diễn ra",
+      "ended": "Đã kết thúc"
+    },
+    "messages": {
+      "errorPrefix": "Lỗi:",
+      "emptyList": "Không có sự kiện nào."
+    },
+    "detail": {
+      "loading": "Đang tải...",
+      "periodLabel": "Thời gian sự kiện",
+      "publishedLabel": "Ngày đăng",
+      "ctaButton": "Xem chi tiết",
+      "placeholder": "Không thể tải chi tiết sự kiện."
+    }
   },
-  "actions": {
-    "refresh": "Làm mới",
-    "home": "Trang chủ"
+  "GlobX": {
+    "metaTitle": "Sự kiện GlobX | Tin tức mới nhất",
+    "metaDescription": "Khám phá các sự kiện và khuyến mãi đa dạng từ GlobX.",
+    "header": {
+      "title": "Sự kiện GlobX",
+      "subtitle": "Kiểm tra các ưu đãi và tin tức đặc biệt dành cho bạn."
+    }
   },
-  "table": {
-    "colTitle": "Sự kiện",
-    "colPeriod": "Thời gian",
-    "colPublishedAt": "Ngày đăng"
-  },
-  "status": {
-    "ongoing": "Đang diễn ra",
-    "upcoming": "Sắp diễn ra",
-    "ended": "Đã kết thúc"
-  },
-  "messages": {
-    "loadingList": "Đang tải danh sách...",
-    "errorPrefix": "Lỗi:",
-    "emptyList": "Không có sự kiện nào."
-  },
-  "detail": {
-    "title": "Chi tiết",
-    "periodLabel": "Thời gian sự kiện",
-    "publishedLabel": "Ngày đăng",
-    "close": "Đóng",
-    "loading": "Đang tải chi tiết...",
-    "placeholder": "Không tìm thấy nội dung.",
-    "ctaButton": "Đi tới sự kiện"
+  "Quanty": {
+    "metaTitle": "Sự kiện Quanty | Ưu đãi đầu tư AI",
+    "metaDescription": "Đừng bỏ lỡ các sự kiện phân tích đặc biệt và ưu đãi từ Quanty.",
+    "header": {
+      "title": "Sự kiện Quanty",
+      "subtitle": "Khám phá các ưu đãi đầu tư đặc biệt dựa trên dữ liệu."
+    }
   }
 }

@@ -18,7 +18,7 @@ function isAppLocale(value: string): value is AppLocale {
 type Brand = "globx" | "quanty";
 
 function getBrand(): Brand {
-  const raw = (process.env.BRAND_NAME ?? "").trim().toLowerCase();
+  const raw = (process.env.NEXT_PUBLIC_BRAND_NAME ?? "").trim().toLowerCase();
   if (raw === "quanty") return "quanty";
   return "globx";
 }
@@ -30,17 +30,21 @@ export async function generateMetadata({ params }: Props) {
   const brand = getBrand();
 
   if (!isAppLocale(locale)) {
-    // locale가 이상할 때 fallback 메타
     return {
       title: brand === "quanty" ? "Quanty Bot" : "GlobX Bot",
       description: brand === "quanty" ? "Quanty" : "GlobX",
     };
   }
 
-  const t = await getTranslations({ locale, namespace: "home" });
+  // [중요 수정]
+  // 1. 파일명이 home.json이므로 'home'으로 시작
+  // 2. JSON 내부 키가 대문자(Quanty, Globx)이므로 이에 맞춰 변환
+  const jsonKey = brand === "quanty" ? "Quanty" : "Globx";
 
-  // 기존 번역키(metaTitle/metaDescription)를 그대로 쓰되,
-  // 필요하면 브랜드별로 번역 키를 나눠도 됨.
+  // 3. namespace를 "home.Quanty" 또는 "home.Globx" 형태로 지정
+  // 이렇게 하면 t("metaTitle")만 써도 자동으로 home -> Quanty -> metaTitle을 가져옵니다.
+  const t = await getTranslations({ locale, namespace: `home.${jsonKey}` });
+
   return {
     title: t("metaTitle"),
     description: t("metaDescription"),

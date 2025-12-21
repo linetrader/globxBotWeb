@@ -16,7 +16,8 @@ import {
 const FAQ_INDEXES = [1, 2, 3, 4, 5, 6] as const;
 
 export function GlobxView() {
-  const t = useTranslations("home");
+  // 🔴 [수정] JSON 구조가 home -> Globx로 변경되었으므로, 네임스페이스를 'home.Globx'로 지정합니다.
+  const t = useTranslations("home.Globx");
 
   return (
     // [수정] 배경/텍스트 색상: 라이트모드(흰색/검정) <-> 다크모드(기존 색상)

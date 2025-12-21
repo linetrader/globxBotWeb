@@ -1,28 +1,44 @@
 {
-  "header": {
-    "title": "공지사항",
-    "subtitle": "GlobX의 최신 소식과 업데이트를 확인하세요."
+  "Globx": {
+    "metaTitle": "공지사항 - GlobX",
+    "metaDescription": "GlobX의 최신 소식과 업데이트를 확인하세요.",
+    "header": {
+      "title": "공지사항",
+      "subtitle": "GlobX의 새로운 소식과 업데이트를 확인하세요."
+    },
+    "actions": {
+      "searchPlaceholder": "검색어를 입력하세요...",
+      "refresh": "새로고침"
+    },
+    "list": {
+      "title": "전체 글",
+      "totalPosts": "총 {count}건"
+    },
+    "messages": {
+      "errorPrefix": "오류 발생:",
+      "emptyList": "등록된 공지사항이 없습니다.",
+      "contentNotAvailable": "내용을 불러올 수 없습니다."
+    }
   },
-  "actions": {
-    "refresh": "새로고침",
-    "home": "홈으로",
-    "searchPlaceholder": "공지사항 검색..."
-  },
-  "list": {
-    "title": "공지사항 목록",
-    "totalPosts": "총 {count}개의 게시물"
-  },
-  "messages": {
-    "loadingList": "목록을 불러오는 중...",
-    "errorPrefix": "오류 발생:",
-    "emptyList": "등록된 공지사항이 없습니다.",
-    "contentNotAvailable": "내용을 확인할 수 없습니다."
-  },
-  "detail": {
-    "title": "상세 내용",
-    "publishedLabel": "게시일",
-    "close": "닫기",
-    "loading": "내용을 불러오는 중...",
-    "placeholder": "목록에서 항목을 선택하여 내용을 확인하세요."
+  "Quanty": {
+    "metaTitle": "공지사항 - Quanty",
+    "metaDescription": "Quanty의 최신 소식과 업데이트를 확인하세요.",
+    "header": {
+      "title": "공지사항",
+      "subtitle": "Quanty의 새로운 소식과 업데이트를 확인하세요."
+    },
+    "actions": {
+      "searchPlaceholder": "검색어를 입력하세요...",
+      "refresh": "새로고침"
+    },
+    "list": {
+      "title": "전체 글",
+      "totalPosts": "총 {count}건"
+    },
+    "messages": {
+      "errorPrefix": "오류 발생:",
+      "emptyList": "등록된 공지사항이 없습니다.",
+      "contentNotAvailable": "내용을 불러올 수 없습니다."
+    }
   }
 }
