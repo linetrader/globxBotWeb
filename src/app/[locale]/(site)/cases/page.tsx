@@ -8,17 +8,13 @@ type Props = {
   params: Promise<{ locale: string }> | { locale: string };
 };
 
+// 허용된 로케일인지 확인하는 함수
 function isAppLocale(value: string): value is AppLocale {
   return (locales as readonly string[]).includes(value);
 }
 
-type Brand = "globx" | "quanty";
-
-function getBrand(): Brand {
-  const raw = (process.env.NEXT_PUBLIC_BRAND_NAME ?? "").trim().toLowerCase();
-  if (raw === "quanty") return "quanty";
-  return "globx";
-}
+// .env 파일의 브랜드 네임을 그대로 사용 (GlobX 또는 Quanty)
+const BRAND_NAME = process.env.NEXT_PUBLIC_BRAND_NAME;
 
 export async function generateMetadata({ params }: Props) {
   const resolved = await Promise.resolve(params);
@@ -28,12 +24,11 @@ export async function generateMetadata({ params }: Props) {
     return {};
   }
 
-  const brand = getBrand();
+  // [수정] 환경변수 값에 따라 JSON 키 결정 (대소문자 변환 없음)
+  // 환경변수가 'Quanty'가 아니면 기본값으로 'GlobX' 사용
+  const jsonKey = BRAND_NAME === "Quanty" ? "Quanty" : "GlobX";
 
-  // [수정] JSON의 키 이름과 정확히 일치시켜야 합니다 (GlobX)
-  const jsonKey = brand === "quanty" ? "Quanty" : "GlobX";
-
-  // namespace: 'cases.GlobX' -> cases.json 파일 안의 GlobX 키를 찾음
+  // namespace: 'cases.Quanty' 또는 'cases.GlobX'
   const t = await getTranslations({ locale, namespace: `cases.${jsonKey}` });
 
   return {
@@ -52,7 +47,6 @@ export default async function CasesPage({ params }: Props) {
 
   setRequestLocale(locale);
 
-  const brand = getBrand();
-
-  return brand === "quanty" ? <QuantyView /> : <GlobxView />;
+  // [수정] 브랜드 네임에 따라 명확하게 컴포넌트 분기
+  return BRAND_NAME === "Quanty" ? <QuantyView /> : <GlobxView />;
 }

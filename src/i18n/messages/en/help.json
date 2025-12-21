@@ -1,61 +1,105 @@
 {
-  "header": {
-    "title": "How can we help you?",
-    "subtitle": "Find the information you need at the GlobX Customer Center.",
-    "searchPlaceholder": "Search...",
-    "searchButton": "Search"
+  "common": {
+    "categories": {
+      "program": "Program Install/Error",
+      "account": "Account/Login",
+      "trading": "Trading/Strategy Setup",
+      "funds": "Deposit/Withdrawal",
+      "data": "Data/Security"
+    },
+    "searchPlaceholder": "Search for help topics (e.g., install, fee)",
+    "searchButton": "Search",
+    "contact": {
+      "title": "Need more help?",
+      "description": "If you cannot find the answer in the FAQ, please contact support.",
+      "emailLabel": "Email",
+      "phoneLabel": "Phone",
+      "telegramLabel": "Telegram",
+      "hoursLabel": "Hours",
+      "hoursValue": "Weekdays 09:00 ~ 18:00 (Closed on weekends/holidays)"
+    }
   },
-  "faq": {
-    "title": "Frequently Asked Questions",
-    "subtitle": "Here are the most frequently asked questions."
+  "GlobX": {
+    "metaTitle": "GlobX Support | FAQ",
+    "metaDescription": "Quickly resolve questions while using GlobX.",
+    "header": {
+      "title": "How can we help you?",
+      "subtitle": "Search for questions or browse categories regarding GlobX."
+    },
+    "qna": {
+      "program_q1": "How do I install the GlobX bot?",
+      "program_a1": "Download the installation file for your OS from the 'Download' menu at the top of the homepage and run it.",
+      "program_q2": "I get a security warning when running the program.",
+      "program_a2": "Windows Defender may falsely identify it. Click 'More Info' -> 'Run Anyway' to launch GlobX normally.",
+      "program_q3": "Can I use it on a Mac?",
+      "program_a3": "Currently, only the Windows version is supported. Mac support is coming soon.",
+      "program_q4": "How do I update the program?",
+      "program_a4": "The GlobX bot automatically checks for the latest version and updates upon launch.",
+      "account_q1": "I forgot my password.",
+      "account_a1": "You can reset it via email verification using the 'Forgot Password' link at the bottom of the login screen.",
+      "account_q2": "How do I delete my account?",
+      "account_a2": "You can request account deletion in My Page > Account Management.",
+      "trading_q1": "What is the minimum operating capital?",
+      "trading_a1": "We recommend a minimum of 500 USDT for smooth operation of the GlobX bot.",
+      "trading_q2": "Which exchanges are supported?",
+      "trading_a2": "Currently, major global exchanges such as Binance, Bybit, and OKX are supported.",
+      "trading_q3": "Is the profit rate guaranteed?",
+      "trading_a3": "All investment responsibility lies with the user, and past performance does not guarantee future results.",
+      "trading_q4": "The bot has stopped.",
+      "trading_a4": "Please check your internet connection. If the problem persists, contact support with the log file.",
+      "funds_q1": "How do I deposit funds?",
+      "funds_a1": "Transfer cryptocurrency to the wallet address of the linked exchange, and the bot will automatically recognize the balance.",
+      "funds_q2": "What are the withdrawal fees?",
+      "funds_a2": "GlobX does not charge separate withdrawal fees; only the exchange's network fees apply.",
+      "funds_q3": "My assets are not reflecting.",
+      "funds_a3": "Please ensure that your API key permissions include 'Read' access.",
+      "data_q1": "Is my API key safe?",
+      "data_a1": "GlobX does not store API keys on the server; they are encrypted and stored locally for safety."
+    },
+    "contactInfo": {
+      "email": "support@globx.com",
+      "phone": "+82-70-1111-1111"
+    }
   },
-  "categories": {
-    "program": "GlobX AI Program Related",
-    "account": "Exchange Account Related",
-    "trading": "Position & Trading Related",
-    "funds": "Funds & Settings Related",
-    "data": "Data Sharing Related"
-  },
-  "qna": {
-    "program_q1": "Where should I start when using it for the first time?",
-    "program_a1": "Please refer to the 'Getting Started' guide in the manual. You need to link your API key first.",
-    "program_q2": "The design looks strange or images are not displayed.",
-    "program_a2": "Please check your internet connection and try restarting the program.",
-    "program_q3": "An error occurred in the log window while running.",
-    "program_a3": "Please capture the error code and contact support.",
-    "program_q4": "My account balance shows 0 after running the program.",
-    "program_a4": "It may take some time to synchronize with the exchange. Please click the refresh button.",
-
-    "account_q1": "I want to create a GlobX-exclusive account, but I already have one.",
-    "account_a1": "You can create a sub-account or use your existing one if API permissions are set correctly.",
-    "account_q2": "KYC verification is not working.",
-    "account_a2": "Please ensure your ID photos are clear and try again in a well-lit environment.",
-
-    "trading_q1": "I entered 1 or 2 positions, but the 3rd order is not executing.",
-    "trading_a1": "This might be due to margin limits or strategy settings. Please check your max position settings.",
-    "trading_q2": "Is it okay to stop and restart the program while holding positions?",
-    "trading_a2": "Yes, the program will recognize existing positions upon restart.",
-    "trading_q3": "The program doesn't start because entry count is below 6-7.",
-    "trading_a3": "The strategy requires a minimum historical data set to calculate indicators.",
-    "trading_q4": "Will new positions be entered if I turn it off and on with existing positions?",
-    "trading_a4": "It depends on your 'Allow New Entry' setting in the config.",
-
-    "funds_q1": "What is the minimum USDT required to run the program?",
-    "funds_a1": "We recommend a minimum of 500 USDT for stable operation.",
-    "funds_q2": "What is the maximum drawdown?",
-    "funds_a2": "It depends on the market volatility and your leverage settings.",
-    "funds_q3": "What is Fibonacci error?",
-    "funds_a3": "This refers to the calculation deviation in retracement levels.",
-
-    "data_q1": "When does the data sharing count reset?",
-    "data_a1": "It resets every day at 00:00 UTC."
-  },
-  "contact": {
-    "title": "Can't find what you're looking for?",
-    "description": "Please contact us directly via the info below.",
-    "emailLabel": "Email:",
-    "phoneLabel": "Phone:",
-    "hoursLabel": "Hours:",
-    "hoursValue": "Weekdays 10:00 - 18:00"
+  "Quanty": {
+    "metaTitle": "Quanty Support | FAQ",
+    "metaDescription": "User guide and FAQ for Quanty AI investment service.",
+    "header": {
+      "title": "Quanty Help Center",
+      "subtitle": "Ask anything about data-driven AI investment, Quanty."
+    },
+    "qna": {
+      "program_q1": "How do I apply the Quanty AI model?",
+      "program_a1": "Select your desired AI strategy (Trend/Counter-trend) on the dashboard and click 'Apply' to reflect it immediately.",
+      "program_q2": "Analysis data is not loading.",
+      "program_a2": "Please clear your browser cache or try a hard refresh (Ctrl+F5).",
+      "program_q3": "Is there a mobile app?",
+      "program_a3": "Currently, Quanty supports a responsive web interface, and a dedicated app is under development.",
+      "program_q4": "Where can I set notifications?",
+      "program_a4": "You can toggle trade execution and major market alerts in the Settings > Notifications menu.",
+      "account_q1": "I want to unlock my account.",
+      "account_a1": "For security, accounts are locked after 5 failed login attempts. Contact support for identity verification to unlock it.",
+      "account_q2": "I want to set up 2FA.",
+      "account_a2": "You can register Google OTP in the Security Settings menu to protect your account.",
+      "trading_q1": "The AI is not trading.",
+      "trading_a1": "Quanty AI only trades when a clear entry signal occurs. Wait times may vary depending on market conditions.",
+      "trading_q2": "Can I trust the backtesting results?",
+      "trading_a2": "Results are conservatively calculated based on the past 5 years of tick data, including slippage.",
+      "trading_q3": "Can I adjust leverage?",
+      "trading_a3": "Yes, you can manually specify the maximum leverage multiplier on the strategy settings page.",
+      "trading_q4": "Is there a Stop-loss function?",
+      "trading_a4": "Yes, Quanty AI basically includes stop-loss logic according to the strategy, and manual forced liquidation is also possible.",
+      "funds_q1": "I want to increase my investment amount.",
+      "funds_a1": "If you deposit additional funds into your exchange account, the position size will automatically adjust to the increased seed money from the next entry.",
+      "funds_q2": "Can I withdraw profits at any time?",
+      "funds_a2": "Yes, you can withdraw from the exchange whenever the bot is not holding a position.",
+      "funds_q3": "Is it possible with coins other than USDT?",
+      "funds_a3": "Currently, Quanty operates based on the USDT Futures market.",
+      "data_q1": "I want to know the Privacy Policy.",
+      "data_a1": "You can check the details in the 'Privacy Policy' link in the footer."
+    },
+    "contactInfo": {
+      "telegram": "t.me/BEE10045"
+    }
   }
 }

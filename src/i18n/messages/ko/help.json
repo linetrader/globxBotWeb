@@ -14,6 +14,7 @@
       "description": "자주 묻는 질문으로 해결되지 않는다면 고객센터로 문의해주세요.",
       "emailLabel": "이메일",
       "phoneLabel": "전화번호",
+      "telegramLabel": "텔레그램",
       "hoursLabel": "운영시간",
       "hoursValue": "평일 09:00 ~ 18:00 (주말/공휴일 휴무)"
     }
@@ -98,8 +99,7 @@
       "data_a1": "하단 푸터의 '개인정보 처리방침' 링크에서 자세한 내용을 확인하실 수 있습니다."
     },
     "contactInfo": {
-      "email": "help@quanty.ai",
-      "phone": "02-2222-2222"
+      "telegram": "t.me/BEE10045"
     }
   }
 }

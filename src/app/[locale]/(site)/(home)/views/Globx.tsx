@@ -1,10 +1,7 @@
-// src/app/[locale]/(site)/about/views/AboutView.tsx
-
 "use client";
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-// 💡 [추가] 페이지 이동을 위한 Link 컴포넌트 import
 import { Link } from "@/i18n/routing";
 import {
   CurrencyDollarIcon,
@@ -16,11 +13,10 @@ import {
 const FAQ_INDEXES = [1, 2, 3, 4, 5, 6] as const;
 
 export function GlobxView() {
-  // 🔴 [수정] JSON 구조가 home -> Globx로 변경되었으므로, 네임스페이스를 'home.Globx'로 지정합니다.
-  const t = useTranslations("home.Globx");
+  // ✅ [수정] JSON 키 'GlobX'와 정확히 일치하도록 대문자 X로 변경
+  const t = useTranslations("home.GlobX");
 
   return (
-    // [수정] 배경/텍스트 색상: 라이트모드(흰색/검정) <-> 다크모드(기존 색상)
     <div className="min-h-screen bg-gray-50 text-gray-900 transition-colors duration-300 [:root[data-theme=dark]_&]:bg-[#0B1120] [:root[data-theme=dark]_&]:text-slate-200">
       {/* 1. Hero Section */}
       <section className="relative w-full h-[700px] flex items-center overflow-hidden">
@@ -41,7 +37,6 @@ export function GlobxView() {
             </p>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight drop-shadow-lg">
-              {/* [수정] 텍스트 그라디언트: 라이트모드(검정->회색) <-> 다크모드(흰색->회색) */}
               <span className="bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent [:root[data-theme=dark]_&]:from-white [:root[data-theme=dark]_&]:to-slate-200">
                 {t("heroTitle")}
               </span>
@@ -327,7 +322,6 @@ export function GlobxView() {
           <p className="text-gray-600 [:root[data-theme=dark]_&]:text-slate-400">
             {t("faqFooterText")}
           </p>
-          {/* 💡 [수정] 버튼을 Link로 변경하여 /help 페이지로 이동하도록 설정 */}
           <Link
             href="/help"
             className="inline-block bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-10 rounded-full transition-colors shadow-lg shadow-cyan-500/20"

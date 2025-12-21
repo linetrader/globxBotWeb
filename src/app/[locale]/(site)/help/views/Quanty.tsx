@@ -285,19 +285,10 @@ export function QuantyView() {
             <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
               {/* 디자인 수정: Indigo -> Cyan(#06b6d4) */}
               <span className="text-[#06b6d4] font-medium min-w-[60px]">
-                {t("common.contact.emailLabel")}
+                {t("common.contact.telegramLabel")}
               </span>
               <span className="text-gray-700 [:root[data-theme=dark]_&]:text-gray-300">
-                {t(`${brandKey}.contactInfo.email`)}
-              </span>
-            </div>
-            <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
-              {/* 디자인 수정: Indigo -> Cyan(#06b6d4) */}
-              <span className="text-[#06b6d4] font-medium min-w-[60px]">
-                {t("common.contact.phoneLabel")}
-              </span>
-              <span className="text-gray-700 [:root[data-theme=dark]_&]:text-gray-300">
-                {t(`${brandKey}.contactInfo.phone`)}
+                {t(`${brandKey}.contactInfo.telegram`)}
               </span>
             </div>
             <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
