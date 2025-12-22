@@ -1,10 +1,18 @@
+// src/app/[locale]/(site)/my-config/components/MyConfigFormView.tsx
+
 "use client";
 
 import type React from "react";
+import { useState } from "react"; // [추가] 상태 관리
 import type { UseMyConfigReturn } from "../hooks/useMyConfig";
 import { ExchangeOption, EXCHANGES } from "@/types/options";
 import { useTranslations } from "next-intl";
-import { KeyIcon, CheckIcon } from "@heroicons/react/24/outline";
+import {
+  KeyIcon,
+  CheckIcon,
+  EyeIcon,
+  EyeSlashIcon,
+} from "@heroicons/react/24/outline"; // [추가] 아이콘 import
 
 type Props = { vm: UseMyConfigReturn };
 
@@ -24,6 +32,11 @@ export function MyConfigFormView({ vm }: Props) {
     handleApiSecretChange,
     handlePassphraseChange,
   } = vm;
+
+  // [추가] 비밀번호 표시 상태 관리
+  const [showApiKey, setShowApiKey] = useState(false);
+  const [showApiSecret, setShowApiSecret] = useState(false);
+  const [showPassphrase, setShowPassphrase] = useState(false);
 
   const selectedExchange: ExchangeOption | undefined = EXCHANGES.find(
     (ex) => ex.id === form.exchangeId
@@ -87,7 +100,7 @@ export function MyConfigFormView({ vm }: Props) {
           </select>
         </div>
 
-        {/* 입력 필드들 */}
+        {/* UID 입력 필드 (일반 텍스트) */}
         <div>
           <label htmlFor="uid" className={labelClass}>
             {t("field.uid")}
@@ -103,53 +116,95 @@ export function MyConfigFormView({ vm }: Props) {
           />
         </div>
 
+        {/* API Key (눈동자 아이콘 추가) */}
         <div>
           <label htmlFor="apiKey" className={labelClass}>
             {t("field.apiKey")}
           </label>
-          <input
-            id="apiKey"
-            type="password"
-            className={inputClass}
-            value={form.apiKey}
-            placeholder={t("placeholder.apiKey")}
-            onChange={
-              handleApiKeyChange as React.ChangeEventHandler<HTMLInputElement>
-            }
-          />
+          <div className="relative">
+            <input
+              id="apiKey"
+              type={showApiKey ? "text" : "password"}
+              className={`${inputClass} pr-10`}
+              value={form.apiKey}
+              placeholder={t("placeholder.apiKey")}
+              onChange={
+                handleApiKeyChange as React.ChangeEventHandler<HTMLInputElement>
+              }
+            />
+            <button
+              type="button"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 [:root[data-theme=dark]_&]:text-gray-500 [:root[data-theme=dark]_&]:hover:text-gray-300"
+              onClick={() => setShowApiKey(!showApiKey)}
+            >
+              {showApiKey ? (
+                <EyeSlashIcon className="h-4 w-4" />
+              ) : (
+                <EyeIcon className="h-4 w-4" />
+              )}
+            </button>
+          </div>
         </div>
 
+        {/* API Secret (눈동자 아이콘 추가) */}
         <div>
           <label htmlFor="apiSecret" className={labelClass}>
             {t("field.apiSecret")}
           </label>
-          <input
-            id="apiSecret"
-            type="password"
-            className={inputClass}
-            value={form.apiSecret}
-            placeholder={t("placeholder.apiSecret")}
-            onChange={
-              handleApiSecretChange as React.ChangeEventHandler<HTMLInputElement>
-            }
-          />
+          <div className="relative">
+            <input
+              id="apiSecret"
+              type={showApiSecret ? "text" : "password"}
+              className={`${inputClass} pr-10`}
+              value={form.apiSecret}
+              placeholder={t("placeholder.apiSecret")}
+              onChange={
+                handleApiSecretChange as React.ChangeEventHandler<HTMLInputElement>
+              }
+            />
+            <button
+              type="button"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 [:root[data-theme=dark]_&]:text-gray-500 [:root[data-theme=dark]_&]:hover:text-gray-300"
+              onClick={() => setShowApiSecret(!showApiSecret)}
+            >
+              {showApiSecret ? (
+                <EyeSlashIcon className="h-4 w-4" />
+              ) : (
+                <EyeIcon className="h-4 w-4" />
+              )}
+            </button>
+          </div>
         </div>
 
+        {/* Passphrase (눈동자 아이콘 추가) */}
         {isKucoin && (
           <div>
             <label htmlFor="apiPassphrase" className={labelClass}>
               {t("field.passphrase")}
             </label>
-            <input
-              id="apiPassphrase"
-              type="password"
-              className={inputClass}
-              value={form.passphrase}
-              placeholder={t("placeholder.passphrase")}
-              onChange={
-                handlePassphraseChange as React.ChangeEventHandler<HTMLInputElement>
-              }
-            />
+            <div className="relative">
+              <input
+                id="apiPassphrase"
+                type={showPassphrase ? "text" : "password"}
+                className={`${inputClass} pr-10`}
+                value={form.passphrase}
+                placeholder={t("placeholder.passphrase")}
+                onChange={
+                  handlePassphraseChange as React.ChangeEventHandler<HTMLInputElement>
+                }
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 [:root[data-theme=dark]_&]:text-gray-500 [:root[data-theme=dark]_&]:hover:text-gray-300"
+                onClick={() => setShowPassphrase(!showPassphrase)}
+              >
+                {showPassphrase ? (
+                  <EyeSlashIcon className="h-4 w-4" />
+                ) : (
+                  <EyeIcon className="h-4 w-4" />
+                )}
+              </button>
+            </div>
             <p className="text-[10px] text-yellow-600 mt-1 ml-1 [:root[data-theme=dark]_&]:text-yellow-500/80">
               * {t("message.kucoinNotice")}
             </p>

@@ -18,6 +18,36 @@ interface PwdInputProps {
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+// 💡 [수정] 컴포넌트 정의를 메인 함수 밖으로 이동 (리렌더링 시 포커스 유지)
+const PwdInput = ({ label, val, setVal, show, setShow }: PwdInputProps) => (
+  <div className="form-control">
+    <label className="label py-1">
+      <span className="text-xs font-medium text-gray-600 [:root[data-theme=dark]_&]:text-gray-500">
+        {label}
+      </span>
+    </label>
+    <div className="relative">
+      <input
+        type={show ? "text" : "password"}
+        className="input input-bordered w-full transition-colors h-10 text-sm pr-10 bg-white border-gray-300 text-gray-900 focus:border-[#06b6d4] [:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:border-gray-700 [:root[data-theme=dark]_&]:text-gray-200"
+        value={val}
+        onChange={(e) => setVal(e.target.value)}
+      />
+      <button
+        type="button"
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 [:root[data-theme=dark]_&]:text-gray-500 [:root[data-theme=dark]_&]:hover:text-gray-300"
+        onClick={() => setShow(!show)}
+      >
+        {show ? (
+          <EyeSlashIcon className="h-4 w-4" />
+        ) : (
+          <EyeIcon className="h-4 w-4" />
+        )}
+      </button>
+    </div>
+  </div>
+);
+
 export default function ChangePasswordForm() {
   const t = useTranslations("account");
   const { toast } = useToast();
@@ -64,36 +94,6 @@ export default function ChangePasswordForm() {
       setLoading(false);
     }
   }
-
-  // [수정] Props 타입 적용
-  const PwdInput = ({ label, val, setVal, show, setShow }: PwdInputProps) => (
-    <div className="form-control">
-      <label className="label py-1">
-        <span className="text-xs font-medium text-gray-600 [:root[data-theme=dark]_&]:text-gray-500">
-          {label}
-        </span>
-      </label>
-      <div className="relative">
-        <input
-          type={show ? "text" : "password"}
-          className="input input-bordered w-full transition-colors h-10 text-sm pr-10 bg-white border-gray-300 text-gray-900 focus:border-[#06b6d4] [:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:border-gray-700 [:root[data-theme=dark]_&]:text-gray-200"
-          value={val}
-          onChange={(e) => setVal(e.target.value)}
-        />
-        <button
-          type="button"
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 [:root[data-theme=dark]_&]:text-gray-500 [:root[data-theme=dark]_&]:hover:text-gray-300"
-          onClick={() => setShow(!show)}
-        >
-          {show ? (
-            <EyeSlashIcon className="h-4 w-4" />
-          ) : (
-            <EyeIcon className="h-4 w-4" />
-          )}
-        </button>
-      </div>
-    </div>
-  );
 
   return (
     // [수정] 카드 컨테이너

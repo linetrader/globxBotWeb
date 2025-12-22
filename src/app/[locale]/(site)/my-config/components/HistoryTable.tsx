@@ -1,3 +1,5 @@
+// src/app/[locale]/(site)/my-config/components/HistoryTable.tsx
+
 "use client";
 
 import type { UseMyConfigReturn } from "../hooks/useMyConfig";
