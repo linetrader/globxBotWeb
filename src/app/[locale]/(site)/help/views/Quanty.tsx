@@ -174,7 +174,6 @@ export function QuantyView() {
 
           <div className="relative max-w-2xl mx-auto flex items-center w-full">
             <div className="relative flex-1">
-              {/* 디자인 수정: Indigo -> Cyan(#06b6d4) */}
               <input
                 type="text"
                 placeholder={t("common.searchPlaceholder")}
@@ -190,7 +189,6 @@ export function QuantyView() {
               />
               <MagnifyingGlassIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 [:root[data-theme=dark]_&]:text-gray-500" />
             </div>
-            {/* 디자인 수정: Indigo -> Cyan(#06b6d4), Hover(#0891b2) */}
             <button
               className="h-14 bg-[#06b6d4] hover:bg-[#0891b2] text-white font-medium px-8 rounded-r-lg transition-colors border border-[#06b6d4] 
               shrink-0 whitespace-nowrap"
@@ -273,7 +271,6 @@ export function QuantyView() {
           bg-white border-gray-200
           [:root[data-theme=dark]_&]:bg-[#131B2D]/50 [:root[data-theme=dark]_&]:border-gray-800"
         >
-          {/* 디자인 수정: Indigo -> Cyan(#06b6d4) */}
           <h3 className="text-[#06b6d4] font-bold mb-2">
             {t("common.contact.title")}
           </h3>
@@ -283,16 +280,22 @@ export function QuantyView() {
 
           <div className="space-y-2 text-sm">
             <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
-              {/* 디자인 수정: Indigo -> Cyan(#06b6d4) */}
               <span className="text-[#06b6d4] font-medium min-w-[60px]">
                 {t("common.contact.telegramLabel")}
               </span>
-              <span className="text-gray-700 [:root[data-theme=dark]_&]:text-gray-300">
+
+              {/* [수정 부분] 텔레그램 주소를 클릭 가능한 링크로 변경 */}
+              <a
+                href="https://t.me/BEE10045"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-700 hover:text-[#06b6d4] hover:underline transition-colors
+                  [:root[data-theme=dark]_&]:text-gray-300 [:root[data-theme=dark]_&]:hover:text-[#06b6d4]"
+              >
                 {t(`${brandKey}.contactInfo.telegram`)}
-              </span>
+              </a>
             </div>
             <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
-              {/* 디자인 수정: Indigo -> Cyan(#06b6d4) */}
               <span className="text-[#06b6d4] font-medium min-w-[60px]">
                 {t("common.contact.hoursLabel")}
               </span>

@@ -13,7 +13,6 @@ import {
 const FAQ_INDEXES = [1, 2, 3, 4, 5, 6] as const;
 
 export function GlobxView() {
-  // ✅ [수정] JSON 키 'GlobX'와 정확히 일치하도록 대문자 X로 변경
   const t = useTranslations("home.GlobX");
 
   return (
@@ -21,8 +20,9 @@ export function GlobxView() {
       {/* 1. Hero Section */}
       <section className="relative w-full h-[700px] flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
+          {/* [수정] Hero 배경 이미지 경로: /GlobXback.png */}
           <Image
-            src="/21380.png"
+            src="/GlobXback.png"
             alt="Hero Background"
             fill
             className="object-cover object-top"
