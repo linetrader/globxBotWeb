@@ -4,9 +4,10 @@
     "announcements": "お知らせ",
     "cases": "成功事例",
     "events": "イベント",
-    "help": "ヘルプセンター"
+    "help": "サポート"
   },
   "app": {
+    "botGuide": "ボットガイド",
     "botConfig": "ボット設定",
     "strategyConfig": "戦略設定",
     "dashboard": "ダッシュボード",
@@ -16,7 +17,7 @@
     "botList": "ボットリスト"
   },
   "auth": {
-    "signup": "会員登録",
+    "signup": "新規登録",
     "login": "ログイン",
     "logout": "ログアウト",
     "admin": "管理",

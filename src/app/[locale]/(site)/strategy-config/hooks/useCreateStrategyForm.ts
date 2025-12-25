@@ -2,10 +2,11 @@
 "use client";
 
 import { useState } from "react";
-import { Timeframe, StrategyKind } from "@/generated/prisma";
+import { StrategyKind } from "@/generated/prisma";
 import { useToast } from "@/components/ui";
 import type { CreateForm } from "../types/common";
 import { StrategyCreateBody } from "../types";
+import { STRATEGY_PRESETS } from "../constants/presets"; // [추가]
 
 function parseFloatOrNull(s: string): number | null {
   return s.trim() === "" ? null : Number.parseFloat(s);
@@ -26,46 +27,44 @@ export function useCreateStrategyForm(params: Params) {
 
   const [creating, setCreating] = useState<boolean>(false);
 
+  // [수정] 초기값을 A 전략 기준으로 설정
+  const defaultPreset = STRATEGY_PRESETS.A;
+
   const [form, setForm] = useState<CreateForm>({
     name: "",
-    kind: StrategyKind.TREND,
+
+    // A 전략 기본값 적용
+    kind: defaultPreset.kind,
+    timeframe: defaultPreset.timeframe,
+    rsiLength: defaultPreset.rsiLength,
+    leverage: defaultPreset.leverage,
+    targetProfit: defaultPreset.targetProfit,
+    targetLoss: defaultPreset.targetLoss,
+    minAtrPct: defaultPreset.minAtrPct,
+    trendRsiUpperPullback: defaultPreset.trendRsiUpperPullback,
+    trendRsiLowerPullback: defaultPreset.trendRsiLowerPullback,
+    upperTh: defaultPreset.upperTh,
+    lowerTh: defaultPreset.lowerTh,
+    boxTouchPct: defaultPreset.boxTouchPct,
+
+    // 사용자 입력 필요 항목 (기본값)
     useMartin: false,
     martinMultiplier: "2.0",
     defaultSize: "20",
     maxSize: "500",
-    targetProfit: "20",
-    targetLoss: "5",
-    leverage: "15",
-    timeframe: Timeframe.T5m,
-    rsiLength: "14",
 
-    // 🔽 리버스 진입 플래그
+    // 기타 고정/숨김 파라미터 (필요시 유지)
     reverseEntryEnabled: false,
-
-    // ✅ StrategyConfig 공통 파라미터 초기값
     adxConfirmThreshold: "25",
     atrConfirmPeriod: "14",
-    minAtrPct: "0.3", // 🚀 [수정] 기본값 1 -> 0.3으로 변경
-
     donchianLookback: "20",
     supertrendPeriod: "10",
     supertrendMult: "3",
-
     rangeFollowTrendOnly: true,
     rangeMinAtrMult: "0",
-
     trendSlopeWindow: "30",
     trendSlopeThresholdAbs: "0.0007",
     donchianNearBreakPct: "1.5",
-
-    // BOX
-    lowerTh: "30",
-    upperTh: "70",
-    boxTouchPct: "1.0",
-
-    // TREND
-    trendRsiUpperPullback: "60",
-    trendRsiLowerPullback: "40",
   });
 
   async function onCreateClick(): Promise<void> {
@@ -90,10 +89,10 @@ export function useCreateStrategyForm(params: Params) {
       body.timeframe = form.timeframe;
       body.rsiLength = Number.parseInt(form.rsiLength, 10);
 
-      // 🔽 리버스 진입 플래그
+      // 리버스 진입 플래그
       body.reverseEntryEnabled = form.reverseEntryEnabled;
 
-      // ✅ StrategyConfig 공통 파라미터 매핑
+      // StrategyConfig 공통 파라미터 매핑
       body.adxConfirmThreshold = Number.parseFloat(form.adxConfirmThreshold);
       body.atrConfirmPeriod = Number.parseInt(form.atrConfirmPeriod, 10);
       body.minAtrPct = Number.parseFloat(form.minAtrPct);

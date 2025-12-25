@@ -1,3 +1,5 @@
+// src/app/[locale]/(site)/auth/signup/view/SignupForm.tsx
+
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -226,10 +228,11 @@ export function SignupForm() {
         <div className="mb-3 text-sm text-error px-1">{serverGeneralError}</div>
       ) : null}
 
-      <div className="card bg-base-100 shadow-md">
-        <div className="card-body">
-          {/* [수정] 타이틀 번역 */}
-          <h2 className="card-title">{t("title")}</h2>
+      {/* [수정] card 스타일 제거 (부모 컨테이너가 이미 스타일을 가지고 있음) */}
+      <div className="bg-transparent">
+        <div className="p-0">
+          {/* [수정] 중복된 타이틀(회원가입) 제거 */}
+          {/* <h2 className="card-title">{t("title")}</h2> */}
 
           <form onSubmit={onSubmit} aria-busy={loading}>
             <TopPart

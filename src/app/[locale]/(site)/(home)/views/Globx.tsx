@@ -1,3 +1,5 @@
+// src/app/[locale]/(site)/(home)/views/Globx.tsx
+
 "use client";
 
 import Image from "next/image";
@@ -9,18 +11,26 @@ import {
   ChevronDownIcon,
   ArrowUpRightIcon,
 } from "@heroicons/react/24/outline";
+import { useRef } from "react"; // [추가] useRef import
 
 const FAQ_INDEXES = [1, 2, 3, 4, 5, 6] as const;
 
 export function GlobxView() {
   const t = useTranslations("home.GlobX");
 
+  // [추가] 스크롤 이동할 타겟 섹션(Features Section) 참조 생성
+  const featuresRef = useRef<HTMLElement>(null);
+
+  // [추가] 스크롤 이동 함수
+  const scrollToFeatures = () => {
+    featuresRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 transition-colors duration-300 [:root[data-theme=dark]_&]:bg-[#0B1120] [:root[data-theme=dark]_&]:text-slate-200">
       {/* 1. Hero Section */}
       <section className="relative w-full h-[700px] flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          {/* [수정] Hero 배경 이미지 경로: /GlobXback.png */}
           <Image
             src="/GlobXback.png"
             alt="Hero Background"
@@ -55,7 +65,11 @@ export function GlobxView() {
             </p>
 
             <div className="pt-8">
-              <button className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-8 rounded-none transition-colors shadow-lg shadow-cyan-500/20">
+              {/* [수정] 버튼 클릭 시 scrollToFeatures 함수 호출 */}
+              <button
+                onClick={scrollToFeatures}
+                className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-8 rounded-none transition-colors shadow-lg shadow-cyan-500/20"
+              >
                 {t("heroButton")}
               </button>
             </div>
@@ -76,7 +90,11 @@ export function GlobxView() {
       </section>
 
       {/* 2. Features Section */}
-      <section className="py-24 container mx-auto px-4 relative z-10">
+      {/* [수정] ref 속성 추가하여 스크롤 타겟 지정 */}
+      <section
+        ref={featuresRef}
+        className="py-24 container mx-auto px-4 relative z-10"
+      >
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <h2 className="text-3xl md:text-4xl font-bold">
             {t("featuresMainTitleStart")}{" "}

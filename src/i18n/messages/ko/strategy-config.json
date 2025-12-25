@@ -12,6 +12,9 @@
   },
   "section": {
     "common": "공통 설정",
+    "strategySelect": "전략 유형 선택",
+    "entry": "진입 설정",
+    "martingale": "마틴게일 설정",
     "trend": "추세(TREND) 설정",
     "box": "박스권(BOX) 설정",
     "signalConfirm": "시그널 확증 / 보조 파라미터"
@@ -24,8 +27,8 @@
     "leverage": "레버리지 (x)",
     "profit": "목표 수익 (%)",
     "loss": "손절 (%)",
-    "defaultSize": "기본 진입가 (USDT)",
-    "maxSize": "최대 진입가 (USDT)",
+    "defaultSize": "기본 진입가",
+    "maxSize": "최대 진입가",
     "useMartin": "마틴게일 사용",
     "martinMultiplier": "마틴 배수",
     "rangeFollowTrendOnly": "박스권 추세 추종만",
@@ -39,11 +42,16 @@
   },
   "placeholder": {
     "name": "전략 이름을 입력하세요",
-    "floatOrNull": "값 입력"
+    "floatOrNull": "값 입력",
+    "selectExchange": "거래소 선택"
+  },
+  "message": {
+    "kucoinNotice": "KuCoin은 Passphrase 입력이 필수입니다."
   },
   "action": {
     "create": "전략 생성",
     "update": "수정 저장",
+    "save": "저장",
     "saving": "저장 중...",
     "close": "닫기",
     "deleteSelected": "선택 삭제 ({count})"
@@ -57,5 +65,19 @@
     "name": "이름",
     "kind": "종류",
     "detail": "상세 설정"
+  },
+  "presets": {
+    "A": {
+      "label": "A 전략 (공격형)",
+      "description": "높은 빈도의 진입, 낮은 변동성 허용"
+    },
+    "B": {
+      "label": "B 전략 (중립형)",
+      "description": "균형 잡힌 진입 시점"
+    },
+    "C": {
+      "label": "C 전략 (방어형)",
+      "description": "확실한 구간에서만 진입, 높은 변동성 요구"
+    }
   }
 }

@@ -48,6 +48,7 @@ const PUBLIC_PATHS: RegExp[] = [
   /^\/cases(?:\/.*)?$/,
   /^\/bot-config(?:\/.*)?$/,
   /^\/bot-list(?:\/.*)?$/,
+  /^\/bot-guide(?:\/.*)?$/,
 
   /^\/auth\/login(?:\/.*)?$/,
   /^\/auth\/signup(?:\/.*)?$/,
@@ -63,6 +64,7 @@ const PUBLIC_PATHS: RegExp[] = [
   /^\/api\/cases(?:\/.*)?$/,
   /^\/api\/bot-config(?:\/.*)?$/,
   /^\/api\/bot-list(?:\/.*)?$/,
+  /^\/api\/bot-guide(?:\/.*)?$/,
 
   /^\/api\/auth\/login(?:\/.*)?$/,
   /^\/api\/auth\/logout(?:\/.*)?$/,

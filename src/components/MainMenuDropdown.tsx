@@ -18,6 +18,7 @@ import {
   PresentationChartLineIcon,
   ClockIcon,
   UserCircleIcon,
+  BookOpenIcon, // 💡 [추가] 아이콘 import
 } from "@heroicons/react/24/outline";
 
 type MainMenuDropdownProps = {
@@ -37,7 +38,7 @@ export default function MainMenuDropdown({
 }: MainMenuDropdownProps) {
   const t = useTranslations("header");
 
-  // [핵심 수정] 메뉴 닫기 핸들러 (강제 포커스 해제 추가)
+  // 메뉴 닫기 핸들러 (강제 포커스 해제 추가)
   const handleLinkClick = useCallback(() => {
     // 1. React 상태 닫기
     setMenuOpen(false);
@@ -63,6 +64,7 @@ export default function MainMenuDropdown({
   ] as const;
 
   const privateItems = [
+    { href: "/bot-guide", label: t("app.botGuide"), icon: BookOpenIcon }, // 💡 [추가] 봇 가이드 메뉴 추가 (맨 앞)
     { href: "/bot-config", label: t("app.botConfig"), icon: CpuChipIcon },
     {
       href: "/strategy-config",
@@ -100,7 +102,7 @@ export default function MainMenuDropdown({
             <li key={it.href}>
               <Link
                 href={it.href}
-                onClick={handleLinkClick} // [적용] 클릭 시 닫기 핸들러
+                onClick={handleLinkClick} // 클릭 시 닫기 핸들러
                 className="flex items-center gap-3 rounded-lg px-3 py-1.5 hover:bg-base-200 text-sm"
               >
                 <it.icon
@@ -128,7 +130,7 @@ export default function MainMenuDropdown({
                 <li key={it.href}>
                   <Link
                     href={it.href}
-                    onClick={handleLinkClick} // [적용] 클릭 시 닫기 핸들러
+                    onClick={handleLinkClick} // 클릭 시 닫기 핸들러
                     className="flex items-center gap-3 rounded-lg px-3 py-1.5 hover:bg-base-200 text-sm"
                   >
                     <it.icon

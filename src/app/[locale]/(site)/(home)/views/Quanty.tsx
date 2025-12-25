@@ -1,3 +1,5 @@
+// src/app/[locale]/(site)/(home)/views/Quanty.tsx
+
 "use client";
 
 import Image from "next/image";
@@ -9,11 +11,20 @@ import {
   ChevronDownIcon,
   ArrowUpRightIcon,
 } from "@heroicons/react/24/outline";
+import { useRef } from "react"; // [추가] useRef import
 
 const FAQ_INDEXES = [1, 2, 3, 4, 5, 6] as const;
 
 export function QuantyView() {
   const t = useTranslations("home.Quanty");
+
+  // [추가] 스크롤 이동할 타겟 섹션(Features Section) 참조 생성
+  const featuresRef = useRef<HTMLElement>(null);
+
+  // [추가] 스크롤 이동 함수
+  const scrollToFeatures = () => {
+    featuresRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 transition-colors duration-300 [:root[data-theme=dark]_&]:bg-[#0B1120] [:root[data-theme=dark]_&]:text-slate-200">
@@ -42,10 +53,6 @@ export function QuantyView() {
             </h1>
 
             <p className="text-xl text-slate-100 flex items-center justify-center lg:justify-start drop-shadow-md">
-              {/* [수정됨] 로고 크기 조정 
-                  기존: w-[150px] h-6 md:h-7
-                  변경: w-[220px] h-12 md:h-16 (로고 비율에 따라 너비/높이 조절 필요)
-              */}
               <span className="relative w-[220px] h-12 md:h-16">
                 <Image
                   src="/Quantylogo.png"
@@ -58,18 +65,24 @@ export function QuantyView() {
             </p>
 
             <div className="pt-8">
-              <button className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-8 rounded-none transition-colors shadow-lg shadow-cyan-500/20">
+              {/* [수정] 버튼 클릭 시 scrollToFeatures 함수 호출 */}
+              <button
+                onClick={scrollToFeatures}
+                className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-8 rounded-none transition-colors shadow-lg shadow-cyan-500/20"
+              >
                 {t("heroButton")}
               </button>
             </div>
           </div>
-
-          {/* Group 14.png 이미지 영역 제거됨 */}
         </div>
       </section>
 
       {/* 2. Features Section */}
-      <section className="py-24 container mx-auto px-4 relative z-10">
+      {/* [수정] ref 속성 추가하여 스크롤 타겟 지정 */}
+      <section
+        ref={featuresRef}
+        className="py-24 container mx-auto px-4 relative z-10"
+      >
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <h2 className="text-3xl md:text-4xl font-bold">
             {t("featuresMainTitleStart")}{" "}

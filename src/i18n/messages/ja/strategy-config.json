@@ -1,7 +1,7 @@
 {
   "page": {
-    "title": "戦略設定",
-    "subtitle": "自動売買ボットで使用する戦略パラメータを設定します。"
+    "title": "戦略構成",
+    "subtitle": "自動売買ボットが使用する戦略パラメータを設定します。"
   },
   "create": {
     "title": "新しい戦略を作成"
@@ -11,9 +11,12 @@
     "id": "戦略ID"
   },
   "section": {
-    "common": "基本設定",
+    "common": "共通設定",
+    "strategySelect": "戦略タイプ選択",
+    "entry": "エントリー設定",
+    "martingale": "マーチンゲール設定",
     "trend": "トレンド(TREND)設定",
-    "box": "ボックス(BOX)設定",
+    "box": "ボックス相場(BOX)設定",
     "signalConfirm": "シグナル確定 / 補助パラメータ"
   },
   "field": {
@@ -24,26 +27,31 @@
     "leverage": "レバレッジ (x)",
     "profit": "目標利益 (%)",
     "loss": "損切り (%)",
-    "defaultSize": "基本エントリー額 (USDT)",
-    "maxSize": "最大エントリー額 (USDT)",
+    "defaultSize": "基本エントリー額",
+    "maxSize": "最大エントリー額",
     "useMartin": "マーチンゲール使用",
     "martinMultiplier": "マーチン倍率",
-    "rangeFollowTrendOnly": "ボックストレンド追従のみ",
-    "reverseEntry": "逆張りエントリー許可",
-    "trendUpper": "上段プルバック",
-    "trendLower": "下段プルバック",
-    "boxUpper": "上段しきい値",
-    "boxLower": "下段しきい値",
+    "rangeFollowTrendOnly": "ボックス圏トレンド追従のみ",
+    "reverseEntry": "リバースエントリー許可",
+    "trendUpper": "上限プルバック",
+    "trendLower": "下限プルバック",
+    "boxUpper": "上限しきい値",
+    "boxLower": "下限しきい値",
     "boxTouch": "ボックスタッチ %",
-    "volatilityIndex": "変動性指数 (Min ATR%)"
+    "volatilityIndex": "ボラティリティ指数 (Min ATR%)"
   },
   "placeholder": {
     "name": "戦略名を入力してください",
-    "floatOrNull": "値を入力"
+    "floatOrNull": "値を入力",
+    "selectExchange": "取引所を選択"
+  },
+  "message": {
+    "kucoinNotice": "KuCoinはPassphraseの入力が必須です。"
   },
   "action": {
     "create": "戦略作成",
-    "update": "変更を保存",
+    "update": "修正を保存",
+    "save": "保存",
     "saving": "保存中...",
     "close": "閉じる",
     "deleteSelected": "選択削除 ({count})"
@@ -55,7 +63,21 @@
   "table": {
     "updatedAt": "更新日",
     "name": "名前",
-    "kind": "タイプ",
+    "kind": "種類",
     "detail": "詳細設定"
+  },
+  "presets": {
+    "A": {
+      "label": "A戦略 (攻撃型)",
+      "description": "高頻度エントリー、低ボラティリティ許容"
+    },
+    "B": {
+      "label": "B戦略 (中立型)",
+      "description": "バランスの取れたエントリータイミング"
+    },
+    "C": {
+      "label": "C戦略 (防御型)",
+      "description": "確実な区間のみエントリー、高ボラティリティ要求"
+    }
   }
 }

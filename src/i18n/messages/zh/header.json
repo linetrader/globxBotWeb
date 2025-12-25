@@ -4,21 +4,22 @@
     "announcements": "公告",
     "cases": "成功案例",
     "events": "活动",
-    "help": "帮助中心"
+    "help": "客服中心"
   },
   "app": {
-    "botConfig": "机器人配置",
-    "strategyConfig": "策略配置",
+    "botGuide": "机器人指南",
+    "botConfig": "机器人设置",
+    "strategyConfig": "策略设置",
     "dashboard": "仪表盘",
     "history": "历史记录",
     "myConfig": "个人设置",
-    "apiConfig": "API 设置",
+    "apiConfig": "API设置",
     "botList": "机器人列表"
   },
   "auth": {
     "signup": "注册",
     "login": "登录",
-    "logout": "退出",
+    "logout": "退出登录",
     "admin": "管理",
     "pleaseLogin": "请先登录。"
   },

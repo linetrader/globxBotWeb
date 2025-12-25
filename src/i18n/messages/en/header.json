@@ -1,26 +1,27 @@
 {
   "public": {
-    "about": "About Project",
+    "about": "About Us",
     "announcements": "Announcements",
     "cases": "Success Cases",
     "events": "Events",
     "help": "Help Center"
   },
   "app": {
+    "botGuide": "Bot Guide",
     "botConfig": "Bot Config",
     "strategyConfig": "Strategy Config",
     "dashboard": "Dashboard",
     "history": "History",
-    "myConfig": "My Config",
-    "apiConfig": "API Config",
+    "myConfig": "My Settings",
+    "apiConfig": "API Settings",
     "botList": "Bot List"
   },
   "auth": {
     "signup": "Sign Up",
-    "login": "Login",
-    "logout": "Logout",
+    "login": "Log In",
+    "logout": "Log Out",
     "admin": "Admin",
-    "pleaseLogin": "Please login first."
+    "pleaseLogin": "Please log in."
   },
   "aria": {
     "home": "Go to Home",

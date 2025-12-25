@@ -2,17 +2,18 @@
   "public": {
     "about": "Giới thiệu",
     "announcements": "Thông báo",
-    "cases": "Thành quả",
+    "cases": "Thành tựu",
     "events": "Sự kiện",
-    "help": "Trung tâm hỗ trợ"
+    "help": "Hỗ trợ"
   },
   "app": {
+    "botGuide": "Hướng dẫn Bot",
     "botConfig": "Cấu hình Bot",
-    "strategyConfig": "Cấu hình chiến lược",
+    "strategyConfig": "Cấu hình Chiến lược",
     "dashboard": "Bảng điều khiển",
     "history": "Lịch sử",
     "myConfig": "Cài đặt cá nhân",
-    "apiConfig": "Cấu hình API",
+    "apiConfig": "Cài đặt API",
     "botList": "Danh sách Bot"
   },
   "auth": {
@@ -23,8 +24,8 @@
     "pleaseLogin": "Vui lòng đăng nhập."
   },
   "aria": {
-    "home": "Về trang chủ",
-    "myAccount": "Tài khoản của tôi",
+    "home": "Trang chủ",
+    "myAccount": "Tài khoản",
     "menu": "Menu chính",
     "settings": "Cài đặt",
     "footerNav": "Điều hướng chân trang"

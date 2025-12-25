@@ -63,7 +63,8 @@ export default function MainHeader({
   ];
 
   const APP_MENU = [
-    { href: "/bot-config", label: t("app.botConfig") },
+    { href: "/bot-guide", label: t("app.botGuide") }, // 💡 [수정] 봇 가이드를 앞으로 이동
+    { href: "/bot-config", label: t("app.botConfig") }, // 💡 [수정] 봇 설정을 뒤로 이동
     { href: "/strategy-config", label: t("app.strategyConfig") },
     { href: "/history", label: t("app.history") },
     { href: "/my-config", label: t("app.apiConfig") },

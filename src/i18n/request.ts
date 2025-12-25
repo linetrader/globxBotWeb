@@ -21,6 +21,7 @@ const NAMESPACES = [
   "my-config",
   "account",
   "bot-list",
+  "bot-guide",
 ] as const;
 type Namespace = (typeof NAMESPACES)[number];
 

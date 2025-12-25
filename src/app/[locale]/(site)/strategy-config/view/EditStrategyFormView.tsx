@@ -1,7 +1,5 @@
 "use client";
 
-import { ChangeEvent } from "react";
-import { StrategyKind } from "@/generated/prisma";
 import type { EditForm } from "../types/common";
 import CommonSettingsSectionView from "./CommonSettingsSectionView";
 import { useTranslations } from "next-intl";
@@ -20,16 +18,6 @@ type Props = {
   onClose: () => void;
 };
 
-// 공통 스타일 (라이트/다크 분기) - CreateForm과 통일
-const inputClass =
-  "input input-bordered w-full transition-colors h-10 text-sm " +
-  "bg-white border-gray-300 text-gray-900 focus:border-[#06b6d4] focus:outline-none " +
-  "[:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:border-gray-700 [:root[data-theme=dark]_&]:text-gray-200";
-
-const labelClass =
-  "label-text text-xs font-medium mb-1 block " +
-  "text-gray-600 [:root[data-theme=dark]_&]:text-gray-400";
-
 export default function EditStrategyFormView({
   form,
   setForm,
@@ -40,13 +28,7 @@ export default function EditStrategyFormView({
 }: Props) {
   const t = useTranslations("strategy-config");
 
-  const showTrend =
-    form.kind === StrategyKind.TREND || form.kind === StrategyKind.BOTH;
-  const showBox =
-    form.kind === StrategyKind.BOX || form.kind === StrategyKind.BOTH;
-
   return (
-    // [수정] 카드 스타일 (Create 폼과 통일된 디자인 언어)
     <div className="bg-white border border-gray-200 transition-colors [:root[data-theme=dark]_&]:bg-[#131B2D] [:root[data-theme=dark]_&]:border-gray-800">
       {/* 헤더 영역 (Sticky) */}
       <div className="p-5 border-b flex items-center justify-between sticky top-0 z-10 bg-white/95 backdrop-blur border-gray-200 [:root[data-theme=dark]_&]:bg-[#131B2D]/95 [:root[data-theme=dark]_&]:border-gray-800">
@@ -74,116 +56,12 @@ export default function EditStrategyFormView({
       </div>
 
       <div className="p-6 space-y-8">
-        {/* 공통 설정 섹션 (기존 컴포넌트 재사용) */}
+        {/* [수정] 복잡한 Trend/Box 섹션 제거 및 공통 뷰만 사용 */}
         <CommonSettingsSectionView
           form={form}
           setForm={(u) => setForm((prev) => ({ ...prev, ...u(prev) }))}
           disabled={updating || disabled}
         />
-
-        {/* TREND 설정 섹션 */}
-        {showTrend && (
-          <section className="rounded-xl p-5 border bg-gray-50 border-gray-200 [:root[data-theme=dark]_&]:bg-[#0B1222]/50 [:root[data-theme=dark]_&]:border-gray-800/50">
-            <h3 className="text-sm font-bold text-[#06b6d4] mb-4 uppercase tracking-wider">
-              {t("section.trend")}
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="trend-upper" className={labelClass}>
-                  {t("field.trendUpper")}
-                </label>
-                <input
-                  id="trend-upper"
-                  className={inputClass}
-                  inputMode="decimal"
-                  value={form.trendRsiUpperPullback}
-                  disabled={updating || disabled}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setForm((s) => ({
-                      ...s,
-                      trendRsiUpperPullback: e.target.value,
-                    }))
-                  }
-                />
-              </div>
-              <div>
-                <label htmlFor="trend-lower" className={labelClass}>
-                  {t("field.trendLower")}
-                </label>
-                <input
-                  id="trend-lower"
-                  className={inputClass}
-                  inputMode="decimal"
-                  value={form.trendRsiLowerPullback}
-                  disabled={updating || disabled}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setForm((s) => ({
-                      ...s,
-                      trendRsiLowerPullback: e.target.value,
-                    }))
-                  }
-                />
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* BOX 설정 섹션 */}
-        {showBox && (
-          <section className="rounded-xl p-5 border bg-gray-50 border-gray-200 [:root[data-theme=dark]_&]:bg-[#0B1222]/50 [:root[data-theme=dark]_&]:border-gray-800/50">
-            <h3 className="text-sm font-bold text-[#06b6d4] mb-4 uppercase tracking-wider">
-              {t("section.box")}
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label htmlFor="box-upper" className={labelClass}>
-                  {t("field.boxUpper")}
-                </label>
-                <input
-                  id="box-upper"
-                  className={inputClass}
-                  inputMode="decimal"
-                  value={form.upperTh}
-                  disabled={updating || disabled}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setForm((s) => ({ ...s, upperTh: e.target.value }))
-                  }
-                />
-              </div>
-              <div>
-                <label htmlFor="box-lower" className={labelClass}>
-                  {t("field.boxLower")}
-                </label>
-                <input
-                  id="box-lower"
-                  className={inputClass}
-                  inputMode="decimal"
-                  value={form.lowerTh}
-                  disabled={updating || disabled}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setForm((s) => ({ ...s, lowerTh: e.target.value }))
-                  }
-                />
-              </div>
-              <div>
-                <label htmlFor="box-touch" className={labelClass}>
-                  {t("field.boxTouch")}
-                </label>
-                <input
-                  id="box-touch"
-                  className={inputClass}
-                  placeholder={t("placeholder.floatOrNull")}
-                  inputMode="decimal"
-                  value={form.boxTouchPct}
-                  disabled={updating || disabled}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setForm((s) => ({ ...s, boxTouchPct: e.target.value }))
-                  }
-                />
-              </div>
-            </div>
-          </section>
-        )}
       </div>
 
       {/* 하단 액션 버튼 (Sticky) */}

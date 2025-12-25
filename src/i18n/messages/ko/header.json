@@ -7,6 +7,7 @@
     "help": "고객센터"
   },
   "app": {
+    "botGuide": "봇 가이드",
     "botConfig": "봇 설정",
     "strategyConfig": "전략 설정",
     "dashboard": "대시보드",
