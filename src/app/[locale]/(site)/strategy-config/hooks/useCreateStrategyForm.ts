@@ -1,4 +1,5 @@
-// src/app/(site)/strategy-config/hooks/useCreateStrategyForm.ts
+// src/app/[locale]/(site)/strategy-config/hooks/useCreateStrategyForm.ts
+
 "use client";
 
 import { useState } from "react";
@@ -6,7 +7,7 @@ import { StrategyKind } from "@/generated/prisma";
 import { useToast } from "@/components/ui";
 import type { CreateForm } from "../types/common";
 import { StrategyCreateBody } from "../types";
-import { STRATEGY_PRESETS } from "../constants/presets"; // [추가]
+import { STRATEGY_PRESETS } from "../constants/presets";
 
 function parseFloatOrNull(s: string): number | null {
   return s.trim() === "" ? null : Number.parseFloat(s);
@@ -27,7 +28,7 @@ export function useCreateStrategyForm(params: Params) {
 
   const [creating, setCreating] = useState<boolean>(false);
 
-  // [수정] 초기값을 A 전략 기준으로 설정
+  // 초기값을 A 전략 기준으로 설정
   const defaultPreset = STRATEGY_PRESETS.A;
 
   const [form, setForm] = useState<CreateForm>({
@@ -50,10 +51,12 @@ export function useCreateStrategyForm(params: Params) {
     // 사용자 입력 필요 항목 (기본값)
     useMartin: false,
     martinMultiplier: "2.0",
-    defaultSize: "20",
-    maxSize: "500",
 
-    // 기타 고정/숨김 파라미터 (필요시 유지)
+    // 🛠️ [수정] 기본 진입가 / 최대 진입가 초기값 변경
+    defaultSize: "10", // 기존 "20" -> "10"
+    maxSize: "100", // 기존 "500" -> "100"
+
+    // 기타 고정/숨김 파라미터
     reverseEntryEnabled: false,
     adxConfirmThreshold: "25",
     atrConfirmPeriod: "14",

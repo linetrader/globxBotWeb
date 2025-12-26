@@ -78,6 +78,14 @@
     "C": {
       "label": "Chiến lược C (Phòng thủ)",
       "description": "Chỉ vào lệnh ở vùng chắc chắn, yêu cầu biến động cao"
+    },
+    "D": {
+      "label": "Chiến lược D (Tùy chỉnh)",
+      "description": "Tự thiết lập tất cả các tham số."
     }
+  },
+  "customModal": {
+    "title": "Cài đặt chiến lược tùy chỉnh",
+    "apply": "Áp dụng"
   }
 }

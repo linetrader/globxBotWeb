@@ -78,6 +78,14 @@
     "C": {
       "label": "Strategy C (Defensive)",
       "description": "Entries only in high-certainty zones, requires high volatility"
+    },
+    "D": {
+      "label": "Strategy D (Custom)",
+      "description": "Manually configure all parameters."
     }
+  },
+  "customModal": {
+    "title": "Custom Strategy Settings",
+    "apply": "Apply"
   }
 }

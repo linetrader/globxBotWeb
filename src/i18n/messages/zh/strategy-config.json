@@ -78,6 +78,14 @@
     "C": {
       "label": "策略 C (保守型)",
       "description": "仅在确定性高的区间入场，要求高波动"
+    },
+    "D": {
+      "label": "策略 D (自定义)",
+      "description": "手动配置所有参数。"
     }
+  },
+  "customModal": {
+    "title": "自定义策略设置",
+    "apply": "应用"
   }
 }
