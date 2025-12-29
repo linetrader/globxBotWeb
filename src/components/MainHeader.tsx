@@ -1,7 +1,7 @@
 "use client";
 
 import { Link, usePathname as useIntlPathname } from "@/i18n/routing";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import Image from "next/image";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import MainMenuDropdown from "@/components/MainMenuDropdown";
@@ -49,26 +49,26 @@ export default function MainHeader({
     setMenuOpen(false);
   }, [pathname]);
 
-  const isActive = (href: string) => {
+  const isActive = useCallback((href: string) => {
     if (href === "/") return pathname === "/";
     return pathname === href || pathname.startsWith(`${href}/`);
-  };
+  }, [pathname]);
 
-  const PUBLIC_MENU = [
+  const PUBLIC_MENU = useMemo(() => [
     { href: "/", label: t("public.about") },
     { href: "/announcements", label: t("public.announcements") },
     { href: "/cases", label: t("public.cases") },
     { href: "/events", label: t("public.events") },
     { href: "/help", label: t("public.help") },
-  ];
+  ], [t]);
 
-  const APP_MENU = [
-    { href: "/bot-guide", label: t("app.botGuide") }, // 💡 [수정] 봇 가이드를 앞으로 이동
-    { href: "/bot-config", label: t("app.botConfig") }, // 💡 [수정] 봇 설정을 뒤로 이동
+  const APP_MENU = useMemo(() => [
+    { href: "/bot-guide", label: t("app.botGuide") },
+    { href: "/bot-config", label: t("app.botConfig") },
     { href: "/strategy-config", label: t("app.strategyConfig") },
     { href: "/history", label: t("app.history") },
     { href: "/my-config", label: t("app.apiConfig") },
-  ];
+  ], [t]);
 
   return (
     <header
@@ -105,11 +105,10 @@ export default function MainHeader({
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={`text-sm font-medium transition-colors hover:text-[#06b6d4] hover:bg-transparent hover:underline whitespace-nowrap px-3 ${
-                    isActive(link.href)
+                  className={`text-sm font-medium transition-colors hover:text-[#06b6d4] hover:bg-transparent hover:underline whitespace-nowrap px-3 ${isActive(link.href)
                       ? "text-[#06b6d4] font-bold"
                       : "text-gray-700 [:root[data-theme=dark]_&]:text-gray-300"
-                  }`}
+                    }`}
                 >
                   {link.label}
                 </Link>
@@ -129,11 +128,10 @@ export default function MainHeader({
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className={`text-sm font-medium transition-colors hover:text-[#06b6d4] hover:bg-transparent hover:underline whitespace-nowrap px-3 ${
-                      isActive(link.href)
+                    className={`text-sm font-medium transition-colors hover:text-[#06b6d4] hover:bg-transparent hover:underline whitespace-nowrap px-3 ${isActive(link.href)
                         ? "text-[#06b6d4] font-bold"
                         : "text-gray-700 [:root[data-theme=dark]_&]:text-gray-300"
-                    }`}
+                      }`}
                   >
                     {link.label}
                   </Link>

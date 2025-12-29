@@ -24,6 +24,30 @@ import {
   ServerStackIcon,
 } from "@heroicons/react/24/outline";
 
+// [수정] 공통 스타일 상수화 (컴포넌트 바깥으로 이동하여 렌더링 시 재계산 방지)
+const INPUT_CLASS =
+  "input input-bordered w-full transition-colors " +
+  "bg-white border-gray-300 text-gray-900 focus:border-[#06b6d4] focus:outline-none " +
+  "[:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:border-gray-700 [:root[data-theme=dark]_&]:text-gray-100";
+
+const SELECT_CLASS =
+  "select select-bordered w-full transition-colors " +
+  "bg-white border-gray-300 text-gray-900 focus:border-[#06b6d4] focus:outline-none " +
+  "[:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:border-gray-700 [:root[data-theme=dark]_&]:text-gray-100";
+
+const LABEL_CLASS =
+  "label-text font-medium text-gray-600 [:root[data-theme=dark]_&]:text-gray-400";
+
+const CARD_BASE_CLASS =
+  "rounded-2xl shadow-xl overflow-hidden border transition-colors " +
+  "bg-white border-gray-200 " +
+  "[:root[data-theme=dark]_&]:bg-[#131B2D] [:root[data-theme=dark]_&]:border-gray-800";
+
+const HEADER_BASE_CLASS =
+  "p-6 border-b flex items-center gap-3 " +
+  "bg-gray-50 border-gray-200 " +
+  "[:root[data-theme=dark]_&]:bg-[#0B1222]/50 [:root[data-theme=dark]_&]:border-gray-800";
+
 export default function BotConfigForm() {
   const t = useTranslations("bot-config");
   const { toast } = useToast();
@@ -97,11 +121,10 @@ export default function BotConfigForm() {
       } else {
         toast({
           title: t("toast.saveFail"),
-          description: `${res.error}${
-            typeof (res as { code?: unknown }).code === "string"
-              ? ` (${(res as { code?: string }).code})`
-              : ""
-          }`,
+          description: `${res.error}${typeof (res as { code?: unknown }).code === "string"
+            ? ` (${(res as { code?: string }).code})`
+            : ""
+            }`,
           variant: "error",
         });
         form.setSubmit({
@@ -140,36 +163,12 @@ export default function BotConfigForm() {
     }
   };
 
-  // [수정] 공통 스타일: 라이트/다크 분기 (이전 단계에서 이미 적용됨)
-  const inputClass =
-    "input input-bordered w-full transition-colors " +
-    "bg-white border-gray-300 text-gray-900 focus:border-[#06b6d4] focus:outline-none " +
-    "[:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:border-gray-700 [:root[data-theme=dark]_&]:text-gray-100";
-
-  const selectClass =
-    "select select-bordered w-full transition-colors " +
-    "bg-white border-gray-300 text-gray-900 focus:border-[#06b6d4] focus:outline-none " +
-    "[:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:border-gray-700 [:root[data-theme=dark]_&]:text-gray-100";
-
-  const labelClass =
-    "label-text font-medium text-gray-600 [:root[data-theme=dark]_&]:text-gray-400";
-
-  const cardBaseClass =
-    "rounded-2xl shadow-xl overflow-hidden border transition-colors " +
-    "bg-white border-gray-200 " +
-    "[:root[data-theme=dark]_&]:bg-[#131B2D] [:root[data-theme=dark]_&]:border-gray-800";
-
-  const headerBaseClass =
-    "p-6 border-b flex items-center gap-3 " +
-    "bg-gray-50 border-gray-200 " +
-    "[:root[data-theme=dark]_&]:bg-[#0B1222]/50 [:root[data-theme=dark]_&]:border-gray-800";
-
   return (
     <div className="max-w-6xl mx-auto pb-20 space-y-8">
       {/* 1. 설정 폼 영역 */}
-      <div className={cardBaseClass}>
+      <div className={CARD_BASE_CLASS}>
         {/* 헤더 */}
-        <div className={headerBaseClass}>
+        <div className={HEADER_BASE_CLASS}>
           <div className="p-2 bg-[#06b6d4]/10 rounded-lg">
             <CpuChipIcon className="h-6 w-6 text-[#06b6d4]" />
           </div>
@@ -194,10 +193,10 @@ export default function BotConfigForm() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="form-control">
               <label className="label">
-                <span className={labelClass}>{t("field.botName")}</span>
+                <span className={LABEL_CLASS}>{t("field.botName")}</span>
               </label>
               <input
-                className={inputClass}
+                className={INPUT_CLASS}
                 value={form.name}
                 onChange={(e) => form.setName(e.target.value)}
                 placeholder={t("placeholder.botName")}
@@ -206,10 +205,10 @@ export default function BotConfigForm() {
 
             <div className="form-control">
               <label className="label">
-                <span className={labelClass}>{t("field.symbol")}</span>
+                <span className={LABEL_CLASS}>{t("field.symbol")}</span>
               </label>
               <select
-                className={selectClass}
+                className={SELECT_CLASS}
                 value={form.symbol}
                 onChange={(e) => form.setSymbol(e.target.value)}
               >
@@ -226,10 +225,10 @@ export default function BotConfigForm() {
 
             <div className="form-control">
               <label className="label">
-                <span className={labelClass}>{t("field.strategy")}</span>
+                <span className={LABEL_CLASS}>{t("field.strategy")}</span>
               </label>
               <select
-                className={selectClass}
+                className={SELECT_CLASS}
                 value={form.strategyConfigId}
                 onChange={(e) => form.setStrategyConfigId(e.target.value)}
                 disabled={loadingStrategies}
@@ -250,21 +249,19 @@ export default function BotConfigForm() {
           <div className="flex flex-col gap-4">
             <div className="flex p-1 rounded-lg w-fit border transition-colors bg-gray-100 border-gray-200 [:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:border-gray-800">
               <button
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                  form.mode === BotMode.SINGLE
-                    ? "bg-[#06b6d4] text-white shadow-lg"
-                    : "text-gray-500 hover:text-gray-900 [:root[data-theme=dark]_&]:text-gray-400 [:root[data-theme=dark]_&]:hover:text-white"
-                }`}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${form.mode === BotMode.SINGLE
+                  ? "bg-[#06b6d4] text-white shadow-lg"
+                  : "text-gray-500 hover:text-gray-900 [:root[data-theme=dark]_&]:text-gray-400 [:root[data-theme=dark]_&]:hover:text-white"
+                  }`}
                 onClick={form.setModeSingle}
               >
                 {t("mode.single")}
               </button>
               <button
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                  form.mode === BotMode.MULTI
-                    ? "bg-[#06b6d4] text-white shadow-lg"
-                    : "text-gray-500 hover:text-gray-900 [:root[data-theme=dark]_&]:text-gray-400 [:root[data-theme=dark]_&]:hover:text-white"
-                }`}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${form.mode === BotMode.MULTI
+                  ? "bg-[#06b6d4] text-white shadow-lg"
+                  : "text-gray-500 hover:text-gray-900 [:root[data-theme=dark]_&]:text-gray-400 [:root[data-theme=dark]_&]:hover:text-white"
+                  }`}
                 onClick={form.setModeMulti}
               >
                 {t("mode.multi")}
@@ -276,12 +273,12 @@ export default function BotConfigForm() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in slide-in-from-top-2 duration-300">
                 <div className="form-control">
                   <label className="label">
-                    <span className={labelClass}>
+                    <span className={LABEL_CLASS}>
                       {t("field.exchangeMarket")}
                     </span>
                   </label>
                   <select
-                    className={selectClass}
+                    className={SELECT_CLASS}
                     value={form.exchangeMarketId}
                     onChange={(e) => form.setExchangeMarketId(e.target.value)}
                     disabled={loadingMarkets}
@@ -297,10 +294,10 @@ export default function BotConfigForm() {
 
                 <div className="form-control">
                   <label className="label">
-                    <span className={labelClass}>{t("field.marketKind")}</span>
+                    <span className={LABEL_CLASS}>{t("field.marketKind")}</span>
                   </label>
                   <select
-                    className={selectClass}
+                    className={SELECT_CLASS}
                     value={form.singleMarketKind}
                     onChange={(e) =>
                       form.setSingleMarketKind(e.target.value as MarketKind)
