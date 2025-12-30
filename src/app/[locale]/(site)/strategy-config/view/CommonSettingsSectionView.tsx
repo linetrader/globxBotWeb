@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // [수정] CommonFormSlice 대신 CreateForm을 import
 import type { CreateForm } from "../types/common";
 import { useTranslations } from "next-intl";
@@ -37,15 +37,66 @@ export default function CommonSettingsSectionView({
   disabled = false,
 }: Props) {
   const t = useTranslations("strategy-config");
-  const [selectedPreset, setSelectedPreset] = useState<PresetType | null>("A");
+  const [selectedPreset, setSelectedPreset] = useState<PresetType | null>(null);
   const [isCustomModalOpen, setIsCustomModalOpen] = useState(false);
+
+  // [Fix] Form values to Preset matching logic
+  useEffect(() => {
+    const isMatch = (preset: (typeof STRATEGY_PRESETS)[keyof typeof STRATEGY_PRESETS]) => {
+      // Compare all 12 key fields (using loose equality for string/number safety if needed, 
+      // but assuming strict string match based on presets.ts)
+      return (
+        form.kind === preset.kind &&
+        form.timeframe === preset.timeframe &&
+        form.rsiLength === preset.rsiLength &&
+        form.leverage === preset.leverage &&
+        form.targetProfit === preset.targetProfit &&
+        form.targetLoss === preset.targetLoss &&
+        form.minAtrPct === preset.minAtrPct &&
+        form.trendRsiUpperPullback === preset.trendRsiUpperPullback &&
+        form.trendRsiLowerPullback === preset.trendRsiLowerPullback &&
+        form.upperTh === preset.upperTh &&
+        form.lowerTh === preset.lowerTh &&
+        form.boxTouchPct === preset.boxTouchPct
+      );
+    };
+
+    if (isMatch(STRATEGY_PRESETS.A)) {
+      setSelectedPreset("A");
+    } else if (isMatch(STRATEGY_PRESETS.B)) {
+      setSelectedPreset("B");
+    } else if (isMatch(STRATEGY_PRESETS.C)) {
+      setSelectedPreset("C");
+    } else {
+      // If none match, it's Custom (D)
+      setSelectedPreset("D");
+    }
+  }, [
+    form.kind,
+    form.timeframe,
+    form.rsiLength,
+    form.leverage,
+    form.targetProfit,
+    form.targetLoss,
+    form.minAtrPct,
+    form.trendRsiUpperPullback,
+    form.trendRsiLowerPullback,
+    form.upperTh,
+    form.lowerTh,
+    form.boxTouchPct,
+  ]);
 
   // 프리셋 적용 핸들러
   const handlePresetClick = (type: PresetType) => {
-    setSelectedPreset(type);
-
+    // [Fix] If clicking D (Custom) and we are already in D mode (custom values),
+    // do NOT overwrite with defaults. Just open modal.
     if (type === "D") {
-      // D 전략 선택 시 모달 열기
+      if (selectedPreset === "D") {
+        setIsCustomModalOpen(true);
+        return;
+      }
+      
+      // If switching from A/B/C to D, load D defaults
       const p = STRATEGY_PRESETS.D;
       setForm((prev) => ({
         ...prev,
@@ -63,7 +114,9 @@ export default function CommonSettingsSectionView({
         boxTouchPct: p.boxTouchPct,
       }));
       setIsCustomModalOpen(true);
+      // selectedPreset will eventually become "D" via useEffect
     } else {
+      setSelectedPreset(type); // Optimistic update (useEffect will confirm)
       // A, B, C 전략은 바로 적용
       const p = STRATEGY_PRESETS[type];
       setForm((prev) => ({
