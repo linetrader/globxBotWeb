@@ -8,7 +8,7 @@ import { GlobxView } from "./views/Globx";
 import { QuantyView } from "./views/Quanty";
 
 type Props = {
-  params: Promise<{ locale: string }> | { locale: string };
+  params: Promise<{ locale: string }>;
 };
 
 function isAppLocale(value: string): value is AppLocale {
