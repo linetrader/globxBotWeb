@@ -7,11 +7,11 @@
     "node": ">=22.0.0"
   },
   "scripts": {
-    "dev": "npm run generate && next dev --turbopack",
-    "build": "npm run generate && next build --turbopack",
+    "dev": "next dev --turbopack",
+    "generate": "prisma generate",
+    "build": "prisma generate && next build",
     "start": "next start",
-    "lint": "eslint",
-    "generate": "prisma generate"
+    "lint": "eslint"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

@@ -6,7 +6,7 @@ import { GlobxView } from "./views/Globx";
 import { QuantyView } from "./views/Quanty";
 
 type Props = {
-  params: Promise<{ locale: string }> | { locale: string };
+  params: Promise<{ locale: string }>;
 };
 
 // 허용된 로케일인지 확인하는 함수
