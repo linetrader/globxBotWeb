@@ -31,6 +31,10 @@ const labelClass =
   "label-text text-xs font-bold mb-1.5 block uppercase tracking-wide " +
   "text-gray-500 [:root[data-theme=dark]_&]:text-gray-400";
 
+const checkboxClass =
+  "checkbox checkbox-sm [--chkbg:#06b6d4] [--chkfg:white] checked:border-[#06b6d4] " +
+  "border-gray-300 [:root[data-theme=dark]_&]:border-gray-600";
+
 export default function CommonSettingsSectionView({
   form,
   setForm,
@@ -316,6 +320,25 @@ export default function CommonSettingsSectionView({
                 </span>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* 3.5 리버스 진입 설정 */}
+        <section>
+          <div className="p-5 rounded-xl border bg-gray-50 border-gray-200 [:root[data-theme=dark]_&]:bg-[#0B1222] [:root[data-theme=dark]_&]:border-gray-700">
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                className={checkboxClass}
+                checked={form.reverseEntryEnabled}
+                onChange={(e) =>
+                  setForm(() => ({ reverseEntryEnabled: e.target.checked }))
+                }
+              />
+              <span className="text-sm font-medium text-gray-700 [:root[data-theme=dark]_&]:text-gray-200">
+                {t("field.reverseEntry")}
+              </span>
+            </label>
           </div>
         </section>
 

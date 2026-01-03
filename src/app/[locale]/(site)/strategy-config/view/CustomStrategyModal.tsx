@@ -177,19 +177,7 @@ export default function CustomStrategyModal({ form, setForm, onClose }: Props) {
                 {t("field.rangeFollowTrendOnly")}
               </span>
             </label>
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                className={checkboxClass}
-                checked={form.reverseEntryEnabled}
-                onChange={(e) =>
-                  setForm(() => ({ reverseEntryEnabled: e.target.checked }))
-                }
-              />
-              <span className="text-sm text-gray-700 [:root[data-theme=dark]_&]:text-gray-300">
-                {t("field.reverseEntry")}
-              </span>
-            </label>
+
           </div>
 
           {/* 3. Trend 설정 */}
